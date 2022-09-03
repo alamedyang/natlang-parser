@@ -5,8 +5,8 @@ var app = new Vue({
 		origInput: testText,
 		lexOutput: {},
 		combo: {
-			origScript: JSON.stringify(oldCoupleHouseScript, null, '  '),
-			origDialog:JSON.stringify(oldCoupleHouseDialog, null, '  '),
+			origScript: '{}',
+			origDialog: '{}',
 			indent: '\t',
 			natlang: '',
 		},

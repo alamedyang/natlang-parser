@@ -1165,6 +1165,13 @@ mgs.makeStringSafe = function (string) {
 }
 
 mgs.intelligentDialogHandler = function (dialogObj, indent) {
+	if (!Object.keys(dialogObj).length) {
+		return {
+			dialogs: {},
+			settings: '',
+			naiveString: '',
+		}
+	}
 	// optimized for BMG2020 trends... not particularly intelligent otherwise
 	indent = indent || '\t' // will replace with desired indent later
 	var assessment = mgs.assessDialogParams(dialogObj);
@@ -1360,7 +1367,7 @@ mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
 	var scriptNames = Object.keys(scriptObj)
 	var handledDialogNames = [];
 	var naiveString = ``;
-	if (handledDialogObj) {
+	if (handledDialogObj && handledDialogObj.settings.length) {
 		naiveString += handledDialogObj.settings + '\n';
 	}
 	var scriptStrings = scriptNames.map(function (scriptName) {
@@ -1389,7 +1396,7 @@ mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
 		stringed += '}'
 		return stringed;
 	})
-	naiveString += scriptStrings.join('\n\n') + '\n\n';
+	naiveString += scriptStrings.join('\n\n');
 	var totalDialogNames = Object.keys(handledDialogObj.dialogs);
 	var unhandledDialogNames = totalDialogNames.filter(function (dialogName) {
 			return !handledDialogNames.includes(dialogName);
@@ -1401,7 +1408,9 @@ mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
 		insert += `}`
 		unhandledDialogStrings.push(insert);
 	})
-	naiveString += unhandledDialogStrings.join('\n');
+	if (unhandledDialogStrings.length) {
+		naiveString += '\n\n' + unhandledDialogStrings.join('\n');
+	}
 	if (indent) {
 		naiveString = naiveString.replace(/\t/g, indent)
 	}

@@ -12,7 +12,7 @@ var app = new Vue({
 		},
 		split: {
 			natlang: oldCoupleHouseNatlang,
-			fileName: "oldcouplehouse",
+			fileName: "untitledFile",
 			script: "",
 			dialog: "",
 		}

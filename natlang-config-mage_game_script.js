@@ -482,6 +482,10 @@ mgs.actionDictionary = [
 		pattern: "show serial dialog $serial_dialog:string",
 	},
 	{
+		action: "SET_CONNECT_SERIAL_DIALOG",
+		pattern: "set serial connect ?message ?to $serial_dialog:string",
+	},
+	{
 		action: "COPY_SCRIPT",
 		pattern: "copy ?script $script:string",
 		fields: [ "script" ],

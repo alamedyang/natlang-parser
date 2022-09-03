@@ -5,7 +5,7 @@ var stableStringify = require('fast-json-stable-stringify');
 var modules = [
 	'../natlang-lex.js',
 	'../natlang-parse.js',
-	'../natlang-config.js',
+	'../natlang-config-mage_game_script.js',
 ];
 
 var moduleString = '';
@@ -155,10 +155,10 @@ describe('Natlang test suite', function () {
 	})
 	describe('To natlang: action gamut', function () {
 		testJSON.actionGamut.forEach(function (entry) {
+			var targetJSON = entry.json;
+			var expected = entry.natlang[0];
+			var result = mgs.actionToNatlang(targetJSON, '').trim();
 			it(`Should generate: ${entry.natlang[0]}`, function () {
-				var targetJSON = entry.json;
-				var expected = entry.natlang[0];
-				var result = mgs.actionToNatlang(targetJSON, '');
 				expect(result).toStrictEqual(expected);
 			})
 		})

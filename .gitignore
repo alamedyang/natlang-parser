@@ -1,6 +1,5 @@
 .DS_Store
 node_modules/
-temp.mgs
-temp2.mgs
 testoutput.txt
 vsix/
+mgs/

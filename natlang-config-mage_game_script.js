@@ -295,7 +295,10 @@ var mgs = {
 					state.processCaptures("dialogName");
 					state.processCaptures(
 						"action",
-						{ action: "SHOW_DIALOG" }
+						{
+							action: "SHOW_DIALOG",
+							dialog: state.inserts.dialogName
+						}
 					);
 					state.clearCaptures();
 				}]
@@ -907,140 +910,6 @@ mgs.actionDictionary.forEach(function (item) {
 
 var mgsTest = natlang.prepareConfig(mgs);
 
-var mgsTestTokens = [
-	{
-		"pos": 0,
-		"type": "bareword",
-		"value": "settings"
-	},
-	{
-		"pos": 9,
-		"type": "bareword",
-		"value": "for"
-	},
-	{
-		"pos": 13,
-		"type": "bareword",
-		"value": "dialog"
-	},
-	{
-		"pos": 20,
-		"type": "operator",
-		"value": "{"
-	},
-	{
-		"pos": 23,
-		"type": "bareword",
-		"value": "parameters"
-	},
-	{
-		"pos": 34,
-		"type": "bareword",
-		"value": "for"
-	},
-	{
-		"pos": 38,
-		"type": "bareword",
-		"value": "label"
-	},
-	{
-		"pos": 44,
-		"type": "bareword",
-		"value": "Player"
-	},
-	{
-		"pos": 51,
-		"type": "operator",
-		"value": "{"
-	},
-	{
-		"pos": 55,
-		"type": "bareword",
-		"value": "entity"
-	},
-	{
-		"pos": 62,
-		"type": "quotedString",
-		"value": "%PLAYER%",
-		"quotationMark": "\""
-	},
-	{
-		"pos": 75,
-		"type": "bareword",
-		"value": "alignment"
-	},
-	{
-		"pos": 85,
-		"type": "bareword",
-		"value": "BR"
-	},
-	{
-		"pos": 154,
-		"type": "operator",
-		"value": "}"
-	},
-	{
-		"pos": 157,
-		"type": "bareword",
-		"value": "parameters"
-	},
-	{
-		"pos": 168,
-		"type": "bareword",
-		"value": "for"
-	},
-	{
-		"pos": 172,
-		"type": "bareword",
-		"value": "global"
-	},
-	{
-		"pos": 179,
-		"type": "bareword",
-		"value": "default"
-	},
-	{
-		"pos": 187,
-		"type": "operator",
-		"value": "{"
-	},
-	{
-		"pos": 191,
-		"type": "bareword",
-		"value": "wrap"
-	},
-	{
-		"pos": 196,
-		"type": "bareword",
-		"value": "messages"
-	},
-	{
-		"pos": 205,
-		"type": "number",
-		"value": 40
-	},
-	{
-		"pos": 227,
-		"type": "bareword",
-		"value": "alignment"
-	},
-	{
-		"pos": 237,
-		"type": "bareword",
-		"value": "BL"
-	},
-	{
-		"pos": 241,
-		"type": "operator",
-		"value": "}"
-	},
-	{
-		"pos": 243,
-		"type": "operator",
-		"value": "}"
-	}
-];
-
 window.mgs = mgs;
 
 mgs.boolPrefs = {
@@ -1092,8 +961,8 @@ mgs.actionToNatlang = function (origJSON) {
 		console.error(origJSON)
 		throw new Error("The above action was so aggressively filtered there was nothing left! Action: " + origJSON.action);
 	} else if (patternChoices.length > 1) { // underfiltered
-		console.error(origJSON)
-		console.warn("This action has several dictionary entries and filtering failed to sufficiently distinguish them. Assuming synonyms....");
+		if (log) {console.log(origJSON); }
+		if (log) {console.log("This action has several dictionary entries and filtering failed to sufficiently distinguish them. Assuming synonyms...."); }
 	}
 	// Only 1 action dictionary entry remains. (Or, if not, they are hopefully synonyms, and we can just use the first one, which is presumably the "default")
 	var wordArray = patternChoices[0].pattern.split(' ');
@@ -1495,6 +1364,7 @@ mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
 			if (
 				action.action === "SHOW_DIALOG"
 				&& handledDialogObj.dialogs[action.dialog]
+				&& !handledDialogNames.includes(action.dialog)
 			) {
 				handledDialogNames.push(action.dialog);
 				var dialogString = handledDialogObj.dialogs[action.dialog];
@@ -1505,24 +1375,25 @@ mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
 			} else {
 				stringed += mgs.actionToNatlang(action) + '\n';
 			}
-			var triedComments = mgs.actionToNatlangComments(action);
-			if (triedComments) {
-				stringed += triedComments + '\n';
+			var actionComments = mgs.actionToNatlangComments(action);
+			if (actionComments) {
+				stringed += actionComments + '\n';
 			}
 		})
 		stringed += '}'
 		return stringed;
 	})
 	naiveString += scriptStrings.join('\n\n') + '\n\n';
-	var unhandledDialogNames = Object.keys(handledDialogObj)
-		.filter(function (dialogName) {
-			!handledDialogNames.includes(dialogName);
+	var totalDialogNames = Object.keys(handledDialogObj.dialogs);
+	var unhandledDialogNames = totalDialogNames.filter(function (dialogName) {
+			return !handledDialogNames.includes(dialogName);
 		})
 	var unhandledDialogStrings = [];
 	unhandledDialogNames.forEach(function (dialogName) {
-		var insert = `	dialog ${mgs.makeStringSafe(dialogName)} {\n`
-		insert += handledDialogObj.dialogs[dialogName];
-		insert += `	}`
+		var insert = `dialog ${mgs.makeStringSafe(dialogName)} {\n`
+		insert += handledDialogObj.dialogs[dialogName] + '\n';
+		insert += `}`
+		unhandledDialogStrings.push(insert);
 	})
 	naiveString += unhandledDialogStrings.join('\n');
 	if (indent) {

@@ -1042,7 +1042,8 @@ mgs.actionToNatlangComments = function (origJSON) {
 	var comments = [];
 	Object.keys(origJSON).forEach(function (paramName) {
 		if (!foundParams[paramName]) {
-			comments.push(`	// ${paramName}: ${origJSON[paramName]}`)
+			var cleanComment = origJSON[paramName].replace(/\n/g," ");
+			comments.push(`	// ${paramName}: ${cleanComment}`)
 		}
 	})
 	return comments.join('\n');
@@ -1285,7 +1286,7 @@ mgs.intelligentDialogHandler = function (dialogObj, indent) {
 					return item !== "name";
 				})
 			}
-			// entity, name, portrait, alignment are relevent now
+			// entity, name, portrait, alignment, border_tileset are relevent now
 			// however we did alignment already:
 			paramNames = paramNames.filter(function (item) {
 				return item !== "messages"
@@ -1303,11 +1304,15 @@ mgs.intelligentDialogHandler = function (dialogObj, indent) {
 					return item !== "name"
 				})
 			}
-			// what's left that is "real" is portrait (and possibly name)
+			// what's left that is "real" is portrait, border_tileset (and possibly name)
 			// all others must therefore be comments
 			var commentList = {};
 			paramNames.forEach(function (paramName) {
-				if (paramName === "name" || paramName === "portrait") {
+				if (
+					paramName === "name"
+					|| paramName === "portrait"
+					|| paramName === "border_tileset"
+				) {
 					var value = dialog[paramName];
 					stringArray.push(`	${paramName} ${mgs.makeStringSafe(value)}`);
 				} else {
@@ -1315,7 +1320,8 @@ mgs.intelligentDialogHandler = function (dialogObj, indent) {
 				}
 			})
 			Object.keys(commentList).forEach(function (comment) {
-				stringArray.push(`	// ${comment}: ${dialog[comment]}`);
+				var cleanComment = dialog[comment].replace(/\n/g," ");
+				stringArray.push(`	// ${comment}: ${cleanComment}`);
 			})
 			// MESSAGES
 			var messages = dialog.messages.map(function (message) {

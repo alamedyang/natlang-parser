@@ -20,6 +20,9 @@ var mgs = {
 				{ branch: "dialogSettingsTarget", multipleOkay: true, zeroOkay: true },
 			],
 			closeChar: "}",
+			onOpen: function (state) {
+				state.finalState.dialogSettings = state.finalState.dialogSettings || [];
+			},
 			onClose: function () {} // just to silence the "no onClose?!?!" warning
 		},
 		"dialogSettingsTarget": {
@@ -306,7 +309,7 @@ var mgs = {
 			if (dialog) {
 				inserts.dialogName = dialog;
 			} else {
-				inserts.dialogName = state.autoScriptName();
+				inserts.dialogName = state.makeAutoIdentifierName();
 			}
 		},
 		scriptName: function (state) {

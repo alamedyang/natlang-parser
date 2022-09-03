@@ -199,12 +199,10 @@ natlang.tryBranch = function (tokens, tokenPos, branch) {
 		var foundTwigMatch = false;
 		var token = tokens[tokenPos];
 		if (!token) {
-			if (reportCheckpoint) {
-				break;
-			} else {
-				console.error('Attempted to parse token out of bounds.');
-				break;
+			if (!reportCheckpoint) {
+				if (log) { console.log('Attempted to parse token out of bounds.'); }
 			}
+			break;
 		}
 		// LITERAL VALUE PASS (can't Array.filter; this changes index!!)
 		for (var index = 0; index < ref.next.length; index++) {
@@ -289,13 +287,10 @@ natlang.tryBranch = function (tokens, tokenPos, branch) {
 		}
 		// loop continues if you've made it this far (and there's more twigs)
 	}
-	if (report.success) {
-		return report;
-	} else if (reportCheckpoint) {
+	if (!report.success && reportCheckpoint) {
 		return reportCheckpoint;
-	} else {
-		return report;
 	}
+	return report;
 };
 
 natlang.parse = function (config, inputString, fileName) {
@@ -326,9 +321,7 @@ natlang.parse = function (config, inputString, fileName) {
 			blockPos: 0,
 		},
 		// parsed data
-		finalState: {
-			dialogSettings: []
-		},
+		finalState: {},
 		inserts: {},
 		captures: {},
 	};
@@ -345,12 +338,15 @@ natlang.parse = function (config, inputString, fileName) {
 		return lex;
 	}
 	// block functions
-	state.startBlock = function (type) {
-		if (log) { console.log("blockState: Starting the block named " + type); }
-		state.blockStack.unshift(type);
+	state.startBlock = function (blockName) {
+		if (log) { console.log("state.startBlock: Starting the block named " + blockName); }
+		var blockInfo = config.blocks[blockName];
+		if (blockInfo.onOpen) {
+			blockInfo.onOpen(state);
+		}
+		state.blockStack.unshift(blockName);
 		state.blockPos = 0;
 		state.blockLooping = false;
-		return true;
 	};
 	state.endBlock = function () {
 		var blockName = state.blockStack.shift();
@@ -366,10 +362,9 @@ natlang.parse = function (config, inputString, fileName) {
 		};
 		var blockInfo = config.blocks[blockName];
 		if (blockInfo) {
-			var blockEndFunction = blockInfo.onClose;
-			if (!!blockEndFunction) {
+			if (blockInfo.onClose) {
 				if (log) { console.log(blockLabel + "'s onClose function found! Doing it now..."); }
-				blockEndFunction(state);
+				blockInfo.onClose(state);
 			} else {
 				console.warn("Was I supposed to find a block 'onClose' function for " + blockLabel + "? Because I didn't! (Maybe you didn't want one for this block?) Proceeding anyway....");
 			}
@@ -386,17 +381,16 @@ natlang.parse = function (config, inputString, fileName) {
 	state.clearCaptures = function () {
 		state.captures = {};
 	};
-	state.autoScriptName = function () {
+	state.makeAutoIdentifierName = function () {
 		var pos = state.tokens[state.curTokenIndex].pos;
 		var coords = natlang.findLineAndCharNumbers(state.inputString, pos);
 		return state.fileName+':'+coords.row +':'+coords.col;
 	};
 	state.processCaptures = function (captureType, args) {
-		var whatDo = config.capture[captureType];
-		if (!whatDo) {
+		if (!config.capture[captureType]) {
 			throw new Error("No 'capture' function found for " + captureType + "(Token index " + state.curTokenIndex + ")");
 		}
-		whatDo(state, args);
+		config.capture[captureType](state, args);
 	};
 	// THE THING
 	bigloop: while (state.curTokenIndex < state.tokens.length) {
@@ -412,8 +406,7 @@ natlang.parse = function (config, inputString, fileName) {
 		if (log) { console.log(`Processing block "${blockName}" ...`); }
 		if (
 			blockInfo.closeChar
-			&& blockInfo.closeChar
-				=== state.tokens[state.curTokenIndex].value
+			&& blockInfo.closeChar === state.tokens[state.curTokenIndex].value
 				// TODO: check for "operator" type specifically?
 		) {
 			if (log) { console.log("But wait! We've hit its end char: " + blockInfo.closeChar); }
@@ -427,7 +420,7 @@ natlang.parse = function (config, inputString, fileName) {
 				if (state.blockLooping) { // ...avoid infinite loop
 					break bigloop;
 				} else { // ...otherwise try to loop
-					if (log) { console.warn("Trying a loop (ONCE)"); }
+					if (log) { console.log("Trying a loop (ONCE)"); }
 					state.blockLooping = true;
 					state.blockPos = 0;
 					if (blockInfo.onLoop) {
@@ -435,7 +428,7 @@ natlang.parse = function (config, inputString, fileName) {
 					}
 					continue bigloop;
 				}
-			} else { // if branches can't loop and we didn't hit the end char, BAD TIMES
+			} else { // if branches can't loop and we didn't hit the end char, IS END OF PARSE TIMES, END OF UNDERSTANDABLE INSTRUCTIONS IN INPUT
 				break bigloop;
 			}
 		}

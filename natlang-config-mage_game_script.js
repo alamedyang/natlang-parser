@@ -912,10 +912,6 @@ mgs.actionDictionary.forEach(function (item) {
 	);
 })
 
-var mgsTest = natlang.prepareConfig(mgs);
-
-window.mgs = mgs;
-
 mgs.boolPrefs = {
 	SET_HEX_EDITOR_STATE: [ 'open', 'close' ], // required due to keywords
 	SET_PLAYER_CONTROL: [ 'on', 'off' ],
@@ -1168,7 +1164,8 @@ mgs.makeStringSafe = function (string) {
 	}
 }
 
-mgs.intelligentDialogHandler = function (dialogObj, indent) {
+mgs.intelligentDialogHandler = function (dialogObj) {
+	// optimized for BMG2020 trends... not particularly intelligent otherwise
 	if (!Object.keys(dialogObj).length) {
 		return {
 			dialogs: {},
@@ -1176,8 +1173,6 @@ mgs.intelligentDialogHandler = function (dialogObj, indent) {
 			naiveString: '',
 		}
 	}
-	// optimized for BMG2020 trends... not particularly intelligent otherwise
-	indent = indent || '\t' // will replace with desired indent later
 	var assessment = mgs.assessDialogParams(dialogObj);
 	var metaAlignment = mgs.metaAlignmentAssessment(assessment);
 	var globalAlign = mgs.getBestTally(metaAlignment);
@@ -1363,11 +1358,10 @@ mgs.intelligentDialogHandler = function (dialogObj, indent) {
 		result.naiveString += `${dialogBody}\n`
 		result.naiveString += `}\n`
 	})
-	result.naiveString = result.naiveString.replace(/\t/g, indent);
 	return result;
 }
 
-mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
+mgs.intelligentDualHandler = function (scriptObj, dialogObj) {
 	var handledDialogObj = mgs.intelligentDialogHandler(dialogObj);
 	var scriptNames = Object.keys(scriptObj)
 	var handledDialogNames = [];
@@ -1416,8 +1410,38 @@ mgs.intelligentDualHandler = function (scriptObj, dialogObj, indent) {
 	if (unhandledDialogStrings.length) {
 		naiveString += '\n\n' + unhandledDialogStrings.join('\n');
 	}
-	if (indent) {
-		naiveString = naiveString.replace(/\t/g, indent)
-	}
 	return naiveString;
 }
+
+mgs.natlangFormatter = function (natlang, config) {
+	config = config || {}
+	if (config.simpleGoto) {
+		natlang = natlang.replace(/goto script/g,"goto");
+	}
+	if (config.simpleCopy) {
+		natlang = natlang.replace(/copy script/g,"copy");
+	}
+	if (config.splitThen) {
+		natlang = natlang.replace(/ then goto/g,"\n\t\tthen goto");
+	}
+	if (config.altIndent && typeof config.altIndentChar === "string") {
+		natlang = natlang.replace(/\t/g,config.altIndentChar);
+	}
+	if (config.nestledAlign) {
+		natlang = natlang.replace(/\n(\s)*alignment TOP_RIGHT/g," alignment TOP_RIGHT");
+		natlang = natlang.replace(/\n(\s)*alignment BOTTOM_RIGHT/g," alignment BOTTOM_RIGHT");
+		natlang = natlang.replace(/\n(\s)*alignment TOP_LEFT/g," alignment TOP_LEFT");
+		natlang = natlang.replace(/\n(\s)*alignment BOTTOM_LEFT/g," alignment BOTTOM_LEFT");
+	}
+	if (config.shortAlign) {
+		natlang = natlang.replace(/TOP_RIGHT/g,"TR");
+		natlang = natlang.replace(/BOTTOM_RIGHT/g,"BR");
+		natlang = natlang.replace(/TOP_LEFT/g,"TL");
+		natlang = natlang.replace(/BOTTOM_LEFT/g,"BL");
+	}
+	return natlang;
+}
+
+var mgsTest = natlang.prepareConfig(mgs);
+
+window.mgs = mgs;

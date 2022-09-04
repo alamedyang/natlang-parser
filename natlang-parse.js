@@ -7,20 +7,6 @@ var natlang = natlang || window.natlang;
 
 var log = false;
 
-/*
-
-Natlang parser class/constructor/tealWhatsit:
-
-1. Give it the language config object when making a new one
-2. `Parser.lex(inputString)` to generate tokens (?)
-3. `Parser.parse(tokens)` to generate a finalState object or smthg (?)
-
-- Where can the fileName come in? (Needed for procedural dialog names)
-
-TODO
-
-*/
-
 natlang.makeParseTrees = function (flatTrees) {
 	flatTrees = flatTrees || {};
 	var result = {};
@@ -625,75 +611,121 @@ natlang.buildDialogFromState = function (state) {
 };
 
 natlang.cleanString = function (inputString) {
+	// TODO: hyphenated words?
 	return inputString
 		.replace(/(“|”)/g, '"')
 		.replace(/(‘|’)/g, "'")
 		.replace(/…/g, "...")
+		.replace(/\t/g, "    ")
 		.replace(/—/g, "--") // emdash
 		.replace(/–/g, "-"); // endash
-}
+};
+
+natlang.identifyEscapedChar = function (inputString) {
+	// returns 2nd char if 1st char is `\` and 2nd is in bounds
+	if (inputString[0] === '\\') {
+		return inputString[1];
+	}
+};
+
+natlang.countWordChars = function (inputString) {
+	var specialCases = {
+		"%": 12, // entity names: max 12 chars ASCII
+		"$": 5, // integers: max value 65535
+	};
+	var size = 0;
+	var pos = 0;
+	var mode = null;
+	while (pos < inputString.length) {
+		var nextChar = inputString[pos];
+		if (mode) { // we're in a special mode
+			if (nextChar === mode) { // if the mode char matches, end mode
+				mode = null;
+				size += specialCases[nextChar]; // size was arbitrary
+				pos += 1; // pos was not
+				continue;
+			}
+			var escaped = natlang.identifyEscapedChar(inputString.substring(pos));
+			if (escaped) { // atm will fall through
+				pos += 2;
+				continue;
+			}
+			// all the rest are "normal"
+			pos += 1;
+			continue;
+		}
+		// we're not in a special mode
+		// escaped chars:
+		var escaped = natlang.identifyEscapedChar(inputString.substring(pos));
+		if (escaped) { // atm will fall through
+			size += 1;
+			pos += 2;
+			continue;
+		}
+		if (nextChar === ' ') { // end processing "word"
+			break;
+		}
+		// special char
+		if (
+			specialCases[nextChar]
+			&& inputString[pos+1]
+			&& inputString.substring(pos+1).includes(nextChar)
+		) { // if there's another of the same char later, start mode
+			mode = nextChar;
+			pos += 1;
+			continue;
+		}
+		// all the rest are "normal"
+		size += 1;
+		pos += 1;
+		continue;
+	}
+	return {
+		match: inputString.substring(0, pos),
+		size: size,
+	}
+};
+
 natlang.wrapText = function (inputString, wrapTo) {
+	wrapTo = wrapTo || 42; // magic number alert
+	var stringSplits = inputString.split('\n');
+	var stringsResults = [];
 	var countSpaces = function (string) {
 		var match = string.match(/^ +/);
 		return match ? match[0].length : false;
 	};
-	var countWordChars = function (string) {
-		var length = string.length;
-		if (string[0] === string[string.length -1]) {
-			if (string[0] === "%") {
-				length = 12;
-			} else if (string[0] === "$") {
-				length = 5;
+	stringSplits.forEach(function (line) {
+		var workingString = natlang.cleanString(line);
+		var pos = 0;
+		var insert = '';
+		var insertLength = 0;
+		var lastSpaceFound = null;
+		while (workingString.substring(pos).length) {
+			// spaces (newlines removed above; tabs were converted to spaces prior)
+			var spaceCount = countSpaces(workingString.substring(pos));
+			if (spaceCount) {
+				lastSpaceFound = pos;
+				pos += spaceCount;
+				insert += ' '.repeat(spaceCount);
+				insertLength += spaceCount;
+				continue;
 			}
-		}
-		return length;
-	};
-	wrapTo = wrapTo || 42; // TODO: magic number alert
-	var finishedText = [];
-	var pendingLine = '';
-	var pendingLineSize = 0;
-	var workingString = inputString;
-	var pos = 0;
-	var lastSpaceFound = null;
-	var shuntLine = function () {
-		finishedText.push(workingString.substring(0, lastSpaceFound));
-		workingString = workingString.substring(pos);
-		pendingLine = '';
-		pendingLineSize = 0;
-		pos = 0;
-		lastSpaceFound = null;
-	}
-	while (workingString.length) {
-		var spaceCount = countSpaces(workingString.substring(pos));
-		if (spaceCount) {
-			lastSpaceFound = pos;
-			pendingLine += ' '.repeat(spaceCount);
-			pendingLineSize += spaceCount;
-			pos += spaceCount;
-			continue;
-		}
-		var nextChar = workingString[pos];
-		if (nextChar === '\n') {
-			lastSpaceFound = pos;
-			pos += 1;
-			shuntLine();
-			continue;
-		}
-		var wordMatch = workingString.substring(pos).match(/^[^ \n]+/)
-		if (wordMatch) {
-			var word = wordMatch[0];
-			var wordSize = countWordChars(word);
-			var projectedSize = pendingLineSize + wordSize;
-			if (projectedSize > wrapTo) {
-				shuntLine();
+			// things other than spaces
+			var word = natlang.countWordChars(workingString.substring(pos));
+			if (insertLength + word.size > wrapTo) {
+				var choppedInsert = insert.substring(0, lastSpaceFound);
+				stringsResults.push(choppedInsert);
+				workingString = workingString.substring(pos);
+				pos = 0;
+				insert = '';
+				insertLength = 0;
+				lastSpaceFound = null;
 			}
-			pendingLine += word;
-			pendingLineSize += wordSize;
-			pos += wordSize;
-		} else {
-			break
+			pos += word.match.length;
+			insert += word.match;
+			insertLength += word.size;
 		}
-	}
-	finishedText.push(pendingLine);
-	return finishedText.join('\n');
+		stringsResults.push(insert);
+	})
+	return stringsResults.join('\n');
 };

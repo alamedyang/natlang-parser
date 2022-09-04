@@ -1338,6 +1338,7 @@ mgs.intelligentDialogHandler = function (dialogObj, indent) {
 			var messages = dialog.messages.map(function (message) {
 				var line = message // javascript~~
 					.replace(/\n/g,"\\n")
+					.replace(/\t/g,"    ")
 					.replace(/\"/g,"\\\"");
 				return `	"${line}"`
 			}).join('\n');

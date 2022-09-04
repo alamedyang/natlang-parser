@@ -488,7 +488,6 @@ mgs.actionDictionary = [
 	{
 		action: "COPY_SCRIPT",
 		pattern: "copy ?script $script:string",
-		fields: [ "script" ],
 	},
 	{
 		action: "COPY_VARIABLE",

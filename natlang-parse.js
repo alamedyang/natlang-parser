@@ -489,7 +489,7 @@ natlang.parse = function (config, inputString, fileName) {
 			var blockInfo = config.blocks[state.blockStack[0]];
 			var branchInfo = blockInfo.branches[state.blockPos];
 			var message
-				= branchInfo.failMessage
+				= branchInfo && branchInfo.failMessage
 				? branchInfo.failMessage
 				: `Unexpected token "${found}" (expected ${expected})`;
 			var errorToken = state.tokens[state.curTokenIndex + state.bestTry.tokenCount];

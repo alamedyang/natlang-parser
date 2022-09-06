@@ -6,6 +6,7 @@ var modules = [
 	'../natlang-lex.js',
 	'../natlang-parse.js',
 	'../natlang-config-mage_game_script.js',
+	'../mgs-to-natlang.js',
 ];
 
 var moduleString = '';
@@ -125,7 +126,7 @@ describe('Natlang test suite', function () {
 	describe('Parse: buildDialogFromState', function () {
 		it(`Should make a dialog from "state" object`, function () {
 			var expected = testJSON.buildDialogFromState[0].result;
-			var result = natlang.buildDialogFromState(testJSON.buildDialogFromState[0].state);
+			var result = mgs.buildDialogFromState(testJSON.buildDialogFromState[0].state);
 			expect(stableStringify(result)).toBe(stableStringify(expected));
 		})
 	})
@@ -143,7 +144,7 @@ describe('Natlang test suite', function () {
 					it(`Should parse successfully`, function () {
 						expect(tryBranch.success).toStrictEqual(true);
 					})
-					var parse = natlang.parse(mgsTestConfig,'testScript {' + pattern + "}");
+					var parse = natlang.parse(mgs,'testScript {' + pattern + "}");
 					var result = parse.scripts.testScript[0];
 					var expected = entry.json;
 					it(`Should generate JSON`, function () {
@@ -166,7 +167,7 @@ describe('Natlang test suite', function () {
 	describe('Full circle', function () {
 		var expected = testJSON.dialogCircle;
 		var inputString = mgs.intelligentDialogHandler(expected).naiveString;
-		var result = natlang.parse(mgsTestConfig, inputString).dialogs;
+		var result = natlang.parse(mgs, inputString).dialogs;
 		it(`Should translate dialog JSON to natlang and back`, function () {
 			expect(stableStringify(result)).toBe(stableStringify(expected));
 		})

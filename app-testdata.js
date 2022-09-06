@@ -2820,12 +2820,7 @@ var oldCoupleHouseScript = {
 	]
 };
 
-var oldCoupleHouseNatlang = `// (renaming has not been done)
-// orig dialog JSON (343) + orig script JSON (996)
-// = 1339 lines!!!
-// this file: 487 lines (63% smaller)
-
-settings for dialog {
+var oldCoupleHouseNatlang = `settings for dialog {
 	parameters for global defaults {
 		alignment BOTTOM_LEFT
 	}

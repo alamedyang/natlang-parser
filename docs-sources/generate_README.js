@@ -4,6 +4,7 @@ var modules = [
 	'../natlang-lex.js',
 	'../natlang-parse.js',
 	'../natlang-config-mage_game_script.js',
+	'../mgs-to-natlang.js',
 	'mid.js',
 ];
 

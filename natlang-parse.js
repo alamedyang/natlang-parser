@@ -7,6 +7,42 @@ var natlang = natlang || window.natlang;
 
 var log = false;
 
+natlang.findLineAndCharNumbers = function (inputString, pos) {
+	var substring = inputString.substring(0,pos);
+	var splits = substring.split('\n')
+	var lineNumber = splits.length;
+	var charCount = splits[lineNumber - 1].length;
+	var wholeString = inputString.split('\n')
+	return {
+		row: lineNumber,
+		col: charCount+1,
+		lineString: wholeString[lineNumber - 1],
+		char: inputString[pos]
+	};
+};
+natlang.getPosContext = function (inputString, pos, message) {
+	var errorCoords = natlang.findLineAndCharNumbers(inputString, pos);
+	var arrow = '~'.repeat(errorCoords.col) + '^';
+	var lineString = errorCoords.lineString.replace(/\t/g,' ');
+	var message
+		= `\n╓ Line ${errorCoords.row}:${errorCoords.col}: ${message}`
+		+ '\n║ ' + `${lineString}`
+		+ '\n╙' + arrow
+	return message;
+};
+natlang.printParseMessage = function (inputString, pos, message, messageType) {
+	var fancyMessage = natlang.getPosContext(inputString, pos, message);
+	var print;
+	if (messageType === "error") {
+		print = console.error;
+	} else if (messageType === "warning") {
+		print = console.warn;
+	} else {
+		print = console.log;
+	}
+	print(fancyMessage);
+};
+
 natlang.makeParseTrees = function (flatTrees) {
 	flatTrees = flatTrees || {};
 	var result = {};
@@ -279,7 +315,8 @@ natlang.tryBranch = function (tokens, tokenPos, branch) {
 	return report;
 };
 
-natlang.parse = function (config, inputString, fileName) {
+natlang.parse = function (rawConfig, inputString, fileName) {
+	var config = natlang.prepareConfig(rawConfig);
 	if (!config.parseTrees) {
 		throw new Error("Config object missing \"parseTrees\" entry! (Did you forget to put your config object through 'prepareConfig' first?)");
 	}
@@ -316,10 +353,10 @@ natlang.parse = function (config, inputString, fileName) {
 		state.tokens = lex.tokens;
 	} else {
 		natlang.printParseMessage(
-			"error",
 			inputString,
 			lex.errors[0].pos,
-			lex.errors[0].text
+			lex.errors[0].text,
+			"error"
 		)
 		return lex;
 	}
@@ -355,9 +392,9 @@ natlang.parse = function (config, inputString, fileName) {
 				console.warn("Was I supposed to find a block 'onClose' function for " + blockLabel + "? Because I didn't! (Maybe you didn't want one for this block?) Proceeding anyway....");
 			}
 		} else {
-			var message = natlang.getTokenContext(
+			var message = natlang.getPosContext(
 				state.inputString,
-				state.tokens[state.curTokenIndex],
+				state.tokens[state.curTokenIndex].pos,
 				"Could not find block info for a block named " + blockLabel
 			)
 			throw new Error(message);
@@ -426,12 +463,14 @@ natlang.parse = function (config, inputString, fileName) {
 			config.parseTrees[curBranchName]
 		);
 		if (tryBranch && tryBranch.success) { // branch matched
-			var contextMessage = natlang.getTokenContext(
-				state.inputString,
-				state.tokens[state.curTokenIndex],
-				`Parsing as '${curBranchName}' (in block '${blockName}')`
-			)
-			if (log) { console.log(contextMessage); }
+			if (log) {
+				var contextMessage = natlang.getPosContext(
+					state.inputString,
+					state.tokens[state.curTokenIndex].pos,
+					`Parsing as '${curBranchName}' (in block '${blockName}')`
+				)
+				console.log(contextMessage);
+			}
 			state.captures = tryBranch.captures;
 			if (log) { console.log("Branch success! Doing its 'thenDo'"); }
 			tryBranch.thenDo(state);
@@ -493,239 +532,20 @@ natlang.parse = function (config, inputString, fileName) {
 				? branchInfo.failMessage
 				: `Unexpected token "${found}" (expected ${expected})`;
 			var errorToken = state.tokens[state.curTokenIndex + state.bestTry.tokenCount];
-			var contextMessage = natlang.getTokenContext(
+			var contextMessage = natlang.getPosContext(
 				state.inputString,
-				errorToken,
+				errorToken.pos,
 				message
 			)
 			throw new Error(contextMessage);
 		} else {
 			var message = `Unable to identify branch! (Block: '${state.blockStack[0]}')`;
-			var contextMessage = natlang.getTokenContext(
+			var contextMessage = natlang.getPosContext(
 				state.inputString,
-				state.tokens[state.curTokenIndex],
+				state.tokens[state.curTokenIndex].pos,
 				message
 			)
 			throw new Error(contextMessage);
 		}
 	}
-};
-
-natlang.buildDialogFromState = function (state) {
-	var dialogSettings = state.finalState.dialogSettings || [];
-	var identifier = state.inserts.dialogIdentifier;
-	var parameters = state.inserts.dialogParameters;
-	var messages = state.inserts.dialogMessages;
-	var options = state.inserts.dialogOptions;
-	var result = {};
-	// getting params from dialogSettings
-	if (identifier.type === "name") {
-		result.name = identifier.value;
-	}
-	if (identifier.type === "label") {
-		var labelEntries = dialogSettings.filter(function (item) {
-				return item.type === "label"
-					&& item.value === identifier.value;
-			})
-		if (labelEntries.length > 0) {
-			labelEntries.forEach(function (entry) {
-				var capturedParams = Object.keys(entry.parameters);
-				capturedParams.forEach(function (propertyName) {
-					result[propertyName] = entry.parameters[propertyName];
-				})
-			})
-		} else {
-			identifier.type = "entity";
-			// result.labelWarning = `No settings found for label "${identifier.value}" -- treating as entity name`;
-			// treat as entitiy; will handle immediately below
-		}
-	}
-	if (identifier.type === "entity" || Object.keys(result).length === 0) {
-		var labelEntries = dialogSettings.filter(function (entry) {
-				return entry.type === "entity"
-					&& entry.value === identifier.value;
-			})
-		if (labelEntries.length) {
-			labelEntries.forEach(function (entry) {
-				var capturedParams = Object.keys(entry.parameters);
-				capturedParams.forEach(function (propertyName) {
-					result[propertyName] = entry.parameters[propertyName];
-				})
-			})
-		}
-		result.entity = identifier.value;
-	}
-	// put in global params only if no existing params by that name
-	var globalParams = dialogSettings.filter(function (item) {
-		return item.type === "global"
-	})
-	if (globalParams.length) {
-		globalParams.forEach(function (globalEntry) {
-			Object.keys(globalEntry.parameters).forEach(function (propertyName) {
-				if (!result[propertyName]) {
-					result[propertyName] = globalEntry.parameters[propertyName];
-				}
-			})
-		})
-	}
-	// override the above with params found in the dialog itself
-	if (parameters) {
-		Object.keys(parameters).forEach(function (parameterName) {
-			result[parameterName] = parameters[parameterName];
-		})
-	}
-	var alignmentMap = {
-		"BL": "BOTTOM_LEFT",
-		"BR": "BOTTOM_RIGHT",
-		"TL": "TOP_LEFT",
-		"TR": "TOP_RIGHT",
-		"BOTTOM_LEFT": "BOTTOM_LEFT",
-		"BOTTOM_RIGHT": "BOTTOM_RIGHT",
-		"TOP_LEFT": "TOP_LEFT",
-		"TOP_RIGHT": "TOP_RIGHT"
-	}
-	result.messages = messages.map(function (string) {
-		var cleanedString = natlang.cleanString(string);
-		return natlang.wrapText(cleanedString, result.messagesWrap);
-	});
-	if (options && options.length) {
-		result.response_type = "SELECT_FROM_SHORT_LIST";
-		result.options = options.map(function (option) {
-			return {
-				label: natlang.cleanString(option.label),
-				script: option.script
-			}
-		});
-	}
-	var newAlignment = alignmentMap[result.alignment];
-	if (!newAlignment) {
-		var warningMessage = "Alignment cannot be " + result.alignment + "; falling back to 'BOTTOM_LEFT'";
-		console.warn(warningMessage);
-		result.alignWarning = warningMessage;
-		result.alignment = "BOTTOM_LEFT";
-	} else {
-		result.alignment = newAlignment;
-	}
-	delete result.messagesWrap;
-	return result;
-};
-
-natlang.cleanString = function (inputString) {
-	// TODO: hyphenated words?
-	return inputString
-		.replace(/(“|”)/g, '"')
-		.replace(/(‘|’)/g, "'")
-		.replace(/…/g, "...")
-		.replace(/\t/g, "    ")
-		.replace(/—/g, "--") // emdash
-		.replace(/–/g, "-"); // endash
-};
-
-natlang.identifyEscapedChar = function (inputString) {
-	// returns 2nd char if 1st char is `\` and 2nd is in bounds
-	if (inputString[0] === '\\') {
-		return inputString[1];
-	}
-};
-
-natlang.countWordChars = function (inputString) {
-	var specialCases = {
-		"%": 12, // entity names: max 12 chars ASCII
-		"$": 5, // integers: max value 65535
-	};
-	var size = 0;
-	var pos = 0;
-	var mode = null;
-	while (pos < inputString.length) {
-		var nextChar = inputString[pos];
-		if (mode) { // we're in a special mode
-			if (nextChar === mode) { // if the mode char matches, end mode
-				mode = null;
-				size += specialCases[nextChar]; // size was arbitrary
-				pos += 1; // pos was not
-				continue;
-			}
-			var escaped = natlang.identifyEscapedChar(inputString.substring(pos));
-			if (escaped) { // atm will fall through
-				pos += 2;
-				continue;
-			}
-			// all the rest are "normal"
-			pos += 1;
-			continue;
-		}
-		// we're not in a special mode
-		// escaped chars:
-		var escaped = natlang.identifyEscapedChar(inputString.substring(pos));
-		if (escaped) { // atm will fall through
-			size += 1;
-			pos += 2;
-			continue;
-		}
-		if (nextChar === ' ') { // end processing "word"
-			break;
-		}
-		// special char
-		if (
-			specialCases[nextChar]
-			&& inputString[pos+1]
-			&& inputString.substring(pos+1).includes(nextChar)
-		) { // if there's another of the same char later, start mode
-			mode = nextChar;
-			pos += 1;
-			continue;
-		}
-		// all the rest are "normal"
-		size += 1;
-		pos += 1;
-		continue;
-	}
-	return {
-		match: inputString.substring(0, pos),
-		size: size,
-	}
-};
-
-natlang.wrapText = function (inputString, wrapTo) {
-	wrapTo = wrapTo || 42; // magic number alert
-	var stringSplits = inputString.split('\n');
-	var stringsResults = [];
-	var countSpaces = function (string) {
-		var match = string.match(/^ +/);
-		return match ? match[0].length : false;
-	};
-	stringSplits.forEach(function (line) {
-		var workingString = natlang.cleanString(line);
-		var pos = 0;
-		var insert = '';
-		var insertLength = 0;
-		var lastSpaceFound = null;
-		while (workingString.substring(pos).length) {
-			// spaces (newlines removed above; tabs were converted to spaces prior)
-			var spaceCount = countSpaces(workingString.substring(pos));
-			if (spaceCount) {
-				lastSpaceFound = pos;
-				pos += spaceCount;
-				insert += ' '.repeat(spaceCount);
-				insertLength += spaceCount;
-				continue;
-			}
-			// things other than spaces
-			var word = natlang.countWordChars(workingString.substring(pos));
-			if (insertLength + word.size > wrapTo) {
-				var choppedInsert = insert.substring(0, lastSpaceFound);
-				stringsResults.push(choppedInsert);
-				workingString = workingString.substring(pos);
-				pos = 0;
-				insert = '';
-				insertLength = 0;
-				lastSpaceFound = null;
-			}
-			pos += word.match.length;
-			insert += word.match;
-			insertLength += word.size;
-		}
-		stringsResults.push(insert);
-	})
-	return stringsResults.join('\n');
 };

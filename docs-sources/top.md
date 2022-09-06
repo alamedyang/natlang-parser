@@ -476,6 +476,7 @@ Note that all numbers must be whole numbers.
 		- period: `.`
 		- dollar sign: `$`
 		- pound: `#`
+	- Cannot start with hyphen (`-`).
 	- `barewords` will count as `quotedStrings` if wrapped in quotes.
 - `quotedString`
 	- These can be just about anything as long as it's wrapped in a matching pair of double quotes (`"`) or single quotes (`'`).

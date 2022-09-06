@@ -63,7 +63,7 @@ var app = new Vue({
 		makeSplitJSONs: function () {
 			var safeInput = this.split.natlang;
 			var result = natlang.parse(
-				mgsTest,
+				mgs,
 				safeInput,
 				this.split.fileName
 			);

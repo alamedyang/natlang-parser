@@ -1090,12 +1090,10 @@
 				"variable": "variable-name-outbound"
 			},
 			"natlang": [
+				"copy variable variable-name-outbound into entity \"Entity Name\" y",
+				"copy variable variable-name-outbound into entity 'Entity Name' y",
 				"copy entity \"Entity Name\" y from variable variable-name-outbound",
-				"copy entity 'Entity Name' y from variable variable-name-outbound",
-				"copy entity \"Entity Name\" y from variable 'variable-name-outbound'",
-				"copy entity 'Entity Name' y from variable 'variable-name-outbound'",
-				"copy entity \"Entity Name\" y from variable \"variable-name-outbound\"",
-				"copy entity 'Entity Name' y from variable \"variable-name-outbound\""
+				"copy entity 'Entity Name' y from variable variable-name-outbound"
 			]
 		},
 		{

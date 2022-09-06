@@ -1868,10 +1868,10 @@
 				"success_script": "if button state"
 			},
 			"natlang": [
-				"if button ANY is pressed then goto script \"if button state\"",
-				"if button ANY is pressed then goto script 'if button state'",
-				"if button ANY is pressed then goto \"if button state\"",
-				"if button ANY is pressed then goto 'if button state'"
+				"if button ANY is currently pressed then goto script \"if button state\"",
+				"if button ANY is currently pressed then goto script 'if button state'",
+				"if button ANY is currently pressed then goto \"if button state\"",
+				"if button ANY is currently pressed then goto 'if button state'"
 			]
 		},
 		{
@@ -1882,10 +1882,10 @@
 				"success_script": "if button state"
 			},
 			"natlang": [
-				"if button ANY is not pressed then goto script \"if button state\"",
-				"if button ANY is not pressed then goto script 'if button state'",
-				"if button ANY is not pressed then goto \"if button state\"",
-				"if button ANY is not pressed then goto 'if button state'"
+				"if button ANY is currently not pressed then goto script \"if button state\"",
+				"if button ANY is currently not pressed then goto script 'if button state'",
+				"if button ANY is currently not pressed then goto \"if button state\"",
+				"if button ANY is currently not pressed then goto 'if button state'"
 			]
 		},
 		{

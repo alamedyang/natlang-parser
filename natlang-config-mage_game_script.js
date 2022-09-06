@@ -206,6 +206,15 @@ var mgs = {
 					);
 					state.clearCaptures();
 				}],
+			["border_tileset $value:string",
+				function (state) {
+					// console.log("    Found 'border_tileset $value:string'")
+					state.processCaptures(
+						"dialogParameter",
+						{ parameterName: "border_tileset" }
+					);
+					state.clearCaptures();
+				}],
 			// ["$parameterName:string $value:string",
 			// 	function (state, captures) {
 			// 		state.capture.dialogParameter(state, captures.parameterName, captures.value);
@@ -402,10 +411,17 @@ mgs.actionDictionary = [
 	{
 		action: "SET_SCREEN_SHAKE",
 		pattern: "shake camera $frequency:duration $amplitude:distance for $duration:duration",
+		exampleValues: {
+			"$frequency:duration": "200ms",
+			"$amplitude:distance": "32px",
+			"$duration:duration": "3s",
+		}
 	},
 	{
 		action: "NON_BLOCKING_DELAY",
 		pattern: "wait $duration:duration",
+		exampleValues: { "$duration:duration": "400ms", }
+
 	},
 	{
 		action: "WALK_ENTITY_TO_GEOMETRY",
@@ -450,12 +466,22 @@ mgs.actionDictionary = [
 		pattern: "pan camera to entity $entity:string over $duration:duration",
 	},
 	{
+		action: "PAN_CAMERA_ALONG_GEOMETRY",
+		pattern: "pan camera along geometry $geometry:string over $duration:duration",
+	},
+	{
+		action: "LOOP_CAMERA_ALONG_GEOMETRY",
+		pattern: "loop camera along geometry $geometry:string over $duration:duration",
+	},
+	{
 		action: "PAN_CAMERA_TO_GEOMETRY",
 		pattern: "pan camera to geometry $geometry:string over $duration:duration",
 	},
 	{
 		action: "PLAY_ENTITY_ANIMATION",
 		pattern: "play entity $entity:string animation $animation:number $play_count:quantity",
+		exampleValues: { "$animation:number": "3", }
+
 	},
 	{
 		action: "SCREEN_FADE_OUT",
@@ -493,6 +519,16 @@ mgs.actionDictionary = [
 		action: "COPY_VARIABLE",
 		pattern: "copy entity $entity:string $field:bareword into variable $variable:string",
 		values: { "inbound": true },
+	},
+	{
+		action: "COPY_VARIABLE",
+		pattern: "copy variable $variable:string from entity $entity:string $field:bareword",
+		values: { "inbound": true },
+	},
+	{
+		action: "COPY_VARIABLE",
+		pattern: "copy variable $variable:string into entity $entity:string $field:bareword",
+		values: { "inbound": false },
 	},
 	{
 		action: "COPY_VARIABLE",
@@ -549,12 +585,17 @@ mgs.actionDictionary = [
 	},
 	{
 		action: "CHECK_FOR_BUTTON_STATE",
-		pattern: "if button $button_id:bareword is pressed then goto ?script $success_script:string",
+		pattern: "if button $button_id:bareword is currently pressed then goto ?script $success_script:string",
 		values: { "expected_bool": true },
 	},
 	{
 		action: "CHECK_FOR_BUTTON_STATE",
-		pattern: "if button $button_id:bareword is not pressed then goto ?script $success_script:string",
+		pattern: "if button $button_id:bareword is not currently pressed then goto ?script $success_script:string",
+		values: { "expected_bool": false },
+	},
+	{
+		action: "CHECK_FOR_BUTTON_STATE",
+		pattern: "if button $button_id:bareword is currently not pressed then goto ?script $success_script:string",
 		values: { "expected_bool": false },
 	},
 	{

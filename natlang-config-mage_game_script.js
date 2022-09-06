@@ -215,6 +215,15 @@ var mgs = {
 					);
 					state.clearCaptures();
 				}],
+			["emote $value:number",
+				function (state) {
+					// console.log("    Found 'emote $value:number'")
+					state.processCaptures(
+						"dialogParameter",
+						{ parameterName: "emote" }
+					);
+					state.clearCaptures();
+				}],
 			// ["$parameterName:string $value:string",
 			// 	function (state, captures) {
 			// 		state.capture.dialogParameter(state, captures.parameterName, captures.value);

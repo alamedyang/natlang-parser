@@ -46,7 +46,7 @@ var actionText = {
 		"info": [
 			"This pauses the current script while allowing all other aspects of the game to continue unimpeded.",
 			"Use this if you want to pad the actions an entity is performing so they don't all occur on the same game tick.",
-			"For cinematic cutscenes, you will almost certainly need to disable [player control](#set_player_control) before using a this action, otherwise the player will be able to walk away in the middle. (Don't forget to turn it on again when finished!)"
+			"For cinematic cutscenes, you will almost certainly need to disable [player control](#set_player_control) before using this action, otherwise the player will be able to walk away in the middle. (Don't forget to turn it on again when finished!)"
 		]
 	},
 	"SET_PLAYER_CONTROL": {

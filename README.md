@@ -193,7 +193,7 @@ In the following definitions, words in parentheses are optional, and words start
 
 - **Parent block:** none
 - **Block body:**  any number of [dialog settings target blocks](#dialog-settings-target-block) (in any order)
-- **Syntax:**`settings (for) dialog {}`
+- **Syntax:** `settings (for) dialog {}`
 
 Dialog settings are applied to dialogs in order as the parser encounters them; a dialog settings block partway down the file will affect only the dialogs afterward, and none before.
 
@@ -254,6 +254,9 @@ This is a common use case for dialog settings, after which dialog messages for t
 	- `border_tileset $value:string`
 		- **$value**: the name of a MGE tileset.
 		- The default (tileset index 0) is used if none is provided.
+	- `emote $value:number`
+		- **$value**: the id of the "emote" in that entity's entry in `portraits.json`.
+		- The default emote (`0`) will display if not specified.
 	- `wrap messages (to) $value:number`
 		- **$value**: the number of chars to auto wrap the contents of dialog messages.
 		- 42 is default.
@@ -535,7 +538,7 @@ NOTE: We found that the joystick clicks were aggressive on the hardware, and wou
 Used with "mutate variable" actions.
 
 - `=` or `SET` — sets a variable to the value given
-- `+` or `ADD` - addition
+- `+` or `ADD` — addition
 - `-` or `SUB` — subtraction
 - `*` or `MUL` — multiplication
 - `/` or `DIV` — integer division
@@ -592,7 +595,7 @@ This pauses the current script while allowing all other aspects of the game to c
 
 Use this if you want to pad the actions an entity is performing so they don't all occur on the same game tick.
 
-For cinematic cutscenes, you will almost certainly need to disable [player control](#set_player_control) before using a this action, otherwise the player will be able to walk away in the middle. (Don't forget to turn it on again when finished!)
+For cinematic cutscenes, you will almost certainly need to disable [player control](#set_player_control) before using this action, otherwise the player will be able to walk away in the middle. (Don't forget to turn it on again when finished!)
 
 ```
 wait $duration:duration
@@ -1953,5 +1956,5 @@ MGS Natlang (and the MGE) is still being developed.
 ### Contact
 
 If you have questions about the DC801 Black Mage Game Engine or MageGameScript Natlang, please feel free to contact the MGE lead dev, Admiral Potato:
-- Discord: admiralpotato#6236
+- Discord: AdmiralPotato#6236
 - admiral@nuclearpixel.com

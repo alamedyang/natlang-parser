@@ -687,7 +687,7 @@ var mid = Object.keys(actionCategoryText).map(function (actionCategoryName) {
 	var titleWords = actionCategoryName.split('');
 	titleWords[0] = titleWords[0].toLocaleUpperCase();
 	var capitalizedTitle = titleWords.join('');
-	result += ` ${capitalizedTitle} + actions\n\n`
+	result += ` ${capitalizedTitle} actions\n\n`
 	// adding getting category info
 	result += actionCategoryText[actionCategoryName].join('\n\n');
 	result += '\n\n';

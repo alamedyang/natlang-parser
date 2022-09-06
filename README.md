@@ -569,7 +569,7 @@ set entity "Entity Name" tickScript to scriptName
 set entity "Entity Name" tickScript scriptName
 ```
 
-### Game management + actions
+### Game management actions
 
 Handle the general state of the game, such as loading maps, timing game actions, enabling and disabling player input, and managing save states.
 
@@ -667,7 +667,7 @@ erase slot $slot:number
 
 Example: `erase slot 2`
 
-### Hex editor + actions
+### Hex editor actions
 
 Enable or disable player control of specific game features, and otherwise manage the hex editor state.
 
@@ -703,7 +703,7 @@ set hex clipboard (to) $bool_value:boolean
 
 Example: `set hex clipboard to on`
 
-### Check entity properies + actions
+### Check entity properies actions
 
 These actions check whether one of an entity's properties matches a specific state. If the condition is met (or not met), then the script will abandon any remaining actions and "goto" to the named script.
 
@@ -1215,7 +1215,7 @@ Examples:
 - `if entity "Entity Name" is inside geometry "vector object name" then goto successScript`
 - `if entity "Entity Name" is not inside geometry "vector object name" then goto successScript`
 
-### Check variables + actions
+### Check variables actions
 
 Check whether one of the MGE variables matches a specific value. If the condition is met (or not met), then the script will abandon any remaining actions and "goto" to the named script.
 
@@ -1391,7 +1391,7 @@ Examples:
 - `if warp state is "some kind of string" then goto successScript`
 - `if warp state is not "some kind of string" then goto successScript`
 
-### Set entity properies + actions
+### Set entity properies actions
 
 Set a specific property on a specific entity.
 
@@ -1543,7 +1543,7 @@ set entity $entity:string hackableStateAU4 (to) $u4_value:number
 
 Example: `set entity "Entity Name" hackableStateAU4 to $u4_value:number`
 
-### Set variables + actions
+### Set variables actions
 
 Manipulate MGE variables or set them to an arbitrary value.
 
@@ -1626,7 +1626,7 @@ Examples:
 - `copy variable varName into entity "Entity Name" x`
 - `copy entity "Entity Name" x from variable varName`
 
-### Entity choreography + actions
+### Entity choreography actions
 
 Move entities around the map using vector objects placed with Tiled.
 
@@ -1688,7 +1688,7 @@ loop entity $entity:string along geometry $geometry:string over $duration:durati
 
 Example: `loop entity "Entity Name" along geometry "vector object name" over 1000ms`
 
-### Entity appearance + actions
+### Entity appearance actions
 
 Many of these actions (the ones that don't have an explicit duration) will happen instantly. Therefore if several are used back-to-back, they will all resolve on the same frame. If this is not intended behavior, you should pad them with [non-blocking delay](#non_blocking_delay).
 
@@ -1797,7 +1797,7 @@ Examples:
 - `make entity "Entity Name" glitched`
 - `make entity "Entity Name" unglitched`
 
-### Camera control + actions
+### Camera control actions
 
 Manipulate the camera's position or perform tricks like shaking the camera or fading the screen in and out to an arbitrary color.
 
@@ -1897,7 +1897,7 @@ fade in camera from $color:color over $duration:duration
 
 Example: `fade in camera from #000 over 1000ms`
 
-### Script control + actions
+### Script control actions
 
 Set a specific `on_tick` or `on_interact` script, run another script, or recursively copy the actions inside another script.
 

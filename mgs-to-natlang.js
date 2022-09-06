@@ -248,8 +248,9 @@ mgs.metaAlignmentAssessment = function (assessment) {
 	return overall;
 }
 
-mgs.makeStringSafe = function (string) {
+mgs.makeStringSafe = function (inputString) {
 	// wrap in double quotes unless the string matches the "bareword" pattern from the lexer
+	var string = inputString + '';
 	var safe = string.match(/^[-A-Za-z0-9_.$#]+$/)
 	if (safe) {
 		return string;
@@ -386,7 +387,7 @@ mgs.intelligentDialogHandler = function (dialogObj) {
 					return item !== "name";
 				})
 			}
-			// entity, name, portrait, alignment, border_tileset are relevent now
+			// entity, name, portrait, alignment, border_tileset, and emote are relevent now
 			// however we did alignment already:
 			paramNames = paramNames.filter(function (item) {
 				return item !== "messages"
@@ -412,6 +413,7 @@ mgs.intelligentDialogHandler = function (dialogObj) {
 					paramName === "name"
 					|| paramName === "portrait"
 					|| paramName === "border_tileset"
+					|| paramName === "emote"
 				) {
 					var value = dialog[paramName];
 					stringArray.push(`	${paramName} ${mgs.makeStringSafe(value)}`);

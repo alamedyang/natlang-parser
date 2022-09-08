@@ -60,6 +60,7 @@ var mgs = {
 				{ branch: "dialogOption", multipleOkay: true, zeroOkay: true },
 			],
 			closeChar: "}",
+			// consolidate the below somehow?
 			onLoop: function (state) {
 				var inserts = state.inserts;
 				var insert = mgs.buildDialogFromState(state);
@@ -101,6 +102,13 @@ var mgs = {
 			}
 		}
 	},
+	// The below is slim but a little tricky syntactically. Is problem or no?
+	// A "normal" object isn't that much less slim! Consider:
+	// dialogSettingsNode: {
+	// 	pattern: "settings ?for dialog {",
+	//	onMatch: function (state) { state.startBlock("dialogSettings"); }
+	// }
+
 	trees: {
 		dialogSettingsNode: [
 			["settings ?for dialog {",
@@ -235,6 +243,7 @@ var mgs = {
 					state.processCaptures(
 						"dialogParameter",
 						{ parameterName: "messageWrap" }
+						// TODO: make wrap an object rather than glue words together like this for each one; easier removal, too
 					);
 					state.clearCaptures();
 				}],
@@ -325,12 +334,10 @@ var mgs = {
 	},
 	capture: {
 		dialogName: function (state) {
-			var dialog = state.captures.dialog;
-			var inserts = state.inserts;
-			if (dialog) {
-				inserts.dialogName = dialog;
+			if (state.captures.dialog) {
+				state.inserts.dialogName = state.captures.dialog;
 			} else {
-				inserts.dialogName = state.makeAutoIdentifierName();
+				state.inserts.dialogName = state.makeAutoIdentifierName();
 			}
 		},
 		scriptName: function (state) {
@@ -964,7 +971,6 @@ mgs.actionDictionary.forEach(function (item) {
 /* building MGS dialogs */
 
 mgs.cleanString = function (inputString) {
-	// TODO: hyphenated words?
 	return inputString
 		.replace(/(“|”)/g, '"')
 		.replace(/(‘|’)/g, "'")
@@ -1040,8 +1046,9 @@ mgs.countWordChars = function (inputString) {
 };
 
 mgs.wrapText = function (inputString, wrapTo) {
-	wrapTo = wrapTo || 42; // magic number alert
-	var stringSplits = inputString.split('\n');
+	// TODO: hyphenated words?
+	wrapTo = wrapTo || 42; // magic number alert!
+	var stringSplits = inputString.split('\n'); // TODO: more line breaks
 	var stringsResults = [];
 	var countSpaces = function (string) {
 		var match = string.match(/^ +/);
@@ -1095,12 +1102,12 @@ mgs.buildDialogFromState = function (state) {
 		result.name = identifier.value;
 	}
 	if (identifier.type === "label") {
-		var labelEntries = dialogSettings.filter(function (item) {
+		var entityEntries = dialogSettings.filter(function (item) {
 				return item.type === "label"
 					&& item.value === identifier.value;
 			})
-		if (labelEntries.length > 0) {
-			labelEntries.forEach(function (entry) {
+		if (entityEntries.length > 0) {
+			entityEntries.forEach(function (entry) {
 				var capturedParams = Object.keys(entry.parameters);
 				capturedParams.forEach(function (propertyName) {
 					result[propertyName] = entry.parameters[propertyName];
@@ -1113,12 +1120,12 @@ mgs.buildDialogFromState = function (state) {
 		}
 	}
 	if (identifier.type === "entity" || Object.keys(result).length === 0) {
-		var labelEntries = dialogSettings.filter(function (entry) {
+		var entityEntries = dialogSettings.filter(function (entry) {
 				return entry.type === "entity"
 					&& entry.value === identifier.value;
 			})
-		if (labelEntries.length) {
-			labelEntries.forEach(function (entry) {
+		if (entityEntries.length) {
+			entityEntries.forEach(function (entry) {
 				var capturedParams = Object.keys(entry.parameters);
 				capturedParams.forEach(function (propertyName) {
 					result[propertyName] = entry.parameters[propertyName];

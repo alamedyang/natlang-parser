@@ -572,7 +572,7 @@ var actionText = {
 			"The new script runs in the same script slot that called this action."
 		]
 	},
-	"RUN_SCRIPT": {
+	"COPY_SCRIPT": {
 		"category": "script control",
 		"info": [
 			"The MGE encoder literally copies all the actions from the copied `script` and inserts them where `COPY_SCRIPT` is being used. This happens recursively."

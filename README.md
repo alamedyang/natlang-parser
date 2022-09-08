@@ -50,7 +50,7 @@ on_tick-greenhouse {
 }
 ```
 
-Apart from the fact that the MGS Natlang won't receive any syntax highlighting by default, this is more approachable.
+Apart from the fact that the MGS Natlang won't receive any syntax coloring by default, this is more approachable.
 
 It's more compact, and the nested relationship of the script and its actions is far easier to see at a glance. Human-friendly grammar constructions (e.g. `is inside` vs `is not inside`) makes it much easier to follow script branching logic.
 
@@ -212,10 +212,10 @@ Several choices for `TARGET`:
 	- Of all MGE dialog parameters, only `alignment` is 100% required, so this is a good parameter to include at the global level.
 - `entity $entityName:string`
 	- Describes the default dialog settings for **$entityName**.
-- `label $labelName:string`
+- `label $labelName:bareword`
 	- Defines a dialog identifier shortcut or alias to a specific set of settings.
-	- **$labelName** is best kept simple, otherwise you will have to wrap the string in quotes and prefix it with `label`, which defeats the purpose somewhat.
-	- Dialog labels only exist in MGS Natlang, and they do not apply to other entity references (such as the target of an action).
+	- **$labelName** *must* be a bareword.
+	- Dialog labels only exist in MGS Natlang (not the MGE itself), and they do not apply to other entity references (such as the target of an action).
 
 #### Example dialog settings target block:
 
@@ -253,7 +253,7 @@ This is a common use case for dialog settings, after which dialog messages for t
 			- `BL` (or `BOTTOM_LEFT`) (default)
 	- `border_tileset $value:string`
 		- **$value**: the name of a MGE tileset.
-		- The default (tileset index 0) is used if none is provided.
+		- The default is used if none is provided.
 	- `emote $value:number`
 		- **$value**: the id of the "emote" in that entity's entry in `portraits.json`.
 		- The default emote (`0`) will display if not specified.
@@ -1907,13 +1907,25 @@ Set a specific `on_tick` or `on_interact` script, run another script, or recursi
 
 #### RUN_SCRIPT
 
-The MGE encoder literally copies all the actions from the copied `script` and inserts them where `COPY_SCRIPT` is being used. This happens recursively.
+Abandons the current script and jumps to the named script. In other words, actions provided after a `RUN_SCRIPT` action will not execute. (The MGS Natlang keyword `goto` was chosen to emphasize this.)
+
+The new script runs in the same script slot that called this action.
 
 ```
 goto (script) $script:string
 ```
 
 Example: `goto scriptName`
+
+#### COPY_SCRIPT
+
+The MGE encoder literally copies all the actions from the copied `script` and inserts them where `COPY_SCRIPT` is being used. This happens recursively.
+
+```
+copy (script) $script:string
+```
+
+Example: `copy scriptName`
 
 #### SET_MAP_TICK_SCRIPT
 

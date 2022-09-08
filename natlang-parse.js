@@ -317,15 +317,6 @@ natlang.tryBranch = function (tokens, tokenPos, branch) {
 
 natlang.parse = function (rawConfig, inputString, fileName) {
 	var config = natlang.prepareConfig(rawConfig);
-	if (!config.parseTrees) {
-		throw new Error("Config object missing \"parseTrees\" entry! (Did you forget to put your config object through 'prepareConfig' first?)");
-	}
-	if (!config.blocks) {
-		throw new Error("Config object missing \"blocks\" entry!");
-	}
-	if (!config.capture) {
-		throw new Error("Config object missing \"capture\" entry!");
-	}
 	var state = {
 		fileName: fileName || 'untitledFile',
 		inputString: inputString,

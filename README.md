@@ -1353,13 +1353,6 @@ if button $button_id:bareword is currently pressed
 ```
 
 ```
-if button $button_id:bareword is currently not pressed
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-```
 if button $button_id:bareword is not currently pressed
 	then goto (script) $success_script:string
 	// Built-in values:
@@ -1369,7 +1362,6 @@ if button $button_id:bareword is not currently pressed
 Examples:
 
 - `if button SQUARE is currently pressed then goto successScript`
-- `if button SQUARE is currently not pressed then goto successScript`
 - `if button SQUARE is not currently pressed then goto successScript`
 
 #### CHECK_WARP_STATE

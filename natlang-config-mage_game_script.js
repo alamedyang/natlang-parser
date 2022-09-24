@@ -605,11 +605,6 @@ mgs.actionDictionary = [
 	},
 	{
 		action: "CHECK_FOR_BUTTON_STATE",
-		pattern: "if button $button_id:bareword is currently not pressed then goto ?script $success_script:string",
-		values: { "expected_bool": false },
-	},
-	{
-		action: "CHECK_FOR_BUTTON_STATE",
 		pattern: "if button $button_id:bareword is not currently pressed then goto ?script $success_script:string",
 		values: { "expected_bool": false },
 	},

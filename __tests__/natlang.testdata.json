@@ -1874,20 +1874,6 @@
 		},
 		{
 			"json": {
-				"action": "CHECK_FOR_BUTTON_STATE",
-				"button_id": "ANY",
-				"expected_bool": false,
-				"success_script": "if button state"
-			},
-			"natlang": [
-				"if button ANY is currently not pressed then goto script \"if button state\"",
-				"if button ANY is currently not pressed then goto script 'if button state'",
-				"if button ANY is currently not pressed then goto \"if button state\"",
-				"if button ANY is currently not pressed then goto 'if button state'"
-			]
-		},
-		{
-			"json": {
 				"action": "CHECK_WARP_STATE",
 				"expected_bool": true,
 				"string": "warp-state-string",

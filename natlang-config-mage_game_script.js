@@ -497,7 +497,6 @@ mgs.actionDictionary = [
 		action: "PLAY_ENTITY_ANIMATION",
 		pattern: "play entity $entity:string animation $animation:number $play_count:quantity",
 		exampleValues: { "$animation:number": "3", }
-
 	},
 	{
 		action: "SCREEN_FADE_OUT",
@@ -1094,7 +1093,7 @@ mgs.buildDialogFromState = function (state) {
 	var dialogSettings = state.finalState.dialogSettings || [];
 	var identifier = state.inserts.dialogIdentifier;
 	var parameters = state.inserts.dialogParameters;
-	var messages = state.inserts.dialogMessages;
+	var messages = state.inserts.dialogMessages || [];
 	var options = state.inserts.dialogOptions;
 	var result = {};
 	// getting params from dialogSettings
@@ -1165,7 +1164,7 @@ mgs.buildDialogFromState = function (state) {
 	}
 	result.messages = messages.map(function (string) {
 		var cleanedString = mgs.cleanString(string);
-		return mgs.wrapText(cleanedString, result.messagesWrap);
+		return mgs.wrapText(cleanedString, result.messageWrap);
 	});
 	if (options && options.length) {
 		result.response_type = "SELECT_FROM_SHORT_LIST";
@@ -1185,7 +1184,7 @@ mgs.buildDialogFromState = function (state) {
 	} else {
 		result.alignment = newAlignment;
 	}
-	delete result.messagesWrap;
+	delete result.messageWrap;
 	return result;
 };
 

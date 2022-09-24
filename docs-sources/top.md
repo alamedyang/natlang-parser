@@ -1,5 +1,3 @@
-# MageGameScript Natlang
-
 A simplified approach to writing game content for the DC801 Black Mage Game Engine (MGE).
 
 - The MGE encoder itself still needs its input in the form of JSON; however, exporting MGS Natlang to JSON is straightforward.

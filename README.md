@@ -1,4 +1,4 @@
-# MageGameScript Natlang
+# MageGameScript Natlang <!-- This README is automatically generated, NO TOUCHY -->
 
 A simplified approach to writing game content for the DC801 Black Mage Game Engine (MGE).
 

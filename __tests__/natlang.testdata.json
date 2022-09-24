@@ -580,7 +580,7 @@
 							"type": "global",
 							"parameters": {
 								"alignment": "BL",
-								"messagesWrap": 20
+								"messageWrap": 20
 							}
 						},
 						{

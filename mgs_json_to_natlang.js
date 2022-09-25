@@ -5,6 +5,10 @@ var window = window || {};
 window.natlang = window.natlang || {};
 var natlang = natlang || window.natlang;
 var mgs = mgs || window.mgs;
+if (typeof module === 'object') {
+	mgs = require('./mgs_natlang_config.js');
+}
+var log = window.log || false;
 
 mgs.boolPrefs = {
 	SET_HEX_EDITOR_STATE: [ 'open', 'close' ], // required due to keywords
@@ -538,4 +542,6 @@ mgs.natlangFormatter = function (string, config) {
 	return string;
 }
 
-var mgsTestConfig = natlang.prepareConfig(mgs);
+if (typeof module === 'object') {
+	module.exports = mgs;
+}

@@ -2,26 +2,8 @@ var fs = require('fs');
 var testJSON = require('./natlang.testdata.json');
 var stableStringify = require('fast-json-stable-stringify');
 
-var modules = [
-	'../natlang-lex.js',
-	'../natlang-parse.js',
-	'../mgs_natlang_config.js',
-	'../mgs_json_to_natlang.js',
-];
-
-var moduleString = '';
-
-modules.forEach(function (filePath) {
-	moduleString += '\n' + fs.readFileSync(`${__dirname}/${filePath}`);
-})
-
-eval(moduleString);
-
-// low budget module system, go! -SB
-var window = window || {};
-window.natlang = window.natlang || {};
-var natlang = natlang || window.natlang;
-var mgs = mgs || window.mgs;
+const natlang = require('../natlang-parse.js');
+const mgs = require('../mgs_json_to_natlang.js');
 
 var mgsTestConfig = natlang.prepareConfig(mgs);
 

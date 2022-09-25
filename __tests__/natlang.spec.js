@@ -5,8 +5,8 @@ var stableStringify = require('fast-json-stable-stringify');
 var modules = [
 	'../natlang-lex.js',
 	'../natlang-parse.js',
-	'../natlang-config-mage_game_script.js',
-	'../mgs-to-natlang.js',
+	'../mgs_natlang_config.js',
+	'../mgs_json_to_natlang.js',
 ];
 
 var moduleString = '';

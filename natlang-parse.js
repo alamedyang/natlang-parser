@@ -4,6 +4,9 @@
 var window = window || {};
 window.natlang = window.natlang || {};
 var natlang = natlang || window.natlang;
+if (typeof module === 'object') {
+	natlang.lex = require('./natlang-lex.js');
+}
 
 var log = false;
 
@@ -540,3 +543,8 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 		}
 	}
 };
+
+
+if (typeof module === 'object') {
+	module.exports = natlang
+}

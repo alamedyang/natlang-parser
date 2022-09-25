@@ -264,3 +264,7 @@ natlang.lex = function (inputString) {
         return {"success":true,"tokens":tokens}
     }
 };
+
+if (typeof module === 'object') {
+	module.exports = natlang.lex
+}

@@ -4,6 +4,9 @@
 var window = window || {};
 window.natlang = window.natlang || {};
 var natlang = natlang || window.natlang;
+if (typeof module === 'object') {
+	natlang = require('./natlang-parse.js');
+}
 
 var mgs = {
 	blocks: {
@@ -1184,3 +1187,7 @@ mgs.buildDialogFromState = function (state) {
 };
 
 window.mgs = mgs;
+
+if (typeof module === 'object') {
+	module.exports = mgs;
+}

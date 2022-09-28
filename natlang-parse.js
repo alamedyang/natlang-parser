@@ -119,13 +119,13 @@ natlang.makeParseTrees = function (flatTrees) {
 
 natlang.prepareConfig = function (config) {
 	if (!config.trees) {
-		throw new Error("Config object missing \"trees\" entry!");
+		throw new Error("Parser config: Config object missing \"trees\" entry!");
 	}
 	if (!config.blocks) {
-		throw new Error("Config object missing \"blocks\" entry!");
+		throw new Error("Parser config: Config object missing \"blocks\" entry!");
 	}
 	if (!config.capture) {
-		throw new Error("Config object missing \"capture\" entry!");
+		throw new Error("Parser config: Config object missing \"capture\" entry!");
 	}
 	var parseTrees = natlang.makeParseTrees(config.trees);
 	return {
@@ -383,13 +383,13 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 				if (log) { console.log(blockLabel + "'s onClose function found! Doing it now..."); }
 				blockInfo.onClose(state);
 			} else {
-				console.warn("Was I supposed to find a block 'onClose' function for " + blockLabel + "? Because I didn't! (Maybe you didn't want one for this block?) Proceeding anyway....");
+				console.warn("Parser: Was I supposed to find a block 'onClose' function for " + blockLabel + "? Because I didn't! (Maybe you didn't want one for this block?) Proceeding anyway....");
 			}
 		} else {
 			var message = natlang.getPosContext(
 				state.inputString,
 				state.tokens[state.curTokenIndex].pos,
-				"Could not find block info for a block named " + blockLabel
+				"Parser: Could not find block info for a block named " + blockLabel
 			)
 			throw new Error(message);
 		}
@@ -405,7 +405,12 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 	};
 	state.processCaptures = function (captureType, args) {
 		if (!config.capture[captureType]) {
-			throw new Error("No 'capture' function found for " + captureType + "(Token index " + state.curTokenIndex + ")");
+			var message = natlang.getPosContext(
+				state.inputString,
+				state.tokens[state.curTokenIndex].pos,
+				"Parser: No 'capture' function found for " + captureType
+			)
+			throw new Error(message);
 		}
 		config.capture[captureType](state, args);
 	};
@@ -414,11 +419,21 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 		var blockName = state.blockStack[0];
 		var blockInfo = config.blocks[blockName];
 		if (!blockInfo) {
-			throw new Error(`No block info found for: "${blockName}"`);
+			var message = natlang.getPosContext(
+				state.inputString,
+				state.tokens[state.curTokenIndex].pos,
+				`Parser: No block info found for: "${blockName}"`
+			)
+			throw new Error(message);
 		}
 		var blockBranches = blockInfo.branches;
 		if (!blockBranches) {
-			throw new Error(`No branches found for: "${blockName}"`);
+			var message = natlang.getPosContext(
+				state.inputString,
+				state.tokens[state.curTokenIndex].pos,
+				`Parser: No branches found for: "${blockName}"`
+			)
+			throw new Error(message);
 		}
 		if (log) { console.log(`Processing block "${blockName}" ...`); }
 		if (
@@ -524,7 +539,7 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 			var message
 				= branchInfo && branchInfo.failMessage
 				? branchInfo.failMessage
-				: `Unexpected token "${found}" (expected ${expected})`;
+				: `Parser: Unexpected token "${found}" (expected ${expected})`;
 			var errorToken = state.tokens[state.curTokenIndex + state.bestTry.tokenCount];
 			var contextMessage = natlang.getPosContext(
 				state.inputString,
@@ -533,7 +548,7 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 			)
 			throw new Error(contextMessage);
 		} else {
-			var message = `Unable to identify branch! (Block: '${state.blockStack[0]}')`;
+			var message = `Parser: Unable to identify branch! (Block: '${state.blockStack[0]}')`;
 			var contextMessage = natlang.getPosContext(
 				state.inputString,
 				state.tokens[state.curTokenIndex].pos,
@@ -543,7 +558,6 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 		}
 	}
 };
-
 
 if (typeof module === 'object') {
 	module.exports = natlang

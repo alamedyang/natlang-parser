@@ -29,14 +29,18 @@ const convertFileByName = (fileName) => {
 		const outputDialogJson = fileOutput.dialogs;
 		const outputDialogName = `dialog-${filenameTrimmed}.json`
 		
-		fs.writeFileSync(
-			`${outputPath}/scripts/${outputScriptName}`,
-			JSON.stringify(outputScriptJson, null, '\t')
-		);
-		fs.writeFileSync(
-			`${outputPath}/dialogs/${outputDialogName}`,
-			JSON.stringify(outputDialogJson, null, '\t')
-		);
+		if (outputScriptJson) {
+			fs.writeFileSync(
+				`${outputPath}/scripts/${outputScriptName}`,
+				JSON.stringify(outputScriptJson, null, '\t')
+			);
+		}
+		if (outputDialogJson) {
+			fs.writeFileSync(
+				`${outputPath}/dialogs/${outputDialogName}`,
+				JSON.stringify(outputDialogJson, null, '\t')
+			);
+		}
 	} else {
 		throw new Error(`Natlang parsing failed for file: "${fileName}"! Aborting...`);
 	}

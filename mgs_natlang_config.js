@@ -8,10 +8,12 @@ var zigzag = window.zigzag;
 if (typeof module === 'object') {
 	natlang = require('./natlang-parse.js');
 	zigzag = require('./mgs-preprocessor-zigzag.js');
+	constants = require('./mgs-preprocessor-constants.js');
 }
 
 var mgs = {
 	preprocessors: {
+		constants: constants,
 		zigzag: zigzag
 	},
 	blocks: {

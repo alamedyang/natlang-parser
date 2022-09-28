@@ -4,8 +4,9 @@ var stableStringify = require('fast-json-stable-stringify');
 
 const natlang = require('../natlang-parse.js');
 const zigzag = require('../mgs-preprocessor-zigzag.js');
+const constants = require('../mgs-preprocessor-constants.js');
 
-describe('Zigzag test suite', function () {
+describe('Zigzag preprocessor test suite', function () {
 	describe('Pass tests', function () {
 		testJSON.zigzagTestsGood.forEach(function (item, index) {
 			it(`Should flatten zigzag #${index}`, function () {
@@ -14,16 +15,38 @@ describe('Zigzag test suite', function () {
 				expect(stableStringify(result)).toBe(stableStringify(expected));
 			})
 		})
-
 	})
 	describe('Fail tests', function () {
 		testJSON.zigzagTestsFail.forEach(function (item) {
 			var tokens = natlang.lex(item.inputString);
-			var expected = item.toThrow;
-			test(expected, () => {
+			var substring = item.errorSubstring;
+			test(substring, () => {
 				expect(() => {
 					zigzag.process(tokens.tokens);
-				}).toThrow(expected);
+				}).toThrow(substring);
+			})
+		})
+	})
+})
+describe('Constants preprocessor test suite', function () {
+	describe('Pass tests', function () {
+		testJSON.constantsTestsGood.forEach(function (item, index) {
+			it(`Should hardcode constants in set #${index}`, function () {
+				var expected = item.outputTokens;
+				var tokens = natlang.lex(item.inputString);
+				var result = constants.process(tokens);
+				expect(stableStringify(result)).toBe(stableStringify(expected));
+			})
+		})
+	})
+	describe('Fail tests', function () {
+		testJSON.zigzagTestsFail.forEach(function (item) {
+			var tokens = natlang.lex(item.inputString);
+			var substring = item.errorSubstring;
+			test(substring, () => {
+				expect(() => {
+					zigzag.process(tokens.tokens);
+				}).toThrow(substring);
 			})
 		})
 	})

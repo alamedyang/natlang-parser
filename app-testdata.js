@@ -3362,3 +3362,35 @@ var zigzagTestStrings = [
 	set entity "%SELF%" interact_script to "bea script"
 }`,
 ]
+
+var constantsTestStrings = [
+`testScript {
+	$five = 5
+	wait $five
+}`,
+`$five = 5
+
+testScript {
+	wait $five
+}`,
+`$five = 5
+$four = 4
+
+testScript {
+	wait $four
+	wait $five
+}`,
+`$five = 5
+$four = 4
+
+testScript {
+	wait $four
+	wait $five
+	$four = 4000
+	wait $four
+	wait $five
+}`,
+`testScript {
+	wait $undefinedVar
+}`,
+]

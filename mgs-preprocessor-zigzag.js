@@ -17,7 +17,7 @@ var findCloseChar = function (openChar) {
 	return charEntry ? charEntry.end : false;
 };
 
-zigzag = {
+var zigzag = {
 	identifyIf: function (tokens, tokenPos) {
 		return tokens[tokenPos]
 			&& tokens[tokenPos].value === "if"
@@ -221,7 +221,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 	var convergedScriptNameToken = JSON.parse(JSON.stringify(scriptNameToken));
 	convergedScriptNameToken.pos = finalCurlyToken.pos;
 	convergedScriptNameToken.value = convergedScriptName;
-	convergedScriptNameToken.postProcessor = "zigzag";
+	convergedScriptNameToken.preprocessor = "zigzag";
 	// other state:
 	var result = []; // going at the top (to glue on to where we found the zigzag)
 	var tokensToAppend = []; // when done, this will get glued to `result` ^
@@ -245,7 +245,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 			var zigScriptNameToken = JSON.parse(JSON.stringify(scriptNameToken));
 			zigScriptNameToken.pos = openCurlyToken.pos;
 			zigScriptNameToken.value = zigScriptName;
-			zigScriptNameToken.postProcessor = "zigzag";
+			zigScriptNameToken.preprocessor = "zigzag";
 			var closeCurlyToken = statement.bracketInfo.behaviorsEndToken;
 				//^VERBATIM: end of procedural branch script: `}`
 
@@ -256,7 +256,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 					pos: statement.rootToken.pos,
 					type: "bareword",
 					value: "if", // hardcoded; this might be `else` in the orig token!
-					postProcessor: "zigzag"
+					preprocessor: "zigzag"
 				});
 				// condition(s)
 				result = result.concat(singleCondition);
@@ -265,14 +265,14 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 					pos: closeParenToken.pos,
 					type: "bareword",
 					value: "then",
-					postProcessor: "zigzag"
+					preprocessor: "zigzag"
 				});
 				// faking `goto`
 				result.push({
 					pos: closeParenToken.pos,
 					type: "bareword",
 					value: "goto",
-					postProcessor: "zigzag"
+					preprocessor: "zigzag"
 				});
 				// faking `_____` (scriptname)
 				result.push(zigScriptNameToken);
@@ -288,7 +288,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: openCurlyToken.pos,
 				type: "operator",
 				value: "{",
-				postProcessor: "zigzag"
+				preprocessor: "zigzag"
 			});
 			// behavior body
 			tokensToAppend = tokensToAppend.concat(statement.behaviors);
@@ -298,7 +298,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "bareword",
 				value: "goto",
-				postProcessor: "zigzag"
+				preprocessor: "zigzag"
 			});
 			tokensToAppend.push(convergedScriptNameToken);
 			// }
@@ -306,7 +306,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "operator",
 				value: "}",
-				postProcessor: "zigzag"
+				preprocessor: "zigzag"
 			});
 		} else if (
 			statement.conditionsType === "none" // no conditions found
@@ -323,7 +323,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "bareword",
 				value: "goto",
-				postProcessor: "zigzag"
+				preprocessor: "zigzag"
 			});
 			result.push(convergedScriptNameToken);
 			// }
@@ -331,7 +331,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "operator",
 				value: "}",
-				postProcessor: "zigzag"
+				preprocessor: "zigzag"
 			});
 		}
 	});
@@ -341,7 +341,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 		"pos": convergedScriptNameToken.pos + 1,
 		"type": "operator",
 		"value": "{",
-		"postProcessor": "zigzag"
+		"preprocessor": "zigzag"
 	})
 	return {
 		tokens: combinedTokens,
@@ -349,10 +349,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 	}
 };
 
-zigzag.processOnce = function (origTokens) {
-	// first check whether the whole lex object was passed by accident:
-	var tokens = origTokens.success ? origTokens.tokens : origTokens;
-	// (okay we're good now)
+zigzag.processOnce = function (tokens) {
 	var pos = 0;
 	var crawledTokens = [];
 	var punctuationStack = [];
@@ -392,14 +389,14 @@ zigzag.processOnce = function (origTokens) {
 						pos += 1;
 						continue;
 					} else {
-						var errorObject = new Error(`Zigzag crawlOnce: Cannot close "${top}" with "${naiveValue}"!`)
+						var errorObject = new Error(`Zigzag processOnce: Cannot close "${top}" with "${naiveValue}"!`)
 						errorObject.tokenIndex = pos;
 						errorObject.token = tokens[pos];
 						errorObject.pos = tokens[pos].pos;
 						throw errorObject;
 					}
 				} else { // ...but there's no chars in the stack
-					var errorObject = new Error(`Zigzag crawlOnce: Found "${naiveValue}" but no "${top}" to close!`)
+					var errorObject = new Error(`Zigzag processOnce: Found "${naiveValue}" but no "${top}" to close!`)
 					errorObject.tokenIndex = pos;
 					errorObject.token = tokens[pos];
 					errorObject.pos = tokens[pos].pos;
@@ -415,7 +412,10 @@ zigzag.processOnce = function (origTokens) {
 	return crawledTokens;
 };
 
-zigzag.process = function (tokens) { // formerly "crawl"; natlang.parse looks for "___.process()"
+zigzag.process = function (origTokens) { // formerly "crawl"; natlang.parse looks for "___.process()"
+	// first check whether the whole lex object was passed by accident:
+	var tokens = origTokens.success ? origTokens.tokens : origTokens;
+	// (okay we're good now)	
 	var origLength;
 	var expandedTokens = tokens;
 	var newLength = tokens.length;

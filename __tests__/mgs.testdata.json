@@ -97,7 +97,7 @@
 					"pos": 27,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 32,
@@ -108,25 +108,25 @@
 					"pos": 57,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 57,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 59,
 					"type": "bareword",
 					"value": "testScript-BRANCH59",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 27,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 46,
@@ -137,49 +137,49 @@
 					"pos": 57,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 57,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 59,
 					"type": "bareword",
 					"value": "testScript-BRANCH59",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 72,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 72,
 					"type": "bareword",
 					"value": "testScript-CONVERGED72",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 72,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 59,
 					"type": "bareword",
 					"value": "testScript-BRANCH59",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 59,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 61,
@@ -190,31 +190,31 @@
 					"pos": 72,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 72,
 					"type": "bareword",
 					"value": "testScript-CONVERGED72",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 72,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 72,
 					"type": "bareword",
 					"value": "testScript-CONVERGED72",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 73,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 77,
@@ -345,7 +345,7 @@
 					"pos": 22,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 27,
@@ -356,25 +356,25 @@
 					"pos": 52,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 52,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 54,
 					"type": "bareword",
 					"value": "testScript-BRANCH54",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 22,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 41,
@@ -385,19 +385,19 @@
 					"pos": 52,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 52,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 54,
 					"type": "bareword",
 					"value": "testScript-BRANCH54",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 77,
@@ -408,31 +408,31 @@
 					"pos": 87,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 87,
 					"type": "bareword",
 					"value": "testScript-CONVERGED87",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 87,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 54,
 					"type": "bareword",
 					"value": "testScript-BRANCH54",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 54,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 56,
@@ -443,31 +443,31 @@
 					"pos": 67,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 87,
 					"type": "bareword",
 					"value": "testScript-CONVERGED87",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 67,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 87,
 					"type": "bareword",
 					"value": "testScript-CONVERGED87",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 88,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 90,
@@ -643,7 +643,7 @@
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 26,
@@ -654,25 +654,25 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 40,
@@ -683,25 +683,25 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 68,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 78,
@@ -712,19 +712,19 @@
 					"pos": 89,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 89,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 91,
 					"type": "bareword",
 					"value": "testScript-BRANCH91",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 112,
@@ -740,31 +740,31 @@
 					"pos": 134,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 134,
 					"type": "bareword",
 					"value": "testScript-CONVERGED134",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 134,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 55,
@@ -775,31 +775,31 @@
 					"pos": 66,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 134,
 					"type": "bareword",
 					"value": "testScript-CONVERGED134",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 91,
 					"type": "bareword",
 					"value": "testScript-BRANCH91",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 91,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 93,
@@ -810,31 +810,31 @@
 					"pos": 103,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 134,
 					"type": "bareword",
 					"value": "testScript-CONVERGED134",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 103,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 134,
 					"type": "bareword",
 					"value": "testScript-CONVERGED134",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 135,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 136,
@@ -1090,7 +1090,7 @@
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 26,
@@ -1101,25 +1101,25 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 40,
@@ -1130,25 +1130,25 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 68,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 78,
@@ -1159,25 +1159,25 @@
 					"pos": 89,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 89,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 91,
 					"type": "bareword",
 					"value": "testScript-BRANCH91",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 105,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 115,
@@ -1188,25 +1188,25 @@
 					"pos": 126,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 126,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 128,
 					"type": "bareword",
 					"value": "testScript-BRANCH128",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 142,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 152,
@@ -1217,19 +1217,19 @@
 					"pos": 163,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 163,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 165,
 					"type": "bareword",
 					"value": "testScript-BRANCH165",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 186,
@@ -1245,31 +1245,31 @@
 					"pos": 208,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "bareword",
 					"value": "testScript-CONVERGED208",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 55,
@@ -1280,31 +1280,31 @@
 					"pos": 66,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "bareword",
 					"value": "testScript-CONVERGED208",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 91,
 					"type": "bareword",
 					"value": "testScript-BRANCH91",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 91,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 93,
@@ -1315,31 +1315,31 @@
 					"pos": 103,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "bareword",
 					"value": "testScript-CONVERGED208",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 103,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 128,
 					"type": "bareword",
 					"value": "testScript-BRANCH128",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 128,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 130,
@@ -1350,31 +1350,31 @@
 					"pos": 140,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "bareword",
 					"value": "testScript-CONVERGED208",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 140,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 165,
 					"type": "bareword",
 					"value": "testScript-BRANCH165",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 165,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 167,
@@ -1385,31 +1385,31 @@
 					"pos": 177,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "bareword",
 					"value": "testScript-CONVERGED208",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 177,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 208,
 					"type": "bareword",
 					"value": "testScript-CONVERGED208",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 209,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 210,
@@ -1575,7 +1575,7 @@
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 26,
@@ -1586,25 +1586,25 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 40,
@@ -1615,49 +1615,49 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "testScript-CONVERGED66",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 55,
@@ -1668,31 +1668,31 @@
 					"pos": 66,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "testScript-CONVERGED66",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "testScript-CONVERGED66",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 67,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 68,
@@ -1703,7 +1703,7 @@
 					"pos": 76,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 81,
@@ -1714,25 +1714,25 @@
 					"pos": 106,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 106,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "bareword",
 					"value": "testScript-BRANCH108",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 76,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 95,
@@ -1743,49 +1743,49 @@
 					"pos": 106,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 106,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "bareword",
 					"value": "testScript-BRANCH108",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 121,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 121,
 					"type": "bareword",
 					"value": "testScript-CONVERGED121",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 121,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "bareword",
 					"value": "testScript-BRANCH108",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 110,
@@ -1796,31 +1796,31 @@
 					"pos": 121,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 121,
 					"type": "bareword",
 					"value": "testScript-CONVERGED121",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 121,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 121,
 					"type": "bareword",
 					"value": "testScript-CONVERGED121",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 122,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 123,
@@ -2275,7 +2275,7 @@
 					"pos": 45,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
@@ -2306,26 +2306,26 @@
 					"pos": 117,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 117,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 119,
 					"type": "quotedString",
 					"value": "bea script-BRANCH119",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 45,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 83,
@@ -2356,26 +2356,26 @@
 					"pos": 117,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 117,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 119,
 					"type": "quotedString",
 					"value": "bea script-BRANCH119",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 202,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 212,
@@ -2406,20 +2406,20 @@
 					"pos": 242,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 242,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 244,
 					"type": "quotedString",
 					"value": "bea script-BRANCH244",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 340,
@@ -2482,33 +2482,33 @@
 					"pos": 442,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 442,
 					"type": "quotedString",
 					"value": "bea script-CONVERGED442",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 442,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 119,
 					"type": "quotedString",
 					"value": "bea script-BRANCH119",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 119,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 122,
@@ -2571,33 +2571,33 @@
 					"pos": 200,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 442,
 					"type": "quotedString",
 					"value": "bea script-CONVERGED442",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 200,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 244,
 					"type": "quotedString",
 					"value": "bea script-BRANCH244",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 244,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 247,
@@ -2660,33 +2660,33 @@
 					"pos": 330,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 442,
 					"type": "quotedString",
 					"value": "bea script-CONVERGED442",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 330,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 442,
 					"type": "quotedString",
 					"value": "bea script-CONVERGED442",
 					"quotationMark": "\"",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 443,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 444,
@@ -2934,7 +2934,7 @@
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 26,
@@ -2945,25 +2945,25 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 21,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 40,
@@ -2974,49 +2974,49 @@
 					"pos": 51,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 51,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "testScript-CONVERGED66",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "bareword",
 					"value": "testScript-BRANCH53",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 53,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 55,
@@ -3027,31 +3027,31 @@
 					"pos": 66,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "testScript-CONVERGED66",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 66,
 					"type": "bareword",
 					"value": "testScript-CONVERGED66",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 67,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 68,
@@ -3062,7 +3062,7 @@
 					"pos": 76,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 81,
@@ -3073,25 +3073,25 @@
 					"pos": 106,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 106,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "bareword",
 					"value": "testScript-BRANCH108",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 76,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 95,
@@ -3102,49 +3102,49 @@
 					"pos": 106,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 106,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "bareword",
 					"value": "testScript-BRANCH108",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 184,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 184,
 					"type": "bareword",
 					"value": "testScript-CONVERGED184",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 184,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "bareword",
 					"value": "testScript-BRANCH108",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 108,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 110,
@@ -3155,7 +3155,7 @@
 					"pos": 121,
 					"type": "bareword",
 					"value": "if",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 125,
@@ -3166,19 +3166,19 @@
 					"pos": 135,
 					"type": "bareword",
 					"value": "then",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 135,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 137,
 					"type": "bareword",
 					"value": "testScript-BRANCH108-BRANCH137",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 158,
@@ -3189,31 +3189,31 @@
 					"pos": 169,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 169,
 					"type": "bareword",
 					"value": "testScript-BRANCH108-CONVERGED169",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 169,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 137,
 					"type": "bareword",
 					"value": "testScript-BRANCH108-BRANCH137",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 137,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 139,
@@ -3224,31 +3224,31 @@
 					"pos": 149,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 169,
 					"type": "bareword",
 					"value": "testScript-BRANCH108-CONVERGED169",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 149,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 169,
 					"type": "bareword",
 					"value": "testScript-BRANCH108-CONVERGED169",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 170,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 171,
@@ -3259,31 +3259,31 @@
 					"pos": 184,
 					"type": "bareword",
 					"value": "goto",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 184,
 					"type": "bareword",
 					"value": "testScript-CONVERGED184",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 184,
 					"type": "operator",
 					"value": "}",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 184,
 					"type": "bareword",
 					"value": "testScript-CONVERGED184",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 185,
 					"type": "operator",
 					"value": "{",
-					"postProcessor": "zigzag"
+					"preprocessor": "zigzag"
 				},
 				{
 					"pos": 186,
@@ -3301,19 +3301,205 @@
 	"zigzagTestsFail": [
 		{
 			"inputString": "testScript { action1 if ( conditionA || conditionB ) { behaviorAB ) action2 }",
-			"toThrow": "Zigzag crawlOnce: Cannot close \"{\" with \")\"!"
+			"errorSubstring": "Zigzag processOnce: Cannot close \"{\" with \")\"!"
 		},
 		{
 			"inputString": "testScript { action1 if ( conditionA || conditionB ) else { behaviorAB } action2 }",
-			"toThrow": "Zigzag parseSingleZig: Expected '{', found 'else'"
+			"errorSubstring": "Zigzag parseSingleZig: Expected '{', found 'else'"
 		},
 		{
 			"inputString": "testScript { action1 if ( conditionA || conditionB { behaviorAB } action2 }",
-			"toThrow": "Zigzag parseSingleZig: Collection failure! (Is matching ')' missing?)"
+			"errorSubstring": "Zigzag parseSingleZig: Collection failure! (Is matching ')' missing?)"
 		},
 		{
 			"inputString": "testScript { action1 if ( conditionA || conditionB ) { behaviorAB",
-			"toThrow": "Zigzag parseSingleZig: Collection failure! (Is matching '}' missing?)"
+			"errorSubstring": "Zigzag parseSingleZig: Collection failure! (Is matching '}' missing?)"
+		}
+	],
+	"constantsTestsGood": [
+		{
+			"inputString": "testScript { $five = 5 wait $five }",
+			"outputTokens": [
+				{
+					"pos": 0,
+					"type": "bareword",
+					"value": "testScript"
+				},
+				{
+					"pos": 11,
+					"type": "operator",
+					"value": "{"
+				},
+				{
+					"pos": 23,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 21,
+					"type": "number",
+					"value": 5,
+					"declarationName": "$five",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 28
+				},
+				{
+					"pos": 34,
+					"type": "operator",
+					"value": "}"
+				}
+			]
+		},
+		{
+			"inputString": "$five = 5 testScript { wait $five }",
+			"outputTokens": [
+				{
+					"pos": 10,
+					"type": "bareword",
+					"value": "testScript"
+				},
+				{
+					"pos": 21,
+					"type": "operator",
+					"value": "{"
+				},
+				{
+					"pos": 23,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 8,
+					"type": "number",
+					"value": 5,
+					"declarationName": "$five",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 28
+				},
+				{
+					"pos": 34,
+					"type": "operator",
+					"value": "}"
+				}
+			]
+		},
+		{
+			"inputString": "$five = 5 $four = 4 testScript { wait $four wait $five }",
+			"outputTokens": [
+				{
+					"pos": 20,
+					"type": "bareword",
+					"value": "testScript"
+				},
+				{
+					"pos": 31,
+					"type": "operator",
+					"value": "{"
+				},
+				{
+					"pos": 33,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 18,
+					"type": "number",
+					"value": 4,
+					"declarationName": "$four",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 38
+				},
+				{
+					"pos": 44,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 8,
+					"type": "number",
+					"value": 5,
+					"declarationName": "$five",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 49
+				},
+				{
+					"pos": 55,
+					"type": "operator",
+					"value": "}"
+				}
+			]
+		},
+		{
+			"inputString": "$five = 5 $four = 4 testScript { wait $four wait $five $four = 4000 wait $four }",
+			"outputTokens": [
+				{
+					"pos": 20,
+					"type": "bareword",
+					"value": "testScript"
+				},
+				{
+					"pos": 31,
+					"type": "operator",
+					"value": "{"
+				},
+				{
+					"pos": 33,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 18,
+					"type": "number",
+					"value": 4,
+					"declarationName": "$four",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 38
+				},
+				{
+					"pos": 44,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 8,
+					"type": "number",
+					"value": 5,
+					"declarationName": "$five",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 49
+				},
+				{
+					"pos": 68,
+					"type": "bareword",
+					"value": "wait"
+				},
+				{
+					"pos": 63,
+					"type": "number",
+					"value": 4000,
+					"declarationName": "$four",
+					"preprocessor": "constants",
+					"preprocessorPhase": "insertion",
+					"declarationPos": 73
+				},
+				{
+					"pos": 79,
+					"type": "operator",
+					"value": "}"
+				}
+			]
+		}
+	],
+	"constantsTestsFail" : [
+		{
+			"inputString": "wait $undefinedVar",
+			"errorSubstring": "Constant $undefinedVar is undefined!"
 		}
 	]
 }

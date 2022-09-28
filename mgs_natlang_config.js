@@ -11,9 +11,9 @@ if (typeof module === 'object') {
 }
 
 var mgs = {
-	preprocessors: [
-		zigzag
-	],
+	preprocessors: {
+		zigzag: zigzag
+	},
 	blocks: {
 		"root": {
 			branchesLoop: true,

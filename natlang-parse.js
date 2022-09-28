@@ -128,10 +128,26 @@ natlang.prepareConfig = function (config) {
 		throw new Error("Parser config: Config object missing \"capture\" entry!");
 	}
 	var parseTrees = natlang.makeParseTrees(config.trees);
+	var preprocessors = config.preprocessors || [];
+	var flatPreprocessors = [];
+	if (Array.isArray(preprocessors)) {
+		flatPreprocessors = preprocessors.map(function (item, index) {
+			if (!item.name) {
+				item.name = "preprocessor" + index;
+			}
+			return item;
+		})
+	} else {
+		flatPreprocessors = Object.keys(preprocessors).map(function (name) {
+				preprocessors[name].name = name;
+				return preprocessors[name];
+			})
+	}
 	return {
 		parseTrees: parseTrees,
 		blocks: config.blocks,
-		capture: config.capture
+		capture: config.capture,
+		preprocessors: flatPreprocessors
 	};
 };
 
@@ -319,6 +335,7 @@ natlang.tryBranch = function (tokens, tokenPos, branch) {
 };
 
 natlang.parse = function (rawConfig, inputString, fileName) {
+	// SETUP
 	var config = natlang.prepareConfig(rawConfig);
 	var state = {
 		fileName: fileName || 'untitledFile',
@@ -342,6 +359,7 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 		inserts: {},
 		captures: {},
 	};
+	// GETTING OUR TOKENS
 	var lex = natlang.lex(inputString);
 	if (lex.success) {
 		state.tokens = lex.tokens;
@@ -354,6 +372,21 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 		)
 		return lex;
 	}
+	// PREPROCESSORS
+	// use the function called "process"
+	config.preprocessors.forEach(function (preprocessor) {
+		try {
+			var processedTokens = preprocessor.process(state.tokens);
+		} catch (error) {
+			error.preprocessor = preprocessor.name;
+			throw error;
+		}
+		var log = preprocessor.log(processedTokens);
+		state.tokens = processedTokens;
+		state.finalState.passes = state.finalState.passes || {};
+		state.finalState.passes[preprocessor.name] = log;
+	})
+	// THE REST OF THE OWL
 	// block functions
 	state.startBlock = function (blockName) {
 		if (log) { console.log("state.startBlock: Starting the block named " + blockName); }
@@ -546,7 +579,11 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 				errorToken.pos,
 				message
 			)
-			throw new Error(contextMessage);
+			var errorObject = new Error(contextMessage);
+			errorObject.pos = errorToken.pos;
+			errorObject.branch = curBranchName;
+			errorObject.fancyMessage = contextMessage;
+			throw errorObject;
 		} else {
 			var message = `Parser: Unable to identify branch! (Block: '${state.blockStack[0]}')`;
 			var contextMessage = natlang.getPosContext(

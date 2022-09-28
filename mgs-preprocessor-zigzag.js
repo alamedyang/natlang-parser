@@ -349,7 +349,10 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 	}
 };
 
-zigzag.crawlOnce = function (tokens) {
+zigzag.processOnce = function (origTokens) {
+	// first check whether the whole lex object was passed by accident:
+	var tokens = origTokens.success ? origTokens.tokens : origTokens;
+	// (okay we're good now)
 	var pos = 0;
 	var crawledTokens = [];
 	var punctuationStack = [];
@@ -412,13 +415,13 @@ zigzag.crawlOnce = function (tokens) {
 	return crawledTokens;
 };
 
-zigzag.crawl = function (tokens) {
+zigzag.process = function (tokens) { // formerly "crawl"; natlang.parse looks for "___.process()"
 	var origLength;
 	var expandedTokens = tokens;
 	var newLength = tokens.length;
 	do {
 		try {
-			expandedTokens = zigzag.crawlOnce(expandedTokens);
+			expandedTokens = zigzag.processOnce(expandedTokens);
 		} catch (error) {
 			throw error;
 		}
@@ -428,7 +431,7 @@ zigzag.crawl = function (tokens) {
 	return expandedTokens;
 };
 
-zigzag.quickTokenToString = function (tokens) {
+zigzag.log = function (tokens) {
 	var string = '';
 	var bracketStack = [];
 	var newline = false;
@@ -466,7 +469,11 @@ zigzag.quickTokenToString = function (tokens) {
 			}
 		}
 	})
-	return string;
+	return {
+		logBody: string,
+		logType: "mgs",
+		raw: tokens
+	};
 }
 
 var window = window || {};

@@ -10,7 +10,7 @@ describe('Zigzag test suite', function () {
 		testJSON.zigzagTestsGood.forEach(function (item, index) {
 			it(`Should flatten zigzag #${index}`, function () {
 				var expected = item.expectedOutput;
-				var result = zigzag.crawl(item.lex.tokens);
+				var result = zigzag.process(item.lex.tokens);
 				expect(stableStringify(result)).toBe(stableStringify(expected));
 			})
 		})
@@ -22,7 +22,7 @@ describe('Zigzag test suite', function () {
 			var expected = item.toThrow;
 			test(expected, () => {
 				expect(() => {
-					zigzag.crawl(tokens.tokens);
+					zigzag.process(tokens.tokens);
 				}).toThrow(expected);
 			})
 		})

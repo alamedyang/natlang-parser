@@ -72,7 +72,7 @@ var app = new Vue({
 			}
 			var expandedTokens;
 			try {
-				expandedTokens = zigzag.crawl(tokens);
+				expandedTokens = zigzag.process(tokens);
 			} catch (error) {
 				var errorMessage;
 				if (error.pos) {
@@ -84,7 +84,7 @@ var app = new Vue({
 				throw new Error(errorMessage);
 			}
 			if (expandedTokens.length) {
-				result = zigzag.quickTokenToString(expandedTokens);
+				result = zigzag.log(expandedTokens);
 			}
 			this.zigzagOutput = result;
 		},

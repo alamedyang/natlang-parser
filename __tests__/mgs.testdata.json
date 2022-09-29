@@ -3336,13 +3336,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 21,
+					"pos": 28,
 					"type": "number",
 					"value": 5,
 					"declarationName": "$five",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 28
+					"declarationPos": 21
 				},
 				{
 					"pos": 34,
@@ -3370,13 +3369,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 8,
+					"pos": 28,
 					"type": "number",
 					"value": 5,
 					"declarationName": "$five",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 28
+					"declarationPos": 8
 				},
 				{
 					"pos": 34,
@@ -3404,13 +3402,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 18,
+					"pos": 38,
 					"type": "number",
 					"value": 4,
 					"declarationName": "$four",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 38
+					"declarationPos": 18
 				},
 				{
 					"pos": 44,
@@ -3418,13 +3415,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 8,
+					"pos": 49,
 					"type": "number",
 					"value": 5,
 					"declarationName": "$five",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 49
+					"declarationPos": 8
 				},
 				{
 					"pos": 55,
@@ -3452,13 +3448,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 18,
+					"pos": 38,
 					"type": "number",
 					"value": 4,
 					"declarationName": "$four",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 38
+					"declarationPos": 18
 				},
 				{
 					"pos": 44,
@@ -3466,13 +3461,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 8,
+					"pos": 49,
 					"type": "number",
 					"value": 5,
 					"declarationName": "$five",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 49
+					"declarationPos": 8
 				},
 				{
 					"pos": 68,
@@ -3480,13 +3474,12 @@
 					"value": "wait"
 				},
 				{
-					"pos": 63,
+					"pos": 73,
 					"type": "number",
 					"value": 4000,
 					"declarationName": "$four",
 					"preprocessor": "constants",
-					"preprocessorPhase": "insertion",
-					"declarationPos": 73
+					"declarationPos": 63
 				},
 				{
 					"pos": 79,

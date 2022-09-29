@@ -55,7 +55,6 @@ constants.process = function (origTokens) {
 			var valueToken = JSON.parse(JSON.stringify(declaration.value));
 			valueToken.declarationName = declaration.name;
 			valueToken.preprocessor = "constants";
-			valueToken.preprocessorPhase = "declaration";
 			declaredConstants[declaration.name] = valueToken;
 			tokenPos += 3;
 			continue;
@@ -74,9 +73,8 @@ constants.process = function (origTokens) {
 			// valueToken = the `$varName` declaration token
 			// useToken = the in-context `$varName` token
 			var insertToken = JSON.parse(JSON.stringify(valueToken));
-			insertToken.declarationPos = useToken.pos;
-			insertToken.pos = insertToken.pos;
-			insertToken.preprocessorPhase = "insertion";
+			insertToken.declarationPos = insertToken.pos;
+			insertToken.pos = useToken.pos;
 			outputTokens.push(insertToken);
 			tokenPos += 1;
 			continue;
@@ -131,55 +129,6 @@ constants.log = function (tokens) { // THIS WAS COPIED todo: figure out the data
 		raw: tokens
 	};
 }
-
-
-var constScript =`testScript {
-	$five = 5
-	wait $five
-}`;
-
-var constTokens = [
-    {
-      "pos": 0,
-      "type": "bareword",
-      "value": "testScript"
-    },
-    {
-      "pos": 11,
-      "type": "operator",
-      "value": "{"
-    },
-    {
-      "pos": 14,
-      "type": "bareword",
-      "value": "$five"
-    },
-    {
-      "pos": 20,
-      "type": "operator",
-      "value": "="
-    },
-    {
-      "pos": 22,
-      "type": "number",
-      "value": 5
-    },
-    {
-      "pos": 24,
-      "type": "bareword",
-      "value": "wait"
-    },
-    {
-      "pos": 29,
-      "type": "bareword",
-      "value": "$five"
-    },
-    {
-      "pos": 35,
-      "type": "operator",
-      "value": "}"
-    }
-  ]
 
 var window = window || {};
 window.constants = constants;

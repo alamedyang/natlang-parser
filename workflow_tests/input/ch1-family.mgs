@@ -36,12 +36,17 @@ on_load-family {
 show_dialog-kid {
 	set entity "%PLAYER%" tick_script to watch-kid
 	if (entity "%SELF%" is glitched) {
-		show dialog { SELF "Stb N'r ns fstymjw inrjsxnts!" }
+		show dialog {
+			SELF "Stb N'r ns fstymjw inrjsxnts!"
+		}
 	} else if (entity Kid type is blitzball) {
-		copy set-hint-sportskid
-		show dialog dialog-kid-ball { SELF "I'm the wind! Whoosh!" }
+		show dialog dialog-kid-ball {
+			SELF "I'm the wind! Whoosh!"
+		}
 	} else {
-		show dialog { SELF "I'm gonna be a Blitzball when I grow up!" }
+		show dialog {
+			SELF "I'm gonna be a Blitzball when I grow up!"
+		}
 		copy set-hint-sportskid
 	}
 	// RESET

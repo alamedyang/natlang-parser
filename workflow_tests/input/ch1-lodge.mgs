@@ -45,7 +45,9 @@ on_load-lodge {
 	set player control off
 	wait 200ms
 	set player control on
-	show dialog dialog-timmy-demobonus1 // "Hey! Hey! My book!" etc
+	show dialog {
+		Timmy "Hey! Hey! My book!"
+	}
 	set flag demobonus-timmy-yell to true
 	goto null_script
 }
@@ -376,24 +378,27 @@ show_dialog-zippy-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "We always knew you were destined for great things!" }
+	} else {
+		show dialog { SELF "Go ahead, dear!" }
 	}
-	show dialog { SELF "Go ahead, dear!" }
 	set entity "%SELF%" interact_script to show_dialog-zippy-prechoose
 }
 show_dialog-zappy-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "We're both so proud of you!" }
+	} else {
+		show dialog { SELF "Take your time!" }
 	}
-	show dialog { SELF "Take your time!" }
 	set entity "%SELF%" interact_script to show_dialog-zappy-prechoose
 }
 show_dialog-verthandi-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Oh, how exciting!" }
+	} else {
+		show dialog { SELF "Oh, how exciting!" }
 	}
-	show dialog { SELF "Oh, how exciting!" }
 	// yeah, she says the same in both cases
 	// accident? or just unimaginative Belldandy?
 	set entity "%SELF%" interact_script to show_dialog-verthandi-prechoose
@@ -402,16 +407,18 @@ show_dialog-smith-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Sounds like that ring is a big deal." "Neat." }
+	} else {
+		show dialog { SELF "Don't look at me! I don't know how any of this stuff works!" }
 	}
-	show dialog { SELF "Don't look at me! I don't know how any of this stuff works!" }
 	set entity "%SELF%" interact_script to show_dialog-smith-prechoose
 }
 show_dialog-max-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Hmm. That ring looks a bit too plain to be the real Ring Zero, doesn't it?" }
+	} else {
+		show dialog { SELF "Hmm. I've seen better artifacts." }
 	}
-	show dialog { SELF "Hmm. I've seen better artifacts." }
 	set entity "%SELF%" interact_script to show_dialog-max-prechoose
 }
 show_dialog-marta-prechoose {
@@ -420,48 +427,54 @@ show_dialog-marta-prechoose {
 		show dialog { SELF "Wow. Never seen a TUESDAY like this before!" }
 	} else if (flag artifact-broom-touched is true) {
 		show dialog { SELF alignment BL "I knew I recognized this broom!" }
+	} else {
+		show dialog { SELF "One of those artifacts seems a little familiar to me...." }
 	}
-	show dialog { SELF "One of those artifacts seems a little familiar to me...." }
 	set entity "%SELF%" interact_script to show_dialog-marta-prechoose
 }
 show_dialog-trekkie-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Amazing!" }
+	} else {
+		show dialog { SELF "Oh, me hope it's a good one!" }
 	}
-	show dialog { SELF "Oh, me hope it's a good one!" }
 	set entity "%SELF%" interact_script to show_dialog-trekkie-prechoose
 }
 show_dialog-shepherd-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Neat!" }
+	} else {
+		show dialog { SELF "Is that old junk really magic?" }
 	}
-	show dialog { SELF "Is that old junk really magic?" }
 	set entity "%SELF%" interact_script to show_dialog-shepherd-prechoose
 }
 show_dialog-cleo-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "It looks so shiny!" }
+	} else {
+		show dialog { SELF "Ooh! I bet it's gonna be the one on the left! No, the right! No, the second one!" }
 	}
-	show dialog { SELF "Ooh! I bet it's gonna be the one on the left! No, the right! No, the second one!" }
 	set entity "%SELF%" interact_script to show_dialog-cleo-prechoose
 }
 show_dialog-beatrice-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Oh! I never thought I'd see this day! Oh, my Delmar...!" }
+	} else {
+		show dialog { SELF "It's been so long since we've had a new mage!" }
 	}
-	show dialog { SELF "It's been so long since we've had a new mage!" }
 	set entity "%SELF%" interact_script to show_dialog-beatrice-prechoose
 }
 show_dialog-baker-prechoose {
 	copy face-player
 	if (flag ring-acquired is true) {
 		show dialog { SELF "Congratulations, %PLAYER%!" }
+	} else {
+		show dialog { SELF "Um, I gotta get back to work, kid. You wanna hurry it up a little?"}
 	}
-	show dialog { SELF "Um, I gotta get back to work, kid. You wanna hurry it up a little?"}
 	set entity "%SELF%" interact_script to show_dialog-baker-prechoose
 }
 show_dialog-jackob-prechoose {
@@ -579,18 +592,20 @@ artifacts-eval {
 		show dialog { PLAYER "Maybe a different artifact?" }
 		// "bad" eval artifacts will get stuck here; that's fine
 		// (no reset)
+	} else {
+		// all artifacts have been touched:
+		show dialog {
+			PLAYER "Maybe a different artifact?"
+			"Wait. Was that the last one?"
+		}
+		set entity "%PLAYER%" tick_script to look-left-and-right-fast
+		set player control to off
+		wait 900ms
+		set entity "%PLAYER%" tick_script to null_script
+		copy lodge-murmur
+		goto player-ringzero-landing
 	}
-	// all artifacts have been touched:
-	show dialog {
-		PLAYER "Maybe a different artifact?"
-		"Wait. Was that the last one?"
-	}
-	set entity "%PLAYER%" tick_script to look-left-and-right-fast
-	set player control to off
-	wait 900ms
-	set entity "%PLAYER%" tick_script to null_script
-	copy lodge-murmur
-	goto player-ringzero-landing
+	set entity "%SELF%" interact_script to artifacts-eval
 }
 
 // GOOD GOD
@@ -859,9 +874,7 @@ show_dialog-timmy-start {
 		if (flag timmy-unglitched is false) {
 			copy set-hint-glitch
 		}
-		set entity "%SELF%" interact_script to show_dialog-timmy-start
-	}
-	if (flag demobonus is false) { // if you haven't won ch1 yet
+	} else if (flag demobonus is false) { // if you haven't won ch1 yet
 		if (flag timmy-endstory is true) {
 			show dialog {
 				SELF alignment TL "I've been trying to find books about the olympics."
@@ -875,9 +888,14 @@ show_dialog-timmy-start {
 			set flag timmy-endstory to true
 		}
 	} else if (flag demobonus-sportsbook-read is false) { // you HAVE won, but you've NOT read the extra page
-		show dialog dialog-timmy-demobonus2 // dialog: Something really weird happened to my book!
+		show dialog {
+			SELF "There's this weird extra page in my book!"
+		}
 	} else { // you've won AND read the extra page
-		show dialog dialog-timmy-demobonus-s // dialog: I've heard of Clippy Bird!!
+		show dialog {
+			SELF "Oh! I think I've heard of Clippy Bird! My uncle let me play it on his phone this one time, ages ago."
+			"He said it was a really rare game."
+		}
 	}
 	turn entity "%SELF%" west
 	// RESET
@@ -890,7 +908,13 @@ show_dialog-sportsbook {
 		"Go, home team!"
 	}
 	if (flag demobonus is true) {
-		show dialog dialog-hexeditor-bonus // Copy-paste tutorial
+		show dialog {
+			name "Hex Edits 2" alignment TL portrait parchment
+			"-- allows us to copy and paste bytes using something called a \"Clip Bird.\"."
+			"Pressing the circle button will copy a single byte into the Clip Bird, but if you hold circle, left and right will change the number of bytes to be copied."
+			"Pressing square will paste the contents of the Clip Bird into the selected cell and thereafter."
+			"This has dramatically improved our productivity!"
+		}
 		set flag demobonus-sportsbook-read to true
 		set hex clipboard to on
 	}
@@ -919,10 +943,10 @@ bypass-tuesday {
 debug-disable-tuesday-q {
 	show dialog {
 		SELF "Disable TUESDAY?"
-		> "Completely" : goto "debug-disable-tuesday-complete"
-		> "Partially" : goto "debug-disable-tuesday-walkup"
-		> "Un-disable" : goto "debug-undisable-tuesday"
-		> "Never mind" : goto "debug-disable-tuesday-no"
+		> "Completely" : debug-disable-tuesday-complete
+		> "Partially" : debug-disable-tuesday-walkup
+		> "Un-disable" : debug-undisable-tuesday
+		> "Never mind" : debug-disable-tuesday-no
 	}
 }
 debug-disable-tuesday-no {

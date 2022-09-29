@@ -12,33 +12,33 @@ on_load-greenhouse {
 }
 
 on_tick-greenhouse {
-	if (entity "%PLAYER%" is inside geometry door-greenhouse) {
-		set warp state to exit_from-greenhouse
-		load map main
+	if entity "%PLAYER%" is inside geometry door-greenhouse then goto leave-greenhouse
+	if entity EtherNettle1 is not inside geometry EtherNettle1Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle2 is not inside geometry EtherNettle2Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle3 is not inside geometry EtherNettle3Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle4 is not inside geometry EtherNettle4Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle5 is not inside geometry EtherNettle5Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle6 is not inside geometry EtherNettle6Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle7 is not inside geometry EtherNettle7Origin then goto show_dialog-no_uproot_ethernettle
+	if entity EtherNettle8 is not inside geometry EtherNettle8Origin then goto show_dialog-no_uproot_ethernettle
+}
+leave-greenhouse {
+	set warp state to exit_from-greenhouse
+	load map main
+}
+show_dialog-no_uproot_ethernettle {
+	show dialog {
+		Trekkie "Me sorry, but Ether Nettle cannot be uprooted, %PLAYER%!"
 	}
-	if (
-		entity EtherNettle1 is not inside geometry EtherNettle1Origin
-		|| entity EtherNettle2 is not inside geometry EtherNettle2Origin
-		|| entity EtherNettle3 is not inside geometry EtherNettle3Origin
-		|| entity EtherNettle4 is not inside geometry EtherNettle4Origin
-		|| entity EtherNettle5 is not inside geometry EtherNettle5Origin
-		|| entity EtherNettle6 is not inside geometry EtherNettle6Origin
-		|| entity EtherNettle7 is not inside geometry EtherNettle7Origin
-		|| entity EtherNettle8 is not inside geometry EtherNettle8Origin
-	) {
-		show dialog {
-			Trekkie "Me sorry, but Ether Nettle cannot be uprooted, %PLAYER%!"
-		}
-		teleport entity EtherNettle1 to geometry EtherNettle1Origin
-		teleport entity EtherNettle2 to geometry EtherNettle2Origin
-		teleport entity EtherNettle3 to geometry EtherNettle3Origin
-		teleport entity EtherNettle4 to geometry EtherNettle4Origin
-		teleport entity EtherNettle5 to geometry EtherNettle5Origin
-		teleport entity EtherNettle6 to geometry EtherNettle6Origin
-		teleport entity EtherNettle7 to geometry EtherNettle7Origin
-		teleport entity EtherNettle8 to geometry EtherNettle8Origin
-	}
-	goto on_tick-greenhouse // LOOP
+	teleport entity EtherNettle1 to geometry EtherNettle1Origin
+	teleport entity EtherNettle2 to geometry EtherNettle2Origin
+	teleport entity EtherNettle3 to geometry EtherNettle3Origin
+	teleport entity EtherNettle4 to geometry EtherNettle4Origin
+	teleport entity EtherNettle5 to geometry EtherNettle5Origin
+	teleport entity EtherNettle6 to geometry EtherNettle6Origin
+	teleport entity EtherNettle7 to geometry EtherNettle7Origin
+	teleport entity EtherNettle8 to geometry EtherNettle8Origin
+	goto on_tick-greenhouse
 }
 
 ch1-ethernettle-restore {
@@ -53,23 +53,23 @@ ch1-ethernettle-restore {
 	set entity Modem animation to 4 // modem working animation
 }
 
-ch1-dialog-greenhouse-ethernet {
+show_dialog-ethernet {
 	show dialog { PLAYER "Now that's a neat-looking pile of cable." }
 }
-ch1-dialog-greenhouse-tumbleweed {
+show_dialog-tumbleweed {
 	show dialog dialog-tumbleweed { PLAYER "Oof. I'd hate to have to untangle this!" }
 }
-ch1-dialog-greenhouse-mulch {
+show_dialog-mulch {
 	show dialog { PLAYER "Oh, I thought this was flour, but it's actually mulch." }
 }
-ch1-dialog-greenhouse-modem {
+show_dialog-modem {
 	show dialog { PLAYER "What does this thing do? Just light up?" }
 }
-ch1-dialog-greenhouse-barrel {
+show_dialog-greenhouse-barrel {
 	show dialog { PLAYER "What's in here? Water?" }
 }
 
-ch1-interact-trekkie-start-greenhouse {
+show_dialog-trekkie-start {
 	copy script clear-own-tick
 	copy script face-player
 	if (entity "%SELF%" is glitched) {
@@ -98,7 +98,7 @@ ch1-interact-trekkie-start-greenhouse {
 			// ^^ if the hint series is the same, reset hint
 		}
 	}
-	set entity "%SELF%" interact_script to ch1-interact-trekkie-start-greenhouse
+	set entity "%SELF%" interact_script to show_dialog-trekkie-start
 }
 
 ch1-greenhouse-trekkie-backstory-cutscene {
@@ -237,7 +237,7 @@ ch1-greenhouse-trekkie-aftermath {
 	turn entity "%SELF%" toward geometry Computer
 }
 
-ch1-debug-ethernettle-q {
+debug-ethernet-puzzle-q {
 	copy script face-player
 	show dialog {
 		SELF
@@ -248,17 +248,17 @@ ch1-debug-ethernettle-q {
 }
 ch1-debug-ethernettle-no {
 	show dialog { SELF "Wanna do it the hard way, huh? Suit yourself." }
-	set entity "%SELF%" interact_script to ch1-debug-ethernettle-q
+	set entity "%SELF%" interact_script to debug-ethernet-puzzle-q
 }
 ch1-debug-ethernettle {
 	copy script ch1-ethernettle-restore
 	set entity Modem animation to 0 // the modem still won't until you speak to Trekkie
 	copy script face-player
 	show dialog { SELF "Ether Nettle restored." }
-	set entity "%SELF%" interact_script to ch1-debug-ethernettle-q
+	set entity "%SELF%" interact_script to debug-ethernet-puzzle-q
 }
 
-interact-ethernettle-start {
+show_dialog-ethernettle-start {
 	if (entity "%SELF%" secondary_id is 3) {
 		show dialog { PLAYER "White-orange." }
 	} else if (entity "%SELF%" secondary_id is 2) {
@@ -276,5 +276,5 @@ interact-ethernettle-start {
 	} else if (entity "%SELF%" secondary_id is 4) {
 		show dialog { PLAYER "Brown." }
 	}
-	set entity "%SELF%" interact_script to interact-ethernettle-start
+	set entity "%SELF%" interact_script to show_dialog-ethernettle-start
 }

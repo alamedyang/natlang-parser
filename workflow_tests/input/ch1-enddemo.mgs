@@ -306,31 +306,18 @@ debug-roll-credits-no {
 }
 
 goose-loiter-honk {
-	wait 1500ms /**/ play entity "%SELF%" animation 2 twice
+	wait 1500ms
+	play entity "%SELF%" animation 2 twice
 }
 
 helga-munch {
-	play entity "%SELF%" animation 2 once /**/ wait 3000ms
+	play entity "%SELF%" animation 2 once
+	wait 3000ms
 }
 
-dialog dialog-jackob-demobonus {
-	Jackob "While you were gone, I saw an odd flash of light coming from the library."
-	"You might want to investigate."
-}
-dialog dialog-timmy-demobonus1 {
-	Timmy "Hey! Hey! My book!"
-}
-dialog dialog-timmy-demobonus2 {
-	SELF "There's this weird extra page in my book!"
-}
-dialog dialog-hexeditor-bonus {
-	name "Hex Edits 2" portrait parchment
-	"-- allows us to copy and paste bytes using something called a \"Clip Bird.\"."
-	"Pressing the circle button will copy a single byte into the Clip Bird, but if you hold circle, left and right will change the number of bytes to be copied."
-	"Pressing square will paste the contents of the Clip Bird into the selected cell and thereafter."
-	"This has dramatically improved our productivity!"
-}
-dialog dialog-timmy-demobonus-s {
-	SELF "Oh! I think I've heard of Clippy Bird! My uncle let me play it on his phone this one time, ages ago."
-	"He said it was a really rare game."
+pixie-training {
+	play entity "%SELF%" animation 2 once
+	wait 1500ms
+	play entity "%SELF%" animation 2 twice
+	wait 600ms
 }

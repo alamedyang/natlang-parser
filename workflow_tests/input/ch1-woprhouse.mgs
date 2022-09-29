@@ -18,11 +18,12 @@ on_load-woprhouse {
 }
 
 on_tick-woprhouse {
-	if (entity "%PLAYER%" is inside geometry door-woprhouse-exit) {
-		set warp state to exit_from-woprhouse
-		load map main
-	}
-	goto on_tick-woprhouse // needed because of zigzag convergence
+	if entity "%PLAYER%" is inside geometry door-woprhouse-exit then goto leave-woprhouse
+}
+
+leave-woprhouse {
+	set warp state to exit_from-woprhouse
+	load map main
 }
 
 show_dialog-wopr-start {

@@ -212,36 +212,32 @@ show_dialog-baker-start {
 			set flag storyflag-baker to true
 			copy calculate-hint-tracking-series
 			if (variable hint-tracking-check is 2) {
-				// if the hint series is the same, reset hint
 				copy set-hint-none
 			}
 		} else { // ...but you HAVE brought him the news already
 			// final dialog:
 			show dialog { SELF "Say, you wouldn't want a B-shaped donut, would you? On the house." }
 		}
-	} else if (flag baker-backstory is false) { // !glitched && !BobsClub && !backstory
-		// hear backstory
-		show dialog {
-			SELF "Hey, I'm pretty swamped. Can you run an errand for me?"
-	
-			PLAYER "What do you need?"
-	
-			SELF "The Bobs-Only Club placed a huge order for B-shaped donuts, due tonight, but I can't get anyone to confirm the order."
-			"They haven't paid yet, either."
-			"I went over there this morning, but they wouldn't let me in! And Bob wouldn't tell me anything!"
-			"I just want to know whether or not they still want these donuts. I'm running out of time to get everything ready by tonight."
-			"Can you find out for me? Get some answers from Bob? Any Bob?"
-	
-			PLAYER "Sure, I can swing past that way. See what I can find out."
-	
-			SELF "Thanks."
-			"Oh, and happy birthday."
-		}
-		copy set-hint-baker
-	} else { // !glitched && !BobsClub && backstory
-		// hear summary
-		show dialog {
-			SELF "Hear anything from the Bobs-Only Club yet?"
+	} else  {
+		if (flag baker-backstory is false) { // !glitched && !BobsClub && !backstory
+			// hear backstory
+			show dialog {
+				SELF "Hey, I'm pretty swamped. Can you run an errand for me?"
+				PLAYER "What do you need?"
+				SELF "The Bobs-Only Club placed a huge order for B-shaped donuts, due tonight, but I can't get anyone to confirm the order."
+				"They haven't paid yet, either."
+				"I went over there this morning, but they wouldn't let me in! And Bob wouldn't tell me anything!"
+				"I just want to know whether or not they still want these donuts. I'm running out of time to get everything ready by tonight."
+				"Can you find out for me? Get some answers from Bob? Any Bob?"
+				PLAYER "Sure, I can swing past that way. See what I can find out."
+				SELF "Thanks."
+				"Oh, and happy birthday."
+			}
+		} else { // !glitched && !BobsClub && backstory
+			// hear summary
+			show dialog {
+				SELF "Hear anything from the Bobs-Only Club yet?"
+			}
 		}
 		copy set-hint-baker
 	}
@@ -360,8 +356,8 @@ show_dialog-bobrock-start {
 			load map bobsclub // JUMP
 		}
 	// RESET
-	set entity "Bob Austin" interact_script to show_dialog-bobrock-start
 	}
+	set entity "Bob Austin" interact_script to show_dialog-bobrock-start
 }
 
 // Guardian Bob

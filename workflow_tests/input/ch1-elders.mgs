@@ -160,8 +160,9 @@ show_dialog-bert-start {
 		if (variable hint-tracking-check is not 11) {
 			copy set-hint-glitch-from-bert
 		}
+	} else {
+		show dialog { SELF "Perhaps the world." }
 	}
-	show dialog { SELF "Perhaps the world." }
 	set entity Bert interact_script to show_dialog-bert-start
 }
 
@@ -538,27 +539,15 @@ alfonso-ch1-storyflag-count-done {
 		show dialog {
 			SELF "That's the spirit! What a great start!"
 		}
-	} else if (
-		variable chapter1-storyflag-tally is 2
-		|| variable chapter1-storyflag-tally is 3
-		|| variable chapter1-storyflag-tally is 4
-	) {
+	} else if (variable chapter1-storyflag-tally is <= 4) {
 		show dialog {
 			SELF "You're getting the hang of this!"
 		}
-	} else if (
-		variable chapter1-storyflag-tally is 5
-		|| variable chapter1-storyflag-tally is 6
-		|| variable chapter1-storyflag-tally is 7
-		|| variable chapter1-storyflag-tally is 8
-	) {
+	} else if (variable chapter1-storyflag-tally is <= 8) {
 		show dialog {
 			SELF "Oh, my! You're getting a lot of work done! Marvelous!"
 		}
-	} else if (
-		variable chapter1-storyflag-tally is 9
-		|| variable chapter1-storyflag-tally is 10
-	) {
+	} else if ( variable chapter1-storyflag-tally is <= 10) {
 		show dialog {
 			SELF "Wow! You're nearly done!"
 		}

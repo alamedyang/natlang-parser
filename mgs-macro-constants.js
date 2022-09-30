@@ -54,7 +54,7 @@ constants.process = function (origTokens) {
 			// found `$varName = value`
 			var valueToken = JSON.parse(JSON.stringify(declaration.value));
 			valueToken.declarationName = declaration.name;
-			valueToken.preprocessor = "constants";
+			valueToken.macro = "constants";
 			declaredConstants[declaration.name] = valueToken;
 			tokenPos += 3;
 			continue;

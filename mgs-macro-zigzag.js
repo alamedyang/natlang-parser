@@ -221,7 +221,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 	var convergedScriptNameToken = JSON.parse(JSON.stringify(scriptNameToken));
 	convergedScriptNameToken.pos = finalCurlyToken.pos;
 	convergedScriptNameToken.value = convergedScriptName;
-	convergedScriptNameToken.preprocessor = "zigzag";
+	convergedScriptNameToken.macro = "zigzag";
 	// other state:
 	var result = []; // going at the top (to glue on to where we found the zigzag)
 	var tokensToAppend = []; // when done, this will get glued to `result` ^
@@ -245,7 +245,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 			var zigScriptNameToken = JSON.parse(JSON.stringify(scriptNameToken));
 			zigScriptNameToken.pos = openCurlyToken.pos;
 			zigScriptNameToken.value = zigScriptName;
-			zigScriptNameToken.preprocessor = "zigzag";
+			zigScriptNameToken.macro = "zigzag";
 			var closeCurlyToken = statement.bracketInfo.behaviorsEndToken;
 				//^VERBATIM: end of procedural branch script: `}`
 
@@ -256,7 +256,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 					pos: statement.rootToken.pos,
 					type: "bareword",
 					value: "if", // hardcoded; this might be `else` in the orig token!
-					preprocessor: "zigzag"
+					macro: "zigzag"
 				});
 				// condition(s)
 				result = result.concat(singleCondition);
@@ -265,14 +265,14 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 					pos: closeParenToken.pos,
 					type: "bareword",
 					value: "then",
-					preprocessor: "zigzag"
+					macro: "zigzag"
 				});
 				// faking `goto`
 				result.push({
 					pos: closeParenToken.pos,
 					type: "bareword",
 					value: "goto",
-					preprocessor: "zigzag"
+					macro: "zigzag"
 				});
 				// faking `_____` (scriptname)
 				result.push(zigScriptNameToken);
@@ -288,7 +288,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: openCurlyToken.pos,
 				type: "operator",
 				value: "{",
-				preprocessor: "zigzag"
+				macro: "zigzag"
 			});
 			// behavior body
 			tokensToAppend = tokensToAppend.concat(statement.behaviors);
@@ -298,7 +298,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "bareword",
 				value: "goto",
-				preprocessor: "zigzag"
+				macro: "zigzag"
 			});
 			tokensToAppend.push(convergedScriptNameToken);
 			// }
@@ -306,7 +306,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "operator",
 				value: "}",
-				preprocessor: "zigzag"
+				macro: "zigzag"
 			});
 		} else if (
 			statement.conditionsType === "none" // no conditions found
@@ -323,7 +323,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "bareword",
 				value: "goto",
-				preprocessor: "zigzag"
+				macro: "zigzag"
 			});
 			result.push(convergedScriptNameToken);
 			// }
@@ -331,7 +331,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 				pos: closeCurlyToken.pos,
 				type: "operator",
 				value: "}",
-				preprocessor: "zigzag"
+				macro: "zigzag"
 			});
 		}
 	});
@@ -341,7 +341,7 @@ zigzag.expandZigzag = function (zigReport, scriptNameToken) {
 		"pos": convergedScriptNameToken.pos + 1,
 		"type": "operator",
 		"value": "{",
-		"preprocessor": "zigzag"
+		"macro": "zigzag"
 	})
 	return {
 		tokens: combinedTokens,

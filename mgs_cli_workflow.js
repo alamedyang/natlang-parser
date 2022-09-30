@@ -46,7 +46,7 @@ const convertFileByName = (fileName) => {
 		throw error;
 	}
 	if (verbose) {
-		const fileOutputPasses = fileOutput.passes; // from any preprocessors
+		const fileOutputPasses = fileOutput.passes; // from any macros
 		Object.keys(fileOutputPasses).forEach(function (passName) {
 			const passReport = fileOutputPasses[passName];
 			const logType = passReport.logType || 'txt';

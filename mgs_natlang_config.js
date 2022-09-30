@@ -7,12 +7,12 @@ var natlang = natlang || window.natlang;
 var zigzag = window.zigzag;
 if (typeof module === 'object') {
 	natlang = require('./natlang-parse.js');
-	zigzag = require('./mgs-preprocessor-zigzag.js');
-	constants = require('./mgs-preprocessor-constants.js');
+	zigzag = require('./mgs-macro-zigzag.js');
+	constants = require('./mgs-macro-constants.js');
 }
 
 var mgs = {
-	preprocessors: {
+	macros: {
 		constants: constants,
 		zigzag: zigzag
 	},

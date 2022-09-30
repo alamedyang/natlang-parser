@@ -128,26 +128,26 @@ natlang.prepareConfig = function (config) {
 		throw new Error("Parser config: Config object missing \"capture\" entry!");
 	}
 	var parseTrees = natlang.makeParseTrees(config.trees);
-	var preprocessors = config.preprocessors || [];
-	var flatPreprocessors = [];
-	if (Array.isArray(preprocessors)) {
-		flatPreprocessors = preprocessors.map(function (item, index) {
+	var macros = config.macros || [];
+	var flatMacros = [];
+	if (Array.isArray(macros)) {
+		flatMacros = macros.map(function (item, index) {
 			if (!item.name) {
-				item.name = "preprocessor" + index;
+				item.name = "macro" + index;
 			}
 			return item;
 		})
 	} else {
-		flatPreprocessors = Object.keys(preprocessors).map(function (name) {
-				preprocessors[name].name = name;
-				return preprocessors[name];
+		flatMacros = Object.keys(macros).map(function (name) {
+				macros[name].name = name;
+				return macros[name];
 			})
 	}
 	return {
 		parseTrees: parseTrees,
 		blocks: config.blocks,
 		capture: config.capture,
-		preprocessors: flatPreprocessors
+		macros: flatMacros
 	};
 };
 
@@ -372,19 +372,19 @@ natlang.parse = function (rawConfig, inputString, fileName) {
 		)
 		return lex;
 	}
-	// PREPROCESSORS
+	// MACROS
 	// use the function called "process"
-	config.preprocessors.forEach(function (preprocessor) {
+	config.macros.forEach(function (macro) {
 		try {
-			var processedTokens = preprocessor.process(state.tokens);
+			var processedTokens = macro.process(state.tokens);
 		} catch (error) {
-			error.preprocessor = preprocessor.name;
+			error.macro = macro.name;
 			throw error;
 		}
-		var log = preprocessor.log(processedTokens);
+		var log = macro.log(processedTokens);
 		state.tokens = processedTokens;
 		state.finalState.passes = state.finalState.passes || {};
-		state.finalState.passes[preprocessor.name] = log;
+		state.finalState.passes[macro.name] = log;
 	})
 	// THE REST OF THE OWL
 	// block functions

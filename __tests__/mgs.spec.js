@@ -3,10 +3,10 @@ var testJSON = require('./mgs.testdata.json');
 var stableStringify = require('fast-json-stable-stringify');
 
 const natlang = require('../natlang-parse.js');
-const zigzag = require('../mgs-preprocessor-zigzag.js');
-const constants = require('../mgs-preprocessor-constants.js');
+const zigzag = require('../mgs-macro-zigzag.js');
+const constants = require('../mgs-macro-constants.js');
 
-describe('Zigzag preprocessor test suite', function () {
+describe('Zigzag macro test suite', function () {
 	describe('Pass tests', function () {
 		testJSON.zigzagTestsGood.forEach(function (item, index) {
 			it(`Should flatten zigzag #${index}`, function () {
@@ -28,7 +28,7 @@ describe('Zigzag preprocessor test suite', function () {
 		})
 	})
 })
-describe('Constants preprocessor test suite', function () {
+describe('Constants macro test suite', function () {
 	describe('Pass tests', function () {
 		testJSON.constantsTestsGood.forEach(function (item, index) {
 			it(`Should hardcode constants in set #${index}`, function () {

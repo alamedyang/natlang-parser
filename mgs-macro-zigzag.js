@@ -1,5 +1,15 @@
 // "use strict";
 
+var window = window || {};
+window.natlang = window.natlang || {};
+var natlang = natlang || window.natlang;
+
+var utils = natlang.utils;
+
+if (typeof module === 'object') {
+	utils = require('./natlang-utils.js');
+}
+
 var bracketMap = [
 	{ start: "{", end: "}" },
 	{ start: "(", end: ")" },
@@ -40,48 +50,6 @@ var zigzag = {
 	},
 };
 
-zigzag.collectBetween = function (tokens, tokenPos) {
-	var startChar = tokens[tokenPos].value;
-	var endChar = findCloseChar(startChar);
-	if (!endChar) {
-		var errorObject = new Error(`Zigzag collectBetween: Cannot determine matching end char for "${startChar}"`);
-		errorObject.tokenIndex = tokenPos;
-		errorObject.token = tokens[tokenPos];
-		errorObject.pos = tokens[tokenPos].pos;
-		throw errorObject;
-	}
-	var pos = tokenPos + 1;
-	var nested = 0;
-	var collection = [];
-	var success = false;
-	while (pos < tokens.length) {
-		if (tokens[pos].value === startChar) {
-			nested += 1;
-		} else if (tokens[pos].value === endChar) {
-			nested -= 1;
-		}
-		if (nested === -1) {
-			success = true;
-			pos += 1;
-			break;
-		} else {
-			collection.push(tokens[pos]);
-			pos += 1;
-		}
-	}
-	return {
-		success: success,
-		collection: collection,
-		startChar: startChar,
-		startToken: tokens[tokenPos],
-		startTokenIndex: tokenPos,
-		endChar: endChar,
-		endToken: tokens[pos-1],
-		endTokenIndex: pos-1,
-		nextTokenIndex: pos,
-	}
-};
-
 var findLitValue = function (token) {
 	if (token.barewordValue) {
 		return token.barewordValue;
@@ -99,7 +67,7 @@ zigzag.parseSingleZig = function (tokens, startPos) {
 	var conditionsInfo;
 	var conditionsType = "none";
 	if (tokens[pos].value === "(") {
-		conditionsInfo = zigzag.collectBetween(tokens, pos);
+		conditionsInfo = utils.collectBetween(tokens, pos, ")");
 		if (!conditionsInfo || !conditionsInfo.success) {
 			var errorObject = new Error(`Zigzag parseSingleZig: Collection failure! (Is matching ')' missing?)`);
 			errorObject.tokenIndex = pos;
@@ -130,7 +98,7 @@ zigzag.parseSingleZig = function (tokens, startPos) {
 		errorObject.pos = tokens[pos].pos;
 		throw errorObject;
 	}
-	var behaviorsInfo = zigzag.collectBetween(tokens, pos);
+	var behaviorsInfo = utils.collectBetween(tokens, pos, "}");
 	if (!behaviorsInfo || !behaviorsInfo.success) {
 		var errorObject = new Error(`Zigzag parseSingleZig: Collection failure! (Is matching '}' missing?)`);
 		errorObject.tokenIndex = pos;
@@ -364,11 +332,10 @@ zigzag.processOnce = function (tokens) {
 		} else { // no zigzagging; mundane stuff
 			var naiveValue = findLitValue(tokens[pos]);
 			// naive bracket handling
-			if (findCloseChar(naiveValue)) { // if it's a valid openChar
+			if (naiveValue === "{") { // if this token is a block opening
 				// get possible scriptnames
 				if (
 					!punctuationStack.length // there's nothing in the stack
-					&& naiveValue === "{" // and this token is a block opening
 					&& tokens[pos-1] // and there's a token before this one
 				) {
 					// let's pretend the previous token was a script name
@@ -412,7 +379,7 @@ zigzag.processOnce = function (tokens) {
 	return crawledTokens;
 };
 
-zigzag.process = function (origTokens) { // formerly "crawl"; natlang.parse looks for "___.process()"
+zigzag.process = function (origTokens) { // natlang.parse looks for ".process()"
 	// first check whether the whole lex object was passed by accident:
 	var tokens = origTokens.success ? origTokens.tokens : origTokens;
 	// (okay we're good now)	
@@ -476,7 +443,6 @@ zigzag.log = function (tokens) {
 	};
 }
 
-var window = window || {};
 window.zigzag = zigzag;
 
 if (typeof module === 'object') {

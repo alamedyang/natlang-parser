@@ -3365,28 +3365,32 @@ var zigzagTestStrings = [
 
 var constantsTestStrings = [
 `testScript {
+	const! ($five = 5)
+	wait $five
+}`,
+`const! ($five = 5)
+
+testScript {
+	wait $five
+}`,
+`const!(
 	$five = 5
-	wait $five
-}`,
-`$five = 5
-
-testScript {
-	wait $five
-}`,
-`$five = 5
-$four = 4
+	$four = 4
+)
 
 testScript {
 	wait $four
 	wait $five
 }`,
-`$five = 5
-$four = 4
+`const!(
+	$five = 5
+	$four = 4
+)
 
 testScript {
 	wait $four
 	wait $five
-	$four = 4000
+	const!($four = 4000)
 	wait $four
 	wait $five
 }`,

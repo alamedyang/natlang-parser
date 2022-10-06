@@ -1,5 +1,15 @@
 // "use strict";
 
+var window = window || {};
+window.natlang = window.natlang || {};
+var natlang = natlang || window.natlang;
+
+var utils = natlang.utils;
+
+if (typeof module === 'object') {
+	utils = require('./natlang-utils.js');
+}
+
 var constants = {};
 
 constants.barewordValue = function (token) {
@@ -49,38 +59,65 @@ constants.process = function (origTokens) {
 	var tokenPos = 0;
 	var outputTokens = [];
 	while (tokenPos < tokens.length) {
-		var declaration = constants.isDeclaration(tokens, tokenPos);
-		if (declaration) {
-			// found `$varName = value`
-			var valueToken = JSON.parse(JSON.stringify(declaration.value));
-			valueToken.declarationName = declaration.name;
-			valueToken.macro = "constants";
-			declaredConstants[declaration.name] = valueToken;
-			tokenPos += 3;
-			continue;
-		}
-		var constName = constants.isConstant(tokens[tokenPos]);
-		if (constName) { // found `$varName`
-			var valueToken = declaredConstants[constName];
-			if (!valueToken) {
-				var errorObject = new Error(`constants.process: Constant ${constName} is undefined! (inputString pos: ${tokens[tokenPos].pos})`);
+		if (tokens[tokenPos].value === "const!") {
+			var collection = utils.collectBetween(tokens, tokenPos+1, ")");
+			if (!collection.success) {
+				var errorObject = new Error(`constants.process: collection failure`);
 				errorObject.tokenIndex = tokenPos;
 				errorObject.token = tokens[tokenPos];
 				errorObject.pos = tokens[tokenPos].pos;
 				throw errorObject;
 			}
-			var useToken = tokens[tokenPos];
-			// valueToken = the `$varName` declaration token
-			// useToken = the in-context `$varName` token
-			var insertToken = JSON.parse(JSON.stringify(valueToken));
-			insertToken.declarationPos = insertToken.pos;
-			insertToken.pos = useToken.pos;
-			outputTokens.push(insertToken);
+			tokenPos = collection.nextTokenIndex;
+			// consuming what we collected:
+			var declarationPos = 0;
+			var declarationTokens = collection.collection;
+			while (declarationPos < declarationTokens.length) {
+				var declaration = constants.isDeclaration(declarationTokens, declarationPos);
+				if (!declaration) {
+					var errorObject = new Error(`constants.process: invalid constant declaration!`);
+					errorObject.tokenIndex = tokenPos;
+					errorObject.token = declarationTokens[declarationPos];
+					errorObject.pos = declarationTokens[declarationPos].pos;
+					throw errorObject;
+				}
+				// found `$varName = value`
+				if (declaredConstants[declaration.name]) {
+					var errorObject = new Error(`constants.process: cannot redefine '${declaration.name}' (already assigned value: '${declaredConstants[declaration.name].value}')`);
+					errorObject.tokenIndex = tokenPos;
+					errorObject.token = declarationTokens[declarationPos];
+					errorObject.pos = declarationTokens[declarationPos].pos;
+					throw errorObject;
+				}
+				var valueToken = JSON.parse(JSON.stringify(declaration.value));
+				valueToken.declarationName = declaration.name;
+				valueToken.macro = "constants";
+				declaredConstants[declaration.name] = valueToken;
+				declarationPos += 3;
+			}
+		} else {
+			var constName = constants.isConstant(tokens[tokenPos]);
+			if (constName) { // found `$varName`
+				var valueToken = declaredConstants[constName];
+				if (!valueToken) {
+					var errorObject = new Error(`constants.process: ${constName} is undefined! (inputString pos: ${tokens[tokenPos].pos})`);
+					errorObject.tokenIndex = tokenPos;
+					errorObject.token = tokens[tokenPos];
+					errorObject.pos = tokens[tokenPos].pos;
+					throw errorObject;
+				}
+				var useToken = tokens[tokenPos];
+				// valueToken = the `$varName` declaration token
+				// useToken = the in-context `$varName` token
+				var insertToken = JSON.parse(JSON.stringify(valueToken));
+				insertToken.declarationPos = insertToken.pos;
+				insertToken.pos = useToken.pos;
+				outputTokens.push(insertToken);
+			} else {
+				outputTokens.push(tokens[tokenPos]);
+			}
 			tokenPos += 1;
-			continue;
 		}
-		outputTokens.push(tokens[tokenPos]);
-		tokenPos += 1;
 	}
 	return outputTokens;
 };
@@ -130,7 +167,6 @@ constants.log = function (tokens) { // THIS WAS COPIED todo: figure out the data
 	};
 }
 
-var window = window || {};
 window.constants = constants;
 
 if (typeof module === 'object') {

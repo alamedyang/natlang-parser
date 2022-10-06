@@ -13,7 +13,7 @@ const is_digit = function(char) {
     return char >= "0" && char <= "9";
 };
 const is_barewordable = function(char) {
-    return char.match(/[-A-Za-z0-9_.$#]/);
+    return char.match(/[-A-Za-z0-9_.$!#]/);
 };
 const OPERATORS_SINGLE = {
 	"{":true,

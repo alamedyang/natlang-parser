@@ -3318,7 +3318,7 @@
 	],
 	"constantsTestsGood": [
 		{
-			"inputString": "testScript { $five = 5 wait $five }",
+			"inputString": "testScript { const!($five = 5) wait $five }",
 			"outputTokens": [
 				{
 					"pos": 0,
@@ -3331,83 +3331,70 @@
 					"value": "{"
 				},
 				{
-					"pos": 23,
+					"pos": 31,
 					"type": "bareword",
 					"value": "wait"
 				},
 				{
-					"pos": 28,
+					"pos": 36,
 					"type": "number",
 					"value": 5,
 					"declarationName": "$five",
 					"macro": "constants",
-					"declarationPos": 21
+					"declarationPos": 28
 				},
 				{
-					"pos": 34,
+					"pos": 42,
 					"type": "operator",
 					"value": "}"
 				}
 			]
 		},
 		{
-			"inputString": "$five = 5 testScript { wait $five }",
+			"inputString": "const!($five = 5) testScript { wait $five }",
 			"outputTokens": [
 				{
-					"pos": 10,
+					"pos": 18,
 					"type": "bareword",
 					"value": "testScript"
 				},
 				{
-					"pos": 21,
+					"pos": 29,
 					"type": "operator",
 					"value": "{"
-				},
-				{
-					"pos": 23,
-					"type": "bareword",
-					"value": "wait"
-				},
-				{
-					"pos": 28,
-					"type": "number",
-					"value": 5,
-					"declarationName": "$five",
-					"macro": "constants",
-					"declarationPos": 8
-				},
-				{
-					"pos": 34,
-					"type": "operator",
-					"value": "}"
-				}
-			]
-		},
-		{
-			"inputString": "$five = 5 $four = 4 testScript { wait $four wait $five }",
-			"outputTokens": [
-				{
-					"pos": 20,
-					"type": "bareword",
-					"value": "testScript"
 				},
 				{
 					"pos": 31,
-					"type": "operator",
-					"value": "{"
-				},
-				{
-					"pos": 33,
 					"type": "bareword",
 					"value": "wait"
 				},
 				{
-					"pos": 38,
+					"pos": 36,
 					"type": "number",
-					"value": 4,
-					"declarationName": "$four",
+					"value": 5,
+					"declarationName": "$five",
 					"macro": "constants",
-					"declarationPos": 18
+					"declarationPos": 15
+				},
+				{
+					"pos": 42,
+					"type": "operator",
+					"value": "}"
+				}
+			]
+		},
+		{
+			"inputString": "const! ( $five = 5 $four = 4 ) testScript { wait $four wait $five }",
+			"outputTokens": [
+				{
+					"pos": 31,
+					"type": "bareword",
+					"value": "testScript"
+				},
+				{
+					"pos": 42,
+					"type": "operator",
+					"value": "{"
 				},
 				{
 					"pos": 44,
@@ -3417,72 +3404,26 @@
 				{
 					"pos": 49,
 					"type": "number",
-					"value": 5,
-					"declarationName": "$five",
+					"value": 4,
+					"declarationName": "$four",
 					"macro": "constants",
-					"declarationPos": 8
+					"declarationPos": 27
 				},
 				{
 					"pos": 55,
-					"type": "operator",
-					"value": "}"
-				}
-			]
-		},
-		{
-			"inputString": "$five = 5 $four = 4 testScript { wait $four wait $five $four = 4000 wait $four }",
-			"outputTokens": [
-				{
-					"pos": 20,
-					"type": "bareword",
-					"value": "testScript"
-				},
-				{
-					"pos": 31,
-					"type": "operator",
-					"value": "{"
-				},
-				{
-					"pos": 33,
 					"type": "bareword",
 					"value": "wait"
 				},
 				{
-					"pos": 38,
-					"type": "number",
-					"value": 4,
-					"declarationName": "$four",
-					"macro": "constants",
-					"declarationPos": 18
-				},
-				{
-					"pos": 44,
-					"type": "bareword",
-					"value": "wait"
-				},
-				{
-					"pos": 49,
+					"pos": 60,
 					"type": "number",
 					"value": 5,
 					"declarationName": "$five",
 					"macro": "constants",
-					"declarationPos": 8
+					"declarationPos": 17
 				},
 				{
-					"pos": 68,
-					"type": "bareword",
-					"value": "wait"
-				},
-				{
-					"pos": 73,
-					"type": "number",
-					"value": 4000,
-					"declarationName": "$four",
-					"macro": "constants",
-					"declarationPos": 63
-				},
-				{
-					"pos": 79,
+					"pos": 66,
 					"type": "operator",
 					"value": "}"
 				}

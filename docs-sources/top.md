@@ -1,11 +1,48 @@
-A simplified approach to writing game content for the DC801 Black Mage Game Engine (MGE).
+Introducing MageGameScript "Natlang" — a simplified approach to writing game content for the DC801 Black Mage Game Engine (MGE).
 
-- The MGE encoder itself still needs its input in the form of JSON; however, exporting MGS Natlang to JSON is straightforward.
-- A syntax coloring grammar (tmLanguage) is in development:
-	- Github repo: https://github.com/alamedyang/magegamescript-syntax-highlighting
-	- Or search for "MageGameScript Colors" in the Visual Studio Code extensions marketplace
+## Overview
+
+MGS Natlang is a "natural" language meant to be easy for humans to read and write, and it consists of phrases and patterns that correspond closely to the JSON required by the MGE encoder. Strictly speaking, it is not a full, properly recursive language, but it is much more flexible and compact than writing the equivalent script actions and dialogs in MGE JSON.
+
+All .mgs files are turned into MGE JSON automatically by the MGE encoder. And unlike script files and dialog files, you don't need to declare .mgs files in the game's `scenario.json`; any .mgs files inside `scenario_source_files` will be imported.
+
+### Syntax Overview
+
+The syntax is flexible.
+
+- White space agnostic. Indentation and line breaks have absolutely no syntactic meaning. (The syntax coloring might break if you are very creative with line breaks, but it should still parse correctly.)
+- Many strings can be unquoted or quoted freely, though anything with a space or any unusual character *must* be wrapped in quotes.
+	- Double or single quotes are both fine, but no backticks (\`) or smart quotes.
+- Many words are optional, and can be included either to increase logical clarity or omitted to decrease word density. E.g. the following two patterns are equivalent phrases:
+	- `goto script scriptName`
+	- `goto scriptName`
+- Certain [MGE variables](#variable-types-and-examples) can be formatted in multiple, human-friendly ways, e.g.
+	- Duration: `1000ms` or `1s` or `1000`
+	- Quantity: `once` or `1x` or `1`
+
+### Syntax Colors
+
+A syntax coloring grammar (tmLanguage) is in development: https://github.com/alamedyang/magegamescript-syntax-highlighting
 
 ![Syntax color sample, using VSCode's "Dark+" theme](docs-images/syntax-color-sample.png)
+
+#### Visual Studio Code
+
+When you open an .mgs file, VSCode will offer marketplace extensions for it. Alternatively, search for "MageGameScript Colors" in the Visual Studio Code extensions marketplace.
+
+After installing the extension, all .mgs files you open will have syntax coloring.
+
+VSCode will update the extension automatically whenever a new version comes out.
+
+#### Sublime Text
+
+Visit the syntax colors repo above (or clone it locally), then find the `mgs.tmLanguage` file in the `syntaxes` folder. Move this file to wherever Sublime Text wants its coloring grammars in your operating system. After this, you can select MageGameScript under View > Syntax to style the text in your .mgs files.
+
+You will have to update the `mgs.tmLanguage` manually by repeating the above process when a new version is released.
+
+#### Other IDEs
+
+Many IDEs will accept TextMate grammars, either XML, JSON, or YAML. (Ask us if you need a YAML and we can make one for you.) You will have to find and follow their specific instructions, however.
 
 ## MGS Natlang vs JSON
 
@@ -13,20 +50,20 @@ A simplified approach to writing game content for the DC801 Black Mage Game Engi
 
 ```json
 {
-	"on_tick-greenhouse": [
-		{
-			"action": "CHECK_IF_ENTITY_IS_IN_GEOMETRY",
-			"entity": "%PLAYER%",
-			"geometry": "door-greenhouse",
-			"success_script": "leave-greenhouse",
-			"expected_bool": true
-		},
-		{
-			"action": "COPY_SCRIPT",
-			"script": "ethernettle-uproot-check",
-			"comment": "some kind of comment"
-		}
-	]
+  "on_tick-greenhouse": [
+    {
+      "action": "CHECK_IF_ENTITY_IS_IN_GEOMETRY",
+      "entity": "%PLAYER%",
+      "geometry": "door-greenhouse",
+      "success_script": "leave-greenhouse",
+      "expected_bool": true
+    },
+    {
+      "action": "COPY_SCRIPT",
+      "script": "ethernettle-uproot-check",
+      "comment": "some kind of comment"
+    }
+  ]
 }
 ```
 
@@ -41,9 +78,9 @@ While relatively human readable, the above is difficult to write in practice.
 
 ```
 on_tick-greenhouse {
-	if entity "%PLAYER%" is inside geometry door-greenhouse
-		then goto leave-greenhouse
-	copy script ethernettle-uproot-check // some kind of comment
+  if entity "%PLAYER%" is inside geometry door-greenhouse
+    then goto leave-greenhouse
+  copy script ethernettle-uproot-check // some kind of comment
 }
 ```
 
@@ -51,35 +88,26 @@ Apart from the fact that the MGS Natlang won't receive any syntax coloring by de
 
 It's more compact, and the nested relationship of the script and its actions is far easier to see at a glance. Human-friendly grammar constructions (e.g. `is inside` vs `is not inside`) makes it much easier to follow script branching logic.
 
-The syntax is flexible:
-
-- White space agnostic.
-- Many strings can be unquoted or quoted freely (though anything with a space or any unusual character *must* be wrapped in quotes). Double or single quotes are both fine.
-- Many words are optional, and can be included either to increase logical clarity or omitted to decrease word density, e.g. `goto script scriptName` vs `goto scriptName`.
-- Certain variables can be formatted in multiple, human-friendly ways, e.g.
-	- duration: `1000ms` or `1s` or `1000`
-	- quantity: `once` or `1x` or `1`
-
 ### Original dialog JSON
 
 ```json
 {
-	"exampleDialogName": [
-		{
-			"alignment": "BOTTOM_LEFT",
-			"entity": "Trekkie",
-			"messages": [
-				"Me want to wish you a happy birthday,\n%PLAYER%."
-			]
-		},
-		{
-			"alignment": "BOTTOM_RIGHT",
-			"entity": "%PLAYER%",
-			"messages": [
-				"Aww, gee, thanks, Farmer\n%Trekkie%!"
-			]
-		}
-	]
+  "exampleDialogName": [
+    {
+      "alignment": "BOTTOM_LEFT",
+      "entity": "Trekkie",
+      "messages": [
+        "Me want to wish you a happy birthday,\n%PLAYER%."
+      ]
+    },
+    {
+      "alignment": "BOTTOM_RIGHT",
+      "entity": "%PLAYER%",
+      "messages": [
+        "Aww, gee, thanks, Farmer\n%Trekkie%!"
+      ]
+    }
+  ]
 }
 ```
 
@@ -89,13 +117,13 @@ Dialog JSON is more uniform than script JSON is, but its information density is 
 
 ```
 settings for dialog {
-	defaults {
-		alignment BL
-	}
-	parameters for label PLAYER {
-		entity "%PLAYER%"
-		alignment BR
-	}
+  defaults {
+    alignment BL
+  }
+  parameters for label PLAYER {
+    entity "%PLAYER%"
+    alignment BR
+  }
 }
 ```
 
@@ -103,19 +131,19 @@ With MGS Natlang, you can create presets for common dialog settings. As a result
 
 ```
 dialog exampleDialogName {
-	Trekkie
-	"Me want to wish you a happy birthday, %PLAYER%."
+  Trekkie
+  "Me want to wish you a happy birthday, %PLAYER%."
 
-	PLAYER
-	"Aww, gee, thanks, Farmer %Trekkie%!"
+  PLAYER
+  "Aww, gee, thanks, Farmer %Trekkie%!"
 }
 ```
 
-And since MGS Natlang is whitespace agnostic, it can become as compact as you want:
+And since MGS Natlang is white space agnostic, it can become as compact as you want:
 
 ```
 dialog exampleDialog2 {
-	PLAYER "Neat."
+  PLAYER "Neat."
 }
 ```
 
@@ -131,21 +159,21 @@ However, where MGS Natlang really shines is in combining both script data and di
 
 ```
 settings for dialog {
-	parameters for label PLAYER {
-		entity "%PLAYER%"
-		alignment BR
-	}
+  parameters for label PLAYER {
+    entity "%PLAYER%"
+    alignment BR
+  }
 }
 show_dialog-wopr-backdoor {
-	set player control to off
-	walk entity "%PLAYER%" along geometry wopr-walkin over 600ms
-	wait 400ms
-	set player control to on
-	show dialog {
-		PLAYER
-		"Whoa! It looks like I found some kind of back door."
-	}
-	set flag backdoor-found to true
+  set player control to off
+  walk entity "%PLAYER%" along geometry wopr-walkin over 600ms
+  wait 400ms
+  set player control to on
+  show dialog {
+    PLAYER
+    "Whoa! It looks like I found some kind of back door."
+  }
+  set flag backdoor-found to true
 }
 ```
 
@@ -161,7 +189,7 @@ MGS Natlang currently has several types of blocks, each with their block content
 // or
 
 <BLOCK DECLARATION> {
-	<BLOCK BODY>
+  <BLOCK BODY>
 }
 
 // etc
@@ -171,7 +199,9 @@ Some block types can (or must) be nested within others, but blocks cannot be nes
 
 Unless otherwise marked, assume all entries in the following list are allowed in any quantity (including zero). Numbered items must be given in exactly that order, but all other items can occur in any order within their parent block.
 
-### Quick reference:
+### Quick reference
+
+Nesting structure:
 
 - **[dialog settings block](#dialog-settings-block)**
 	- **[dialog settings target block](#dialog-settings-target-block)**
@@ -191,19 +221,19 @@ Unless otherwise marked, assume all entries in the following list are allowed in
 			3. **[dialog message](#dialog-message)** (at least 1)
 			4. **[dialog option](#dialog-option)**
 
-In the following definitions, words in parentheses are optional, and words starting with dollar signs are [variables](#mgs-natlang-variables).
+### Syntax definitions
 
-## Dialog setting block
+In all syntax definitions in this document, words in parentheses are optional, and words starting with dollar signs are [variables](#mgs-natlang-variables).
 
-These are a means of defining dialog parameters ahead of time so the dialogs themselves can be very lean.
-
-These blocks must occur on the root level.
-
-### Syntax
+## Dialog settings block
 
 ```
 settings (for) dialog {}
 ```
+
+These are a means of defining dialog parameters ahead of time so the dialogs themselves can be very lean.
+
+These blocks must occur on the root level.
 
 ### Block contents
 
@@ -213,22 +243,14 @@ Any number of [dialog settings target blocks](#dialog-settings-target-block) in 
 
 Dialog settings are applied to dialogs in order as the parser encounters them; a dialog settings block partway down the file will affect only the dialogs afterward, and none before.
 
-- **New settings will override old settings.** If you assign the player the alignment `TOP_RIGHT` and then `BOTTOM_RIGHT` back-to-back, dialogs will use `BOTTOM_RIGHT`.
-- **Entity settings will override global settings.** If you assign alignment `BOTTOM_LEFT` to the global defaults, and `BOTTOM_RIGHT` to the player entity, dialogs involving the player entity will use `BOTTOM_RIGHT`.
-- **Label settings will override entity settings.** [verify this]
+- **New settings will override old settings.**
+	- E.g. if you assign the player the alignment `TOP_RIGHT` and then `BOTTOM_RIGHT` back-to-back, dialogs will use `BOTTOM_RIGHT`.
+- **Entity settings will override global settings.**
+	- E.g. if you assign alignment `BOTTOM_LEFT` to the global defaults, and `BOTTOM_RIGHT` to the player entity, dialogs involving the player entity will use `BOTTOM_RIGHT`.
+- **Label settings will override entity settings.**
 - Parameters given in a dialog's body will override any other settings, however.
 
 ## Dialog settings target block
-
-Allows you to choose a target for dialog settings.
-
-Found within [dialog settings blocks](#dialog-settings-block).
-
-### Block contents
-
-Any number of [dialog parameters](#dialog-parameters) in any order.
-
-### Syntax
 
 ```
 (parameters) (for) <TARGET> {}
@@ -243,15 +265,21 @@ Several choices for `TARGET`:
 	- Describes the default dialog settings for a specific entity.
 - `label $bareword`
 	- Defines a dialog identifier shortcut or alias to a specific set of settings.
-	- The label name *must* be a bareword, not a quoted string.
-	- Dialog labels only exist in MGS Natlang (not the MGE itself), and they do not apply to other entity references (such as the target of an action).
+	- The label name *must* be a [bareword](#bareword), not a [quoted string](#quoted-string).
+	- Dialog labels only exist in MGS Natlang (not the MGE itself), so they do not apply to other entity references (such as the target of an action).
 
-### Example dialog settings target block:
+These blocks occur within [dialog settings blocks](#dialog-settings-block).
+
+### Block contents
+
+Any number of [dialog parameters](#dialog-parameters) in any order.
+
+### Example
 
 ```
 parameters for label PLAYER {
-	entity "%PLAYER%"
-	alignment BR
+  entity "%PLAYER%"
+  alignment BR
 }
 ```
 
@@ -259,21 +287,17 @@ This is a common use case for dialog settings, after which dialog messages for t
 
 ## Dialog block
 
-Dialog blocks allow you to name and populate a game dialog.
-
-As these dialog blocks don't have any baked-in script context, a dialog name is required.
-
-These blocks must occur on the root level.
-
-[Show dialog blocks](#show-dialog-block) are similar, except that the latter is used inside a [script block](#script-block) and is not required to have a dialog name.
-
-### Syntax
-
 ```
 dialog $string {}
 ```
 
-**$string** refers to the dialog's name, and allows external scripts to reference it.
+Dialog blocks allow you to name and populate a game dialog.
+
+As these dialog blocks don't have any baked-in script context, a dialog name is required. (The name is whatever is given for [string](#string).)
+
+These blocks must occur on the root level.
+
+[Show dialog blocks](#show-dialog-block) are similar, except that the latter is used inside a [script block](#script-block) and is not required to have a dialog name.
 
 ### Block contents
 
@@ -281,15 +305,13 @@ Any number of [dialogs](#dialogs) in the order they are to be seen in-game.
 
 ## Script block
 
-These blocks must occur on the root level.
-
-### Syntax
-
 ```
 (script) $string {}
 ```
 
-The word `script` is not required. If absent, any string (other than `dialog` and `settings`) will be intepreted as the script name.
+The word `script` is not required. If absent, any [string](#string) (other than `dialog` and `settings`) will be intepreted as the script name.
+
+These blocks must occur on the root level.
 
 ### Block contents
 
@@ -301,17 +323,15 @@ See the [action dictionary](#action-dictionary) far below for detailed informati
 
 ## Show dialog block
 
-This block combines a dialog definition (see [dialog block](#dialog-block)) with its use within a script (the `SHOW_DIALOG` action).
-
-Must be used inside a [script block](#script-block).
-
-### Syntax
-
 ```
 show dialog ($string) {}
 ```
 
-The dialog name (**$string**) is optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
+This block combines a dialog definition (see [dialog block](#dialog-block)) with its use within a script (the `SHOW_DIALOG` action).
+
+The dialog name ([string](#string)) is optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
+
+Must be used inside a [script block](#script-block).
 
 ### Block contents
 
@@ -342,20 +362,20 @@ Any number of dialogs can be given back-to-back within their parent block.
 
 ### Dialog identifier:
 
-This identifies the "speaker" of the dialog messages that immediately follow. For the most part, this will be a specific entity, though you can also build up a dialog from its component pieces without referring to a specific entity.
+This identifies the "speaker" of the dialog messages that immediately follow. For the most part, this will be a specific entity, though you can also build up a dialog from its component pieces instead.
 
 There are three choices of identifier syntax:
 
 - `$bareword`
-	- The bareword identifier is assumed to be an entity name if there is no dialog settings label by this value. (See [dialog settings target block](#dialog-settings-target-block))
+	- The [bareword](#bareword) identifier is assumed to be an entity name if there is no dialog settings label by this value. (See [dialog settings target block](#dialog-settings-target-block))
 		- Entity names with spaces or other special characters are not eligible for this usage, however.
-	- NOTE: A quoted string is NOT allowed here! This string must be a bareword!
+	- NOTE: A [quoted string](#quoted-string) is NOT allowed here! This string *must* be a [bareword](#bareword)!
 - `entity $string`
-	- **$string**: an entity's given name (i.e. the entity's name within the Tiled map).
+	- [string](#string): an entity's given name (i.e. the entity's name within the Tiled map).
 	- This usage also provides the entity name as an `entity` [parameter](#dialog-parameter) for the dialog.
-	- `%PLAYER%` and `%SELF%` must use this pattern (and not the bareword pattern) because they contain special characters. As this can be cumbersome, it's probably best to set up a dialog settings label for them so you can use a bareword for an identifier instead.
+	- `%PLAYER%` and `%SELF%` must use this pattern (and not the [bareword](#bareword) pattern) because they contain special characters. As this can be cumbersome, it's probably best to set up a dialog settings label for them so you can use a bareword for an identifier instead.
 - `name $string`
-	- **$string**: the dialog's display name.
+	- [string](#string): the dialog's display name.
 	- This usage also provides a `name` [parameter](#dialog-parameter) for the dialog.
 
 ### Dialog parameter:
@@ -365,37 +385,37 @@ Several dialog parameters can occur back-to-back.
 Syntax for each parameter:
 
 - `entity $string`
-	- **$string**: the "given name" of the entity (i.e. the entity's name on the Tiled map). (Wrapping this name in `%`s is entirely unnecessary and will in fact confuse the MGE encoder.)
+	- [string](#string): the "given name" of the entity (i.e. the entity's name on the Tiled map). (Wrapping this name in `%`s is entirely unnecessary and will in fact confuse the MGE encoder.)
 		- Can be `%PLAYER%` or `%SELF%`, however.
 	- A dialog can inherit a `name` and a `portrait` if given an `entity` parameter. (The entity must be a "character entity" for a portrait to be inherited.)
 	- The inherited `name` is a relative reference; the dialog display name will be whatever that entity's name is at that moment.
 - `name $string`
-	- **$string**: a fixed string of no more than 12 ASCII characters. For a relative name instead, wrap a specific entity's name in `%`s.
+	- [string](#string): a fixed string of no more than 12 ASCII characters. For a relative name instead, wrap a specific entity's name in `%`s.
 		- Can be `%PLAYER%` or `%SELF%`.
 	- Overrides names inherited via the `entity` parameter.
 	- A dialog name is required, either via this parameter or the `entity` parameter.
 - `portrait $string`
-	- **$string**: the name of a MGE portrait.
+	- [string](#string): the name of a MGE portrait.
 	- Overrides portraits inherited via the `entity` parameter.
 - `alignment $string`
-	- This **$string** must be one of the following:
+	- This [string](#string) must be one of the following:
 		- `TR` (or `TOP_RIGHT`)
 		- `BR` (or `BOTTOM_RIGHT`)
 		- `TL` (or `TOP_LEFT`)
-		- `BL` (or `BOTTOM_LEFT`) (<--default)
+		- `BL` (or `BOTTOM_LEFT`) (default)
 - `border_tileset $string`
-	- **$string**: the name of a MGE tileset.
+	- [string](#string): the name of a MGE tileset.
 	- The default tileset is used if none is provided.
 - `emote $number`
-	- **$number**: the id of the "emote" in that entity's entry in `portraits.json`.
+	- [number](#number): the id of the "emote" in that entity's entry in `portraits.json`.
 	- The default emote (`0`) will display if not specified.
 - `wrap messages (to) $number`
-	- **$number**: the number of chars to auto wrap the contents of dialog messages.
+	- [number](#number): the number of chars to auto wrap the contents of dialog messages.
 	- 42 is default.
 
 ### Dialog message:
 
-Any quoted string.
+Any [quoted string](#quoted-string).
 
 - Each message is a new "text screen" in the game.
 - Only ASCII characters will be displayed (or "printed").
@@ -424,9 +444,9 @@ Usage:
 - As each of these "branches" results in a script `goto`, no dialog messages afterward will be seen. Therefore, any dialog options must come last within the dialog.
 - The **label** is what will be shown to the player. As the cursor (approximated with `>`) takes up some room, assume you will only have 39 characters instead of the usual 42.
 	- The label behaves like dialog messages in terms of inserting variables (with `$` or `%`), escaped characters, etc.
-	- **Must** be wrapped in quotes.
+	- **Must** be wrapped in [quotes](#quoted-string).
 - In the MGE, dialog options are displayed underneath the final dialog message. Therefore, the last dialog message before any options should consist of a single line of no more than 42 characters.
-- The words `goto` and `script` are optional. Any string given after the `:` (other than `goto` and `script`) is assumed to be the script name.
+- The words `goto` and `script` are optional. Any [string](#string) given after the `:` (other than `goto` and `script`) is assumed to be the script name.
 
 ### Example dialogs
 
@@ -434,21 +454,21 @@ Bringing this all together in an example [dialog block](#dialog-block):
 
 ```
 dialog exampleDialog {
-	Bob
-	"So I heard about this club...."
+  Bob
+  "So I heard about this club...."
 
-	Bob
-	alignment BR
-	"Oh, no. Don't you start."
+  Bob
+  alignment BR
+  "Oh, no. Don't you start."
 
-	Bob
-	"No, no, I swear! Hear me out!"
-	> "Fine. What club?"
-		: goto bobContinueScript
-	> "(walk away)"
-		: goto bobLeaveScript
-	> "(smack %Bob% with a rubber chicken)"
-		: goto bobNoveltyScript
+  Bob
+  "No, no, I swear! Hear me out!"
+  > "Fine. What club?"
+    : goto bobContinueScript
+  > "(walk away)"
+    : goto bobLeaveScript
+  > "(smack %Bob% with a rubber chicken)"
+    : goto bobNoveltyScript
 }
 ```
 
@@ -473,11 +493,11 @@ The last includes a few dialog options:
 Bob
 "No, no, I swear! Hear me out!"
 > "Fine. What club?"
-	: goto bobContinueScript
+  : goto bobContinueScript
 > "(walk away)"
-	: goto bobLeaveScript
+  : goto bobLeaveScript
 > "(smack %Bob% with a rubber chicken)"
-	: goto bobNoveltyScript
+  : goto bobNoveltyScript
 ```
 
 In MGS Natlang, white space doesn't matter, so the first option could very well have been written this way:
@@ -494,13 +514,13 @@ MGS Natlang supports two kinds of comments, which can appear anywhere in an .mgs
 
 ```
 testScript {
-	wait 1000ms
-	wait 1000ms // inline comment
+  wait 1000ms
+  wait 1000ms // inline comment
 }
 ```
 
 This is the only time that line breaks are syntactic in MGS Natlang — inline comments start with `//` and end either with a line break or the end of the document.
-	
+
 The MGS Natlang translator (JSON -> Natlang) will take extraneous properties from actions and the like and turn them into inline comments automatically.
 
 ### Block comment
@@ -533,9 +553,9 @@ A variable's value is what populates the meat of the JSON output, but its **type
 This documentation uses two formats, each with a `$` at the front:
 
 - `$type`
-	- e.g. `$string` (which means any valid string)
+	- e.g. `$string` (which means any valid [string](#string))
 - `$label:type`
-	- e.g. `$scriptName:string` (which means any valid string, and also it will be used as a script name)
+	- e.g. `$scriptName:string` (which means any valid [string](#string), and also it will be used as a script name)
 
 The variable's label for most purposes doesn't matter much except as a hint as to the variable's purpose, especially if there are multiple variables in the natlang phrase. (It does matter when trying to analyze the JSON output, however.)
 
@@ -547,9 +567,9 @@ Example #1: an action that wants a duration (syntax `wait $duration`)
 
 ```
 testScript1 {
-    wait 150ms // "duration" = ok
-    wait 150   // "number" is fine, too
-               //    (decays to "duration")
+  wait 150ms // "duration" = ok
+  wait 150   // "number" is fine, too
+             //   (decays to "duration")
 }
 ```
 
@@ -557,78 +577,116 @@ Example #2: an action that wants a number (syntax: `load slot $number`)
 
 ```
 testScript2 {
-	load slot 1   // "number" = ok
-	load slot 1ms // "duration" won't work!
+  load slot 1    // "number" = ok
+  load slot 1ms  // "duration" won't work!
 }
 ```
 
-In most cases, human intuition is enough to predict whether a variable can decay into another type.
+In most cases, human intuition is enough to predict whether a variable can decay into another type. (And most things can decay into a [bareword](#bareword), e.g. `true` and `1000ms`.)
 
-Most important to keep in mind is that a variable wanting to be a `string` will be satisfied by either a `bareword` string or a `quotedString` string, but barewords and quoted strings cannot be substituted for each other.
+Most important to keep in mind is that a variable wanting to be a [string](#string) will be satisfied by either a [bareword](#bareword) string or a [quoted string](#quoted-string), but barewords and quoted strings cannot be substituted for each other.
 
 ### Variable types and examples
 
 Note that all numbers must be whole numbers.
 
-- `duration`
-	- `1000ms`, `1s`
-	- Seconds are translated into milliseconds automatically.
-	- Must be a whole number. (`1.5s` is invalid.)
-- `distance`
-	- `32px`, `128pix`
-- `quantity`
-	- `1x`, `10x`
-	- The barewords `once`, `twice`, and `thrice` also count as `quantity`.
-	- Note that the `x` comes after the number, not before.
-- `number`
-	- `-1`, `100`
-	- These alone may be negative.
-- `color`
-	- `#FFF`, `#00EF39`
-	- Some bare color names will also work, e.g. `black` or `white`.
-- `boolean`:
-	- `true`, `yes`, `on`, `open`
-	- `false`, `no`, `off`, `close`
-	- Some actions will prefer specific pairs of booleans when being translated from JSON, but when translating the other way, any of the above words will work.
-		- e.g. `set player control open` = `set player control on`
-- `operator`
-	- An exhaustive list:
-		- equal sign: `=`
-		- plus: `+`
-		- hyphen: `-`
-			- If a `-` is directly before a number, the number will become negative. Be sure to put a space between a `-` and a number if you want the `-` to be interpreted as an operator.
-		- asterisk: `*`
-		- forward slash: `/`
-		- percent sign: `%`
-		- question mark: `?`
-		- curly braces: `{` and `}` (for block boundaries)
-		- parentheses: `(` and `)` (for macros)
-	- Actions that call for an operator will also accept the corresponding bare words `SET`, `ADD` etc.
-- `bareword`
-	- These are limited to alphanumberic characters plus a handful of others:
-		- hyphen: `-`
-		- underscore: `_`
-		- period: `.`
-		- dollar sign: `$`
-		- pound: `#`
-		- exclamation point: `!`
-	- Cannot start with hyphen (`-`).
-	- If a bareword starts with `$`, it will be interpreted as a constant by the `const!` macro.
-	- Barewords will count as quoted strings if wrapped in quotes.
-- `quotedString`
-	- These can be just about anything as long as it's wrapped in a matching pair of double quotes (`"`) or single quotes (`'`).
-		- (It's Javascript under the hood. Be kind!)
-	- Quotes and certain other characters must be escaped (`\"`) inside a quoted string.
+#### Duration
+
+Number + `ms` or `s`
+
+- e.g. `1000ms` or `1s`
+- Seconds are translated into milliseconds automatically.
+- Must be a whole number. (`1.5s` is invalid.)
+
+#### Distance
+
+Number + `px` or `pix`
+
+- e.g. `32px` or `128pix`
+
+#### Quantity
+
+Number + `x`
+
+- e.g. `1x` or `10x`
+- The [bareword](#bareword) `once`, `twice`, and `thrice` also count as `quantity`.
+- Note that the `x` comes after the number, not before.
+
+#### Number
+
+- e.g. `-1` or `100`
+- These alone may be negative.
+
+#### Color
+
+A CSS-style hex color.
+
+- e.g. `#FFF` or `#00EF39`
+- Some bare color names will also work, e.g. `black` or `white`.
+
+#### Boolean
+
+A binary option.
+
+- True: `true`, `yes`, `on`, `open`
+- False: `false`, `no`, `off`, `close`
+
+Some actions will prefer specific pairs of booleans when being translated from JSON, but when translating the other way, any of the above words will work. E.g.
+
+- `set player control open`
+- `set player control on`
+- `set player control true`
+
+#### Operator
+An exhaustive list:
+
+- equal sign: `=`
+- plus: `+`
+- hyphen: `-`
+	- If a `-` is directly before a number, the number will become negative. Be sure to put a space between a `-` and a number if you want the `-` to be interpreted as an operator.
+- asterisk: `*`
+- forward slash: `/`
+- percent sign: `%`
+- question mark: `?`
+- curly braces: `{` and `}` (for block boundaries)
+- parentheses: `(` and `)` (for macros)
+
+Actions that call for an operator will also accept the corresponding bare words `SET`, `ADD` etc.
+
+#### Bareword
+
+These are limited to alphanumberic characters plus a handful of others:
+
+- hyphen: `-`
+- underscore: `_`
+- period: `.`
+- dollar sign: `$`
+- pound: `#`
+- exclamation point: `!`
+
+Usage:
+
+- Cannot start with hyphen (`-`).
+- If a bareword starts with `$`, it will be interpreted as a constant by the `const!` macro.
+- Barewords will count as quoted strings if wrapped in quotes.
+
+#### Quoted string
+
+These can be just about anything as long as it's wrapped in a matching pair of double quotes (`"`) or single quotes (`'`). (It's Javascript under the hood. Be kind!)
+
+Quotes and certain other characters must be escaped (`\"`) inside a quoted string.
+
+#### String
+
+Any quoted string or [bareword](#bareword).
 
 ### General types, limited values
 
-Some action variables will be of a generic MGS Natlang type (such as `string`) but the action itself will only be satisfied by a value from a limited set of words.
+Some action variables will be of a generic MGS Natlang type (such as [string](#string)) but the action itself will only be satisfied by a value from a limited set of words.
 
 In addition, some values are only valid depending on what other game data has been defined, such as entity names, map names, or script names.
 
-In such cases, invalid values are reported by the MGE encoder, not the MGS Natlang parser.
-
-Specifics below:
+In such cases, invalid values are reported by the MGE encoder.
 
 #### Button IDS
 
@@ -704,22 +762,22 @@ For a simple case, wherein we check a condition to determine whether to do some 
 
 ```
 load_map-castle-1 {
-	if flag saw-castle is false then goto script load_map-castle-1a
-	goto script load_map-castle-2
+  if flag saw-castle is false then goto script load_map-castle-1a
+  goto script load_map-castle-2
 }
 
 load_map-castle-1a {
-	show dialog {
-		PLAYER "Whoa! Look at the size of it!"
-	}
-	set flag saw-castle to true
-	goto script load_map-castle-2
+  show dialog {
+    PLAYER "Whoa! Look at the size of it!"
+  }
+  set flag saw-castle to true
+  goto script load_map-castle-2
 }
 
 load_map-castle-2 {
-	show dialog {
-		Guard "State your name!"
-	}
+  show dialog {
+    Guard "State your name!"
+  }
 }
 ```
 
@@ -731,15 +789,15 @@ Thanks to the zigzag macro, the above scripts could look like this instead:
 
 ```
 load_map-castle {
-	if (flag saw-castle is false) {
-		show dialog {
-				PLAYER "Whoa! Look at the size of it!"
-			}
-		set flag saw-castle to true
-	}
-	show dialog {
-		Guard "State your name!"
-	}
+  if (flag saw-castle is false) {
+    show dialog {
+        PLAYER "Whoa! Look at the size of it!"
+      }
+    set flag saw-castle to true
+  }
+  show dialog {
+    Guard "State your name!"
+  }
 }
 ```
 
@@ -764,11 +822,11 @@ Zigzags always consist of an `if` statement, at bare minimum:
 
 ```
 scriptName {
-	behavior-1
-	if ( condition-A ) {
-		behavior-A
-	}
-	behavior-2
+  behavior-1
+  if ( condition-A ) {
+    behavior-A
+  }
+  behavior-2
 }
 ```
 
@@ -784,17 +842,17 @@ scriptName {
 
 ```
 scriptName {
-	behavior-1
-	if ( condition-A ) {
-		behavior-A
-	} else if ( condition-B ) {
-		behavior-B
-	} else if ( condition-C ) {
-		behavior-C
-	} else {
-		behavior-X
-	}
-	behavior-2
+  behavior-1
+  if ( condition-A ) {
+    behavior-A
+  } else if ( condition-B ) {
+    behavior-B
+  } else if ( condition-C ) {
+    behavior-C
+  } else {
+    behavior-X
+  }
+  behavior-2
 }
 ```
 
@@ -809,9 +867,9 @@ Multiple conditions can be checked at the same time with `||` (boolean OR), whic
 
 ```
 scriptName {
-	if ( condition-A || condition-B ) {
-		behavior-AB
-	}
+  if ( condition-A || condition-B ) {
+    behavior-AB
+  }
 }
 ```
 
@@ -821,17 +879,17 @@ The equivalent boolean AND (`&&`) is not implemented, however. If you need an AN
 // NOT ALLOWED:
 
 if ( you have money && the game is for sale ) {
-	buy the game
+  buy the game
 } else {
-	don't buy the game
+  don't buy the game
 }
 
 // INSTEAD:
 
 if ( you don't have money || the game is not for sale ) {
-	don't buy the game
+  don't buy the game
 } else {
-	buy the game
+  buy the game
 }
 ```
 
@@ -839,7 +897,7 @@ if ( you don't have money || the game is not for sale ) {
 
 ### `const!`
 
-This macro emulates compile-time constants. Its main purpose is to help you avoid "magic numbers" in your scripts by allowing you to define an integer or string (or whatever) in a single place, even if you need to use it multiple times.
+This macro emulates compile-time constants. Its main purpose is to help you avoid "magic numbers" in your scripts by allowing you to define a [number](#number) or [string](#string) (or whatever) in a single place, even if you need to use it multiple times.
 
 The macro literally replaces each const with the token collected during its original value assignment.
 
@@ -857,22 +915,22 @@ Inside the above parentheses can be any number of constant assignments:
 <CONST_NAME> = <VALUE>
 ```
 
-- `CONST_NAME`: `$` + bareword (e.g. `$varName`)
-- `VALUE`: any MGS Natlang variable whatsoever, e.g. any number, string, bareword, duration, etc.
+- `CONST_NAME`: `$` + [bareword](#bareword) (e.g. `$varName`)
+- `VALUE`: any MGS Natlang variable whatsoever, e.g. any [number](#number), [string](#string), [bareword](#bareword), [duration](#duration), etc.
 
-Keep in mind that `$` is used for MGS Natlang variables in his document's example syntax, but this is a different usage, as those variables are to be replaced by values of that variable type, whereas these constants will appear in the final MGS file literally in the form `$_`.
+Keep in mind that `$` is used for [MGS Natlang variables](#mgs-natlang-variables) in his document's example syntax, but that is a different usage, as those variables are to be replaced by values of that variable type, whereas these constants will appear in the final MGS file literally in the form `$_`.
 
 #### Example
 
 ```
 const! (
-	$field = x
-	$bigNumber = 9001
-	$hamburgers = "Steamed Toast"
+  $field = x
+  $bigNumber = 9001
+  $hamburgers = "Steamed Toast"
 )
 
 testScript {
-	set entity $hamburgers $field to $bigNumber
+  set entity $hamburgers $field to $bigNumber
 }
 ```
 
@@ -880,7 +938,7 @@ After the macro does its work, the script `testScript` instead will read:
 
 ```
 testScript {
-	set entity "Steamed Toast" x to 9001
+  set entity "Steamed Toast" x to 9001
 }
 ```
 
@@ -890,7 +948,7 @@ The above is what the MGS Natlang syntax parser will actually parse. Syntax erro
 
 These dictionary entries use the default JSON action parameter names, e.g. `entity` for an entity's name (syntax: `entity $entity:string`).
 
-Some of these patterns may also have some hidden parameters built in to the phrasing, such as "is" and "is not" incorporating the action parameter `expected_bool`. These will be noted when they occur.
+Some of these patterns may also have some hidden parameters built in to the phrasing, such as "is" and "is not" incorporating the JSON action parameter `expected_bool`. These will be noted when they occur.
 
 As a reminder, words in parentheses are optional. For example, the dictionary pattern:
 

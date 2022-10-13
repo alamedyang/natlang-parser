@@ -1,32 +1,80 @@
 # MageGameScript Natlang <!-- This README is automatically generated, NO TOUCHY -->
 
-Introducing MageGameScript "Natlang" — a simplified approach to writing game content for the DC801 Black Mage Game Engine (MGE).
+Introducing "MageGameScript Natlang" — a simplified approach to writing game content for the DC801 Black Mage Game Engine (MGE).
+
+![Syntax color sample, using VSCode's "Dark+" theme](docs-images/syntax-color-sample.png)
+
+## Table of contents
+
+1. [Overview](#overview)
+	1. [Syntax Features](#syntax-features)
+	2. [Syntax Colors](#syntax-colors)
+2. [MGS Natlang vs JSON](#mgs-natlang-vs-json)
+	1. [Original script JSON](#original-script-json)
+	2. [MGS Natlang (script)](#mgs-natlang-script)
+	3. [Original dialog JSON](#original-dialog-json)
+	4. [MGS Natlang (dialog)](#mgs-natlang-dialog)
+	5. [MGS Natlang (combined)](#mgs-natlang-combined)
+3. [Block structure](#block-structure)
+	1. [Block quick reference](#block-quick-reference)
+	2. [Syntax definitions](#syntax-definitions)
+	3. [Dialog settings block](#dialog-settings-block)
+	4. [Dialog settings target block](#dialog-settings-target-block)
+	5. [Dialog block](#dialog-block)
+	6. [Script block](#script-block)
+	7. [Show dialog block](#show-dialog-block)
+	8. [Show serial dialog block](#show-serial-dialog-block)
+	9. [Dialog](#dialog)
+		1. [Dialog identifier](#dialog-identifier)
+		2. [Dialog parameter](#dialog-parameters)
+		3. [Dialog message](#dialog-message)
+		4. [Dialog option](#dialog-option)
+	10. [Comments](#comments)
+4. [MGS Natlang variables](#mgs-natlang-variables)
+	1. [Variable decay](#variable-decay)
+	2. [Variable types and examples](#variable-types-and-examples)
+	3. [General types, limited values](#general-types-limited-values)
+5. [Macros](#macros)
+	1. [Zigzag (`if` / `else`)](#zigzag-if--else)
+	2. [`const!`](#const)
+6. [Action dictionary](#action-dictionary)
+	1. [Actions quick reference](#actions-quick-reference)
+	2. [Game management actions](#game-management-actions)
+	3. [Hex editor actions](#hex-editor-actions)
+	4. [Camera control actions](#camera-control-actions)
+	5. [Script control actions](#script-control-actions)
+	6. [Entity choreography actions](#entity-choreography-actions)
+	7. [Entity appearance actions](#entity-appearance-actions)
+	8. [Set entity properties actions](#set-entity-properties-actions)
+	9. [Set variables actions](#set-variables-actions)
+	10. [Check entity properies actions](#check-entity-properies-actions)
+	11. [Check variables actions](#check-variables-actions)
 
 ## Overview
 
-MGS Natlang is a "natural" language meant to be easy for humans to read and write, and it consists of phrases and patterns that correspond closely to the JSON required by the MGE encoder. Strictly speaking, it is not a full, properly recursive language, but it is much more flexible and compact than writing the equivalent script actions and dialogs in MGE JSON.
+MGS Natlang is a "natural" language meant to be easy to read and write.
+
+It consists of phrases and patterns that correspond closely to the JSON required by the MGE encoder. Strictly speaking, it is not a full, properly recursive language, but it is much more flexible and compact than writing the equivalent script actions and dialogs in MGE JSON.
 
 All .mgs files are turned into MGE JSON automatically by the MGE encoder. And unlike script files and dialog files, you don't need to declare .mgs files in the game's `scenario.json`; any .mgs files inside `scenario_source_files` will be imported.
 
-### Syntax Overview
+### Syntax Features
 
-The syntax is flexible.
-
-- White space agnostic. Indentation and line breaks have absolutely no syntactic meaning. (The syntax coloring might break if you are very creative with line breaks, but it should still parse correctly.)
-- Many strings can be unquoted or quoted freely, though anything with a space or any unusual character *must* be wrapped in quotes.
-	- Double or single quotes are both fine, but no backticks (\`) or smart quotes.
-- Many words are optional, and can be included either to increase logical clarity or omitted to decrease word density. E.g. the following two patterns are equivalent phrases:
+1. White space agnostic.
+	- The syntax coloring might break if you are very creative with line breaks, but it should still parse correctly.
+2. Many strings can be unquoted or quoted freely.
+	- Double or single quotes are both fine.
+	- Anything with a space or any unusual character *must* be wrapped in quotes.
+3. Many words are optional, and can be included either to increase logical clarity or omitted to decrease word density. E.g. the following two patterns are equivalent phrases:
 	- `goto script scriptName`
 	- `goto scriptName`
-- Certain [MGE variables](#variable-types-and-examples) can be formatted in multiple, human-friendly ways, e.g.
+4. Certain [MGE variables](#variable-types-and-examples) can be formatted in multiple, human-friendly ways, e.g.
 	- Duration: `1000ms` or `1s` or `1000`
 	- Quantity: `once` or `1x` or `1`
 
 ### Syntax Colors
 
 A syntax coloring grammar (tmLanguage) is in development: https://github.com/alamedyang/magegamescript-syntax-highlighting
-
-![Syntax color sample, using VSCode's "Dark+" theme](docs-images/syntax-color-sample.png)
 
 #### Visual Studio Code
 
@@ -44,11 +92,11 @@ You will have to update the `mgs.tmLanguage` manually by repeating the above pro
 
 #### Other IDEs
 
-Many IDEs will accept TextMate grammars, either XML, JSON, or YAML. (Ask us if you need a YAML and we can make one for you.) You will have to find and follow their specific instructions, however.
+Many other IDEs will accept TextMate grammars, but you will have to find and follow your IDE's specific instructions, however.
 
 ## MGS Natlang vs JSON
 
-### Original script JSON:
+### Original script JSON
 
 ```json
 {
@@ -76,7 +124,7 @@ While relatively human readable, the above is difficult to write in practice.
 - JSON cannot be commented, so it's inconvenient to leave yourself supplementary information, such as the contents of a dialog you're referencing when scripting a cutscene.
 - The parameters for MGE actions are not highly uniform, so it's easy to forget or confuse parameters if you're not copying and pasting actions from nearby.
 
-### MGS Natlang (script):
+### MGS Natlang (script)
 
 ```
 on_tick-greenhouse {
@@ -115,7 +163,7 @@ It's more compact, and the nested relationship of the script and its actions is 
 
 Dialog JSON is more uniform than script JSON is, but its information density is even worse.
 
-### MGS Natlang (dialog):
+### MGS Natlang (dialog)
 
 ```
 settings for dialog {
@@ -129,7 +177,7 @@ settings for dialog {
 }
 ```
 
-With MGS Natlang, you can create presets for common dialog settings. As a result, the dialogs themselves are very lightweight, making it effortless to read and write large swaths of them:
+With MGS Natlang, you can create presets for common dialog settings. As a result, the dialogs themselves can be very lightweight, making it effortless to read and write large swaths of them:
 
 ```
 dialog exampleDialogName {
@@ -155,7 +203,7 @@ or even
 dialog exampleDialog2 { PLAYER "Neat." }
 ```
 
-### MGS Natlang (combined):
+### MGS Natlang (combined)
 
 However, where MGS Natlang really shines is in combining both script data and dialog data together:
 
@@ -181,7 +229,7 @@ show_dialog-wopr-backdoor {
 
 Now the dialog's content is no longer separated from its context. The dialog no longer needs a name, either, unless another script needs to refer to it, too.
 
-## MGS Natlang block structure
+## Block structure
 
 MGS Natlang currently has several types of blocks, each with their block contents enclosed in a pair of matching curly braces:
 
@@ -199,11 +247,9 @@ MGS Natlang currently has several types of blocks, each with their block content
 
 Some block types can (or must) be nested within others, but blocks cannot be nested arbitrarily.
 
+### Block quick reference
+
 Unless otherwise marked, assume all entries in the following list are allowed in any quantity (including zero). Numbered items must be given in exactly that order, but all other items can occur in any order within their parent block.
-
-### Quick reference
-
-Nesting structure:
 
 - **[dialog settings block](#dialog-settings-block)**
 	- **[dialog settings target block](#dialog-settings-target-block)**
@@ -225,9 +271,9 @@ Nesting structure:
 
 ### Syntax definitions
 
-In all syntax definitions in this document, words in parentheses are optional, and words starting with dollar signs are [variables](#mgs-natlang-variables).
+In all syntax definitions in this document, words in parentheses are optional, and words starting with dollar signs are [MGS Natlang variables](#mgs-natlang-variables).
 
-## Dialog settings block
+### Dialog settings block
 
 ```
 settings (for) dialog {}
@@ -237,11 +283,9 @@ These are a means of defining dialog parameters ahead of time so the dialogs the
 
 These blocks must occur on the root level.
 
-### Block contents
+**Block contents**: any number of [dialog settings target blocks](#dialog-settings-target-block) in any order.
 
-Any number of [dialog settings target blocks](#dialog-settings-target-block) in any order.
-
-### Behavior
+#### Behavior
 
 Dialog settings are applied to dialogs in order as the parser encounters them; a dialog settings block partway down the file will affect only the dialogs afterward, and none before.
 
@@ -252,7 +296,7 @@ Dialog settings are applied to dialogs in order as the parser encounters them; a
 - **Label settings will override entity settings.**
 - Parameters given in a dialog's body will override any other settings, however.
 
-## Dialog settings target block
+### Dialog settings target block
 
 ```
 (parameters) (for) <TARGET> {}
@@ -272,11 +316,9 @@ Several choices for `TARGET`:
 
 These blocks occur within [dialog settings blocks](#dialog-settings-block).
 
-### Block contents
+**Block contents**: any number of [dialog parameters](#dialog-parameters) in any order.
 
-Any number of [dialog parameters](#dialog-parameters) in any order.
-
-### Example
+#### Example
 
 ```
 parameters for label PLAYER {
@@ -285,9 +327,9 @@ parameters for label PLAYER {
 }
 ```
 
-This is a common use case for dialog settings, after which dialog messages for the player character can be identified with `PLAYER` instead of `entity "%PLAYER%"`.
+This is a common use case for dialog settings, after which you can use `PLAYER` instead of `entity "%PLAYER%"` as a [dialog identifier](#dialog-identifier) for [dialogs](#dialog).
 
-## Dialog block
+### Dialog block
 
 ```
 dialog $string {}
@@ -301,103 +343,94 @@ These blocks must occur on the root level.
 
 [Show dialog blocks](#show-dialog-block) are similar, except that the latter is used inside a [script block](#script-block) and is not required to have a dialog name.
 
-### Block contents
+**Block contents**: any number of [dialogs](#dialogs) in the order they are to be seen in-game.
 
-Any number of [dialogs](#dialogs) in the order they are to be seen in-game.
-
-## Script block
+### Script block
 
 ```
 (script) $string {}
 ```
 
-The word `script` is not required. If absent, any [string](#string) (other than `dialog` and `settings`) will be intepreted as the script name.
+If the word `script` is absent, any [string](#string) (other than `dialog`, `settings` etc.) will be intepreted as the script name.
 
 These blocks must occur on the root level.
 
-### Block contents
+**Block contents**: any number of [actions](#actions) in the order they are to be executed in-game. Some of these may be [show dialog blocks](#show-dialog-block). (See the [action dictionary](#action-dictionary) far below for detailed information on all actions other actions.)
 
-Any number of [actions](#actions) in the order they are to be executed in-game.
-
-Some of these may be [show dialog blocks](#show-dialog-block).
-
-See the [action dictionary](#action-dictionary) far below for detailed information on all actions.
-
-## Show dialog block
+### Show dialog block
 
 ```
 show dialog ($string) {}
 ```
 
-This block combines a dialog definition (see [dialog block](#dialog-block)) with its use within a script (the `SHOW_DIALOG` action).
+This block combines a dialog definition (see [dialog block](#dialog-block)) with the `SHOW_DIALOG` action.
 
 The dialog name ([string](#string)) is optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
 
 Must be used inside a [script block](#script-block).
 
-### Block contents
+**Block contents**: Any number of [dialogs](#dialog) in the order they are to be seen in-game.
 
-Any number of [dialogs](#dialog) in the order they are to be seen in-game.
+#### Versus the `SHOW_DIALOG` action
 
-### Versus the [`SHOW_DIALOG`](#SHOW_DIALOG) action
-
-The plain action, `show dialog $string`, can "call" a dialog without having to define it in place.
+The plain [`SHOW_DIALOG`](#show_dialog) action (`show dialog $string`) can "call" a dialog without having to define it in place.
 
 Dialogs being called this way may be defined elsewhere in the file (even further down) or in another file entirely. The MGE encoder, which sees all scripts and all dialogs at the same time, will warn you if you're calling a dialog that doesn't exist.
 
-## Show serial dialog block
+### Show serial dialog block
 
 Serial dialog blocks will behave similarly to dialog blocks. (They are not yet implemented in MGS Natlang.)
 
-## Dialog
+### Dialog
 
 Found within [dialog blocks](#dialog-block) or [show dialog blocks](#show-dialog-block).
 
 Any number of dialogs can be given back-to-back within their parent block.
 
-### Dialog contents
+#### Dialog contents
 
 1. [Dialog identifier](#dialog-identifier): exactly 1
 2. [Dialog parameter](#dialog-parameter): 0+
 3. [Dialog message](#dialog-message): 1+
 4. [Dialog option](#dialog-option): 0-4x
 
-### Dialog identifier:
+#### Dialog identifier:
 
-This identifies the "speaker" of the dialog messages that immediately follow. For the most part, this will be a specific entity, though you can also build up a dialog from its component pieces instead.
+This identifies the "speaker" of the dialog messages that immediately follow. For most cases, this will be a specific entity (with option #1 or #2), though you could also build up a dialog from its component pieces instead (with option #3).
 
-There are three choices of identifier syntax:
+The three options:
 
-- `$bareword`
-	- The [bareword](#bareword) identifier is assumed to be an entity name if there is no dialog settings label by this value. (See [dialog settings target block](#dialog-settings-target-block))
+1. `$bareword`
+	- The bareword identifier refers to a dialog label within a [dialog settings target block](#dialog-settings-target-block).
+		- If no dialog label is found, the bareword value is assumed to be an entity name instead. This usage also provides the entity name as an `entity` [parameter](#dialog-parameter) for the dialog.
 		- Entity names with spaces or other special characters are not eligible for this usage, however.
 	- NOTE: A [quoted string](#quoted-string) is NOT allowed here! This string *must* be a [bareword](#bareword)!
-- `entity $string`
+2. `entity $string`
 	- [string](#string): an entity's given name (i.e. the entity's name within the Tiled map).
 	- This usage also provides the entity name as an `entity` [parameter](#dialog-parameter) for the dialog.
-	- `%PLAYER%` and `%SELF%` must use this pattern (and not the [bareword](#bareword) pattern) because they contain special characters. As this can be cumbersome, it's probably best to set up a dialog settings label for them so you can use a bareword for an identifier instead.
-- `name $string`
+	- `%PLAYER%` and `%SELF%` must use this pattern (and not the [bareword](#bareword) pattern) because they contain special characters. As this can be cumbersome, it's probably best to set up a dialog settings label for them so you can use a bareword as an identifier instead.
+3. `name $string`
 	- [string](#string): the dialog's display name.
 	- This usage also provides a `name` [parameter](#dialog-parameter) for the dialog.
 
-### Dialog parameter:
+#### Dialog parameter:
 
-Several dialog parameters can occur back-to-back.
+Multiple dialog parameters can occur back-to-back.
 
 Syntax for each parameter:
 
 - `entity $string`
-	- [string](#string): the "given name" of the entity (i.e. the entity's name on the Tiled map). (Wrapping this name in `%`s is entirely unnecessary and will in fact confuse the MGE encoder.)
+	- [String](#string): the "given name" of the entity (i.e. the entity's name on the Tiled map). (Wrapping this name in `%`s is entirely unnecessary and will in fact confuse the MGE encoder.)
 		- Can be `%PLAYER%` or `%SELF%`, however.
 	- A dialog can inherit a `name` and a `portrait` if given an `entity` parameter. (The entity must be a "character entity" for a portrait to be inherited.)
 	- The inherited `name` is a relative reference; the dialog display name will be whatever that entity's name is at that moment.
 - `name $string`
-	- [string](#string): a fixed string of no more than 12 ASCII characters. For a relative name instead, wrap a specific entity's name in `%`s.
+	- [String](#string): a fixed string of no more than 12 ASCII characters. For a relative name instead, wrap a specific entity's name in `%`s.
 		- Can be `%PLAYER%` or `%SELF%`.
 	- Overrides names inherited via the `entity` parameter.
 	- A dialog name is required, either via this parameter or the `entity` parameter.
 - `portrait $string`
-	- [string](#string): the name of a MGE portrait.
+	- [String](#string): the name of a MGE portrait.
 	- Overrides portraits inherited via the `entity` parameter.
 - `alignment $string`
 	- This [string](#string) must be one of the following:
@@ -406,41 +439,37 @@ Syntax for each parameter:
 		- `TL` (or `TOP_LEFT`)
 		- `BL` (or `BOTTOM_LEFT`) (default)
 - `border_tileset $string`
-	- [string](#string): the name of a MGE tileset.
+	- [String](#string): the name of a MGE tileset.
 	- The default tileset is used if none is provided.
 - `emote $number`
-	- [number](#number): the id of the "emote" in that entity's entry in `portraits.json`.
+	- [Number](#number): the id of the "emote" in that entity's entry in `portraits.json`.
 	- The default emote (`0`) will display if not specified.
 - `wrap messages (to) $number`
-	- [number](#number): the number of chars to auto wrap the contents of dialog messages.
+	- [Number](#number): the number of chars to auto wrap the contents of dialog messages.
 	- 42 is default.
 
-### Dialog message:
+#### Dialog message:
 
 Any [quoted string](#quoted-string).
 
 - Each message is a new "text screen" in the game.
-- Only ASCII characters will be displayed (or "printed").
-- Insert a relative entity name by wrapping it in `%`s.
+- Only ASCII characters will be printed.
+- Insert an entity's current name (aka "relative name") by wrapping their given name in `%`s.
 	- `%PLAYER%` and `%SELF%` are also allowed, which target the player entity or the entity that is running the script, respectively.
-	- Words wrapped in `%`s (entity names) will always count as 12 chars when the dialog message is auto-wrapped.
-- Insert the value of a MGE variable by wrapping its name in `$`s.
-	- Words wrapped in `$`s (variables) will always count as 5 chars when the dialog message is auto-wrapped.
+	- Words wrapped in `%`s (entity names) will count as 12 chars when the dialog message is auto-wrapped.
+- Insert the current value of a MGE variable by wrapping its name in `$`s.
+	- Words wrapped in `$`s (variables) will count as 5 chars when the dialog message is auto-wrapped.
 - Some characters must be escaped in the message body, such as double quote: `\"`
 	- `\t` (tabs) are auto-converted to four spaces.
-	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about explicitly hard wrapping your messages unless you want to force the new lines to specific places.
+	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about explicitly hard wrapping your messages unless you want to put line breaks in arbitrary places.
 	- `%` and `$` are printable characters unless used in pairs within a single line, in which case the only way to print them is to escape them (e.g. `\%`).
 - Word processor "smart" characters such as ellipses (…) or emdashes (—) are auto converted to ASCII equivalents (`...`) (`--`).
 
-### Dialog option
-
-You may have anywhere from zero to four dialog options per dialog. Syntax:
+#### Dialog option
 
 ```
 > $label:quotedString : (goto) (script) $script:string
 ```
-
-Usage:
 
 - You may have up to 4 dialog options per dialog.
 - As each of these "branches" results in a script `goto`, no dialog messages afterward will be seen. Therefore, any dialog options must come last within the dialog.
@@ -450,7 +479,7 @@ Usage:
 - In the MGE, dialog options are displayed underneath the final dialog message. Therefore, the last dialog message before any options should consist of a single line of no more than 42 characters.
 - The words `goto` and `script` are optional. Any [string](#string) given after the `:` (other than `goto` and `script`) is assumed to be the script name.
 
-### Example dialogs
+#### Example dialogs
 
 Bringing this all together in an example [dialog block](#dialog-block):
 
@@ -474,45 +503,17 @@ dialog exampleDialog {
 }
 ```
 
-The first dialog consists only of an identifier and a message:
-
-```
-Bob
-"So I heard about this club...."
-```
-
-The next, however, includes a single parameter (in between the identifier and the message):
-
-```
-Bob
-alignment BR
-"Oh, no. Don't you start."
-```
-
-The last includes a few dialog options:
-
-```
-Bob
-"No, no, I swear! Hear me out!"
-> "Fine. What club?"
-  : goto bobContinueScript
-> "(walk away)"
-  : goto bobLeaveScript
-> "(smack %Bob% with a rubber chicken)"
-  : goto bobNoveltyScript
-```
-
-In MGS Natlang, white space doesn't matter, so the first option could very well have been written this way:
+Note: white space doesn't matter, so the first option above could very well have been written this way:
 
 ```
 > "Fine. What club?" : goto bobContinueScript
 ```
 
-## Comments
+### Comments
 
 MGS Natlang supports two kinds of comments, which can appear anywhere in an .mgs file and inside any block.
 
-### Inline comment
+#### Inline comment
 
 ```
 testScript {
@@ -523,9 +524,9 @@ testScript {
 
 This is the only time that line breaks are syntactic in MGS Natlang — inline comments start with `//` and end either with a line break or the end of the document.
 
-The MGS Natlang translator (JSON -> Natlang) will take extraneous properties from actions and the like and turn them into inline comments automatically.
+Fun fact: the MGS Natlang translator (JSON -> Natlang) will take extraneous properties from actions and the like and turn them into inline comments automatically.
 
-### Block comment
+#### Block comment
 
 ```
 /*
@@ -550,9 +551,9 @@ entity Charlie     // var value = "Charlie"
 entity "Tom Honks" // var value = "Tom Honks"
 ```
 
-A variable's value is what populates the meat of the JSON output, but its **type** affects how each word is validated against patterns in the MGS Natlang syntax tree, and in most cases will also affect how the word may be formatted in the natlang.
+A variable's **value** is what populates the meat of the JSON output, but its **type** affects how each word is validated against patterns in the MGS Natlang syntax tree, and in most cases will also affect how the word may be formatted in the natlang.
 
-This documentation uses two formats, each with a `$` at the front:
+This documentation uses two formats to indicate a variable, each with a `$` at the front:
 
 - `$type`
 	- e.g. `$string` (which means any valid [string](#string))
@@ -590,7 +591,7 @@ Most important to keep in mind is that a variable wanting to be a [string](#stri
 
 ### Variable types and examples
 
-Note that all numbers must be whole numbers.
+Note that all numbers must be whole numbers and, unless indicated otherwise, must be positive.
 
 #### Duration
 
@@ -598,7 +599,6 @@ Number + `ms` or `s`
 
 - e.g. `1000ms` or `1s`
 - Seconds are translated into milliseconds automatically.
-- Must be a whole number. (`1.5s` is invalid.)
 
 #### Distance
 
@@ -616,8 +616,10 @@ Number + `x`
 
 #### Number
 
+Number (positive or negative)
+
 - e.g. `-1` or `100`
-- These alone may be negative.
+- While negative numbers will all validate to the `number` type, not all actions permit negative numbers.
 
 #### Color
 
@@ -640,6 +642,7 @@ Some actions will prefer specific pairs of booleans when being translated from J
 - `set player control true`
 
 #### Operator
+
 An exhaustive list:
 
 - equal sign: `=`
@@ -657,7 +660,7 @@ Actions that call for an operator will also accept the corresponding bare words 
 
 #### Bareword
 
-These are limited to alphanumberic characters plus a handful of others:
+These are limited to alphanumberic characters, plus a handful of punctuation:
 
 - hyphen: `-`
 - underscore: `_`
@@ -668,9 +671,9 @@ These are limited to alphanumberic characters plus a handful of others:
 
 Usage:
 
-- Cannot start with hyphen (`-`).
-- If a bareword starts with `$`, it will be interpreted as a constant by the `const!` macro.
-- Barewords will count as quoted strings if wrapped in quotes.
+- Barewords cannot start with hyphen (`-`).
+- If a bareword starts with a dollar sign (`$`), it will be interpreted as a constant by the `const!` macro.
+- Barewords will count as quoted strings if wrapped in quotes, even if the bareword criteria is otherwise met.
 
 #### Quoted string
 
@@ -805,6 +808,8 @@ load_map-castle {
 
 The zigzag macro will take this much-shorter script and expand it to resemble the three scripts in the first example, giving each expanded script a name derived from the original.
 
+*Any* action with `if`...`then goto` syntax can use this zigzag syntax instead.
+
 Note that the actions `RUN_SCRIPT` (`goto script $string`) and `LOAD_MAP` (`load map $string`) will cause the current script slot to jump to an entirely different script. In such cases, any in-progress zigzags will be aborted.
 
 #### Consequences and drawbacks
@@ -865,6 +870,8 @@ scriptName {
 
 Remember: An `if` and `else if` is *not* equivalent to two `if`s!
 
+#### Compound conditions
+
 Multiple conditions can be checked at the same time with `||` (boolean OR), which indicates that *any* of the given conditions can be true for the branching behavior to occur:
 
 ```
@@ -894,8 +901,6 @@ if ( you don't have money || the game is not for sale ) {
   buy the game
 }
 ```
-
-*Any* action with `if`...`then goto` syntax can use this zigzag syntax instead.
 
 ### `const!`
 
@@ -964,6 +969,245 @@ will be satisfied by either of the following:
 set entity "Entity Name" tick_script to scriptName
 set entity "Entity Name" tick_script scriptName
 ```
+
+### Actions quick reference
+
+Sample syntax (with sample values) for each action, grouped by category. Click an action name to jump to the full dictionary entry.
+
+#### [Game management](#game-management-actions)
+
+- [BLOCKING_DELAY](#blocking_delay)
+	- `block 1000ms`
+- [NON_BLOCKING_DELAY](#non_blocking_delay)
+	- `wait 400ms`
+- [SET_PLAYER_CONTROL](#set_player_control)
+	- `set player control to on`
+- [LOAD_MAP](#load_map)
+	- `load map mapName`
+- [SLOT_SAVE](#slot_save)
+	- `save slot`
+- [SLOT_LOAD](#slot_load)
+	- `load slot 2`
+- [SLOT_ERASE](#slot_erase)
+	- `erase slot 2`
+
+#### [Hex editor](#hex-editor-actions)
+
+- [SET_HEX_EDITOR_DIALOG_MODE](#set_hex_editor_dialog_mode)
+	- `set hex dialog mode to on`
+- [SET_HEX_EDITOR_CONTROL](#set_hex_editor_control)
+	- `set hex control to on`
+- [SET_HEX_EDITOR_CONTROL_CLIPBOARD](#set_hex_editor_control_clipboard)
+	- `set hex clipboard to on`
+
+#### [Camera control](#camera-control-actions)
+
+- [SET_CAMERA_TO_FOLLOW_ENTITY](#set_camera_to_follow_entity)
+	- `make camera follow entity "Entity Name"`
+- [TELEPORT_CAMERA_TO_GEOMETRY](#teleport_camera_to_geometry)
+	- `teleport camera to geometry "vector object name"`
+- [PAN_CAMERA_TO_ENTITY](#pan_camera_to_entity)
+	- `pan camera to entity "Entity Name" over 1000ms`
+- [PAN_CAMERA_TO_GEOMETRY](#pan_camera_to_geometry)
+	- `pan camera to geometry "vector object name" over 1000ms`
+- [PAN_CAMERA_ALONG_GEOMETRY](#pan_camera_along_geometry)
+	- `pan camera along geometry "vector object name" over 1000ms`
+- [LOOP_CAMERA_ALONG_GEOMETRY](#loop_camera_along_geometry)
+	- `loop camera along geometry "vector object name" over 1000ms`
+- [SET_SCREEN_SHAKE](#set_screen_shake)
+	- `shake camera 200ms 32px for 3s`
+- [SCREEN_FADE_OUT](#screen_fade_out)
+	- `fade out camera to #000 over 1000ms`
+- [SCREEN_FADE_IN](#screen_fade_in)
+	- `fade in camera from #000 over 1000ms`
+
+#### [Script control](#script-control-actions)
+
+- [RUN_SCRIPT](#run_script)
+	- `goto scriptName`
+- [COPY_SCRIPT](#copy_script)
+	- `copy scriptName`
+- [SET_MAP_TICK_SCRIPT](#set_map_tick_script)
+	- `set map tick_script to scriptName`
+- [SET_ENTITY_INTERACT_SCRIPT](#set_entity_interact_script)
+	- `set entity "Entity Name" interact_script to scriptName`
+- [SET_ENTITY_TICK_SCRIPT](#set_entity_tick_script)
+	- `set entity "Entity Name" tick_script to scriptName`
+
+#### [Entity choreography](#entity-choreography-actions)
+
+- [SET_ENTITY_PATH](#set_entity_path)
+	- `set entity "Entity Name" path to "vector object name"`
+- [TELEPORT_ENTITY_TO_GEOMETRY](#teleport_entity_to_geometry)
+	- `teleport entity "Entity Name" to geometry "vector object name"`
+- [WALK_ENTITY_TO_GEOMETRY](#walk_entity_to_geometry)
+	- `walk entity "Entity Name" to geometry "vector object name" over 1000ms`
+- [WALK_ENTITY_ALONG_GEOMETRY](#walk_entity_along_geometry)
+	- `walk entity "Entity Name" along geometry "vector object name" over 1000ms`
+- [LOOP_ENTITY_ALONG_GEOMETRY](#loop_entity_along_geometry)
+	- `loop entity "Entity Name" along geometry "vector object name" over 1000ms`
+
+#### [Entity appearance](#entity-appearance-actions)
+
+- [PLAY_ENTITY_ANIMATION](#play_entity_animation)
+	- `play entity "Entity Name" animation 3 twice`
+- [SET_ENTITY_CURRENT_ANIMATION](#set_entity_current_animation)
+	- `set entity "Entity Name" animation to 0`
+- [SET_ENTITY_CURRENT_FRAME](#set_entity_current_frame)
+	- `set entity "Entity Name" animation_frame to 0`
+- [SET_ENTITY_DIRECTION](#set_entity_direction)
+	- `turn entity "Entity Name" north`
+- [SET_ENTITY_DIRECTION_RELATIVE](#set_entity_direction_relative)
+	- `rotate entity "Entity Name" -1`
+- [SET_ENTITY_DIRECTION_TARGET_ENTITY](#set_entity_direction_target_entity)
+	- `turn entity "Entity Name" toward entity "Target Entity"`
+- [SET_ENTITY_DIRECTION_TARGET_GEOMETRY](#set_entity_direction_target_geometry)
+	- `turn entity "Entity Name" toward geometry "vector object name"`
+- [SET_ENTITY_GLITCHED](#set_entity_glitched)
+	- `make entity "Entity Name" glitched`
+	- `make entity "Entity Name" unglitched`
+
+#### [Set entity properties](#set-entity-properties-actions)
+
+- [SET_ENTITY_NAME](#set_entity_name)
+	- `set entity "Entity Name" name to "some kind of string"`
+- [SET_ENTITY_X](#set_entity_x)
+	- `set entity "Entity Name" x to 2`
+- [SET_ENTITY_Y](#set_entity_y)
+	- `set entity "Entity Name" y to 2`
+- [SET_ENTITY_TYPE](#set_entity_type)
+	- `set entity "Entity Name" type to old_man`
+- [SET_ENTITY_PRIMARY_ID](#set_entity_primary_id)
+	- `set entity "Entity Name" primary_id to 2`
+- [SET_ENTITY_SECONDARY_ID](#set_entity_secondary_id)
+	- `set entity "Entity Name" secondary_id to 2`
+- [SET_ENTITY_PRIMARY_ID_TYPE](#set_entity_primary_id_type)
+	- `set entity "Entity Name" primary_id_type to 0`
+- [SET_ENTITY_HACKABLE_STATE_A](#set_entity_hackable_state_a)
+	- `set entity "Entity Name" hackable_state_a to 0`
+- [SET_ENTITY_HACKABLE_STATE_B](#set_entity_hackable_state_b)
+	- `set entity "Entity Name" hackable_state_b to 0`
+- [SET_ENTITY_HACKABLE_STATE_C](#set_entity_hackable_state_c)
+	- `set entity "Entity Name" hackable_state_c to 0`
+- [SET_ENTITY_HACKABLE_STATE_D](#set_entity_hackable_state_d)
+	- `set entity "Entity Name" hackable_state_d to 0`
+- [SET_ENTITY_HACKABLE_STATE_A_U2](#set_entity_hackable_state_a_u2)
+	- `set entity "Entity Name" hackable_state_au2 to 2`
+- [SET_ENTITY_HACKABLE_STATE_C_U2](#set_entity_hackable_state_c_u2)
+	- `set entity "Entity Name" hackable_state_cu2 to 2`
+- [SET_ENTITY_HACKABLE_STATE_A_U4](#set_entity_hackable_state_a_u4)
+	- `set entity "Entity Name" hackable_state_au4 to $u4_value:number`
+
+#### [Set variables](#set-variables-actions)
+
+- [SET_SAVE_FLAG](#set_save_flag)
+	- `set flag saveFlagName to true`
+- [SET_WARP_STATE](#set_warp_state)
+	- `set warp state to "some kind of string"`
+- [MUTATE_VARIABLE](#mutate_variable)
+	- `mutate varName + 1`
+- [MUTATE_VARIABLES](#mutate_variables)
+	- `mutate varName + otherVar`
+- [COPY_VARIABLE](#copy_variable)
+	- `copy entity "Entity Name" x into variable varName`
+	- `copy variable varName from entity "Entity Name" x`
+	- `copy variable varName into entity "Entity Name" x`
+	- `copy entity "Entity Name" x from variable varName`
+
+#### Conditional gotos
+
+Consists of actions from the [check entity properies](#check-entity-properies-actions) and [check variables](#check-variables-actions) categories. All "conditions" can be inserted in either of the following patterns:
+
+- Plain action: `if` ... `then goto (script) $success_script:string`
+- [Zigzag](#zigzag-if--else) macro: `if (` ... `) { }`
+
+(The example syntax below is the condition part of the pattern alone.)
+
+- [CHECK_ENTITY_NAME](#check_entity_name)
+	- `entity "Entity Name" name is "some kind of string"`
+	- `entity "Entity Name" name is not "some kind of string"`
+- [CHECK_ENTITY_X](#check_entity_x)
+	- `entity "Entity Name" x is 32`
+	- `entity "Entity Name" x is not 32`
+- [CHECK_ENTITY_Y](#check_entity_y)
+	- `entity "Entity Name" y is 32`
+	- `entity "Entity Name" y is not 32`
+- [CHECK_ENTITY_INTERACT_SCRIPT](#check_entity_interact_script)
+	- `entity "Entity Name" interact_script is scriptName`
+	- `entity "Entity Name" interact_script is not scriptName`
+- [CHECK_ENTITY_TICK_SCRIPT](#check_entity_tick_script)
+	- `entity "Entity Name" tick_script is scriptName`
+	- `entity "Entity Name" tick_script is not scriptName`
+- [CHECK_ENTITY_TYPE](#check_entity_type)
+	- `entity "Entity Name" type is old_man`
+	- `entity "Entity Name" type is not old_man`
+- [CHECK_ENTITY_PRIMARY_ID](#check_entity_primary_id)
+	- `entity "Entity Name" primary_id is 32`
+	- `entity "Entity Name" primary_id is not 32`
+- [CHECK_ENTITY_SECONDARY_ID](#check_entity_secondary_id)
+	- `entity "Entity Name" secondary_id is 32`
+	- `entity "Entity Name" secondary_id is not 32`
+- [CHECK_ENTITY_PRIMARY_ID_TYPE](#check_entity_primary_id_type)
+	- `entity "Entity Name" primary_id_type is 2`
+	- `entity "Entity Name" primary_id_type is not 2`
+- [CHECK_ENTITY_CURRENT_ANIMATION](#check_entity_current_animation)
+	- `entity "Entity Name" animation is 2`
+	- `entity "Entity Name" animation is not 2`
+- [CHECK_ENTITY_CURRENT_FRAME](#check_entity_current_frame)
+	- `entity "Entity Name" animation_frame is 2`
+	- `entity "Entity Name" animation_frame is not 2`
+- [CHECK_ENTITY_DIRECTION](#check_entity_direction)
+	- `entity "Entity Name" direction is north`
+	- `entity "Entity Name" direction is not north`
+- [CHECK_ENTITY_GLITCHED](#check_entity_glitched)
+	- `entity "Entity Name" is glitched`
+	- `entity "Entity Name" is not glitched`
+- [CHECK_ENTITY_HACKABLE_STATE_A](#check_entity_hackable_state_a)
+	- `entity "Entity Name" hackable_state_a is 2`
+	- `entity "Entity Name" hackable_state_a is not 2`
+- [CHECK_ENTITY_HACKABLE_STATE_B](#check_entity_hackable_state_b)
+	- `entity "Entity Name" hackable_state_b is 2`
+	- `entity "Entity Name" hackable_state_b is not 2`
+- [CHECK_ENTITY_HACKABLE_STATE_C](#check_entity_hackable_state_c)
+	- `entity "Entity Name" hackable_state_c is 2`
+	- `entity "Entity Name" hackable_state_c is not 2`
+- [CHECK_ENTITY_HACKABLE_STATE_D](#check_entity_hackable_state_d)
+	- `entity "Entity Name" hackable_state_d is 2`
+	- `entity "Entity Name" hackable_state_d is not 2`
+- [CHECK_ENTITY_HACKABLE_STATE_A_U2](#check_entity_hackable_state_a_u2)
+	- `entity "Entity Name" hackable_state_au2 is 32`
+	- `entity "Entity Name" hackable_state_au2 is not 32`
+- [CHECK_ENTITY_HACKABLE_STATE_C_U2](#check_entity_hackable_state_c_u2)
+	- `entity "Entity Name" hackable_state_cu2 is 32`
+	- `entity "Entity Name" hackable_state_cu2 is not 32`
+- [CHECK_ENTITY_HACKABLE_STATE_A_U4](#check_entity_hackable_state_a_u4)
+	- `entity "Entity Name" hackable_state_au4 is 9001`
+- [CHECK_ENTITY_PATH](#check_entity_path)
+	- `entity "Entity Name" path is "vector object name"`
+	- `entity "Entity Name" path is not "vector object name"`
+- [CHECK_IF_ENTITY_IS_IN_GEOMETRY](#check_if_entity_is_in_geometry)
+	- `entity "Entity Name" is inside geometry "vector object name"`
+	- `entity "Entity Name" is not inside geometry "vector object name"`
+- [CHECK_VARIABLE](#check_variable)
+	- `variable varName is 1`
+	- `variable varName is < 1`
+	- `variable varName is not 1`
+	- `variable varName is not < 1`
+- [CHECK_VARIABLES](#check_variables)
+	- `variable varName is otherVar`
+	- `variable varName is < otherVar`
+	- `variable varName is not otherVar`
+	- `variable varName is not < otherVar`
+- [CHECK_SAVE_FLAG](#check_save_flag)
+	- `flag saveFlagName is true`
+- [CHECK_FOR_BUTTON_PRESS](#check_for_button_press)
+	- `button SQUARE`
+- [CHECK_FOR_BUTTON_STATE](#check_for_button_state)
+	- `button SQUARE is currently pressed`
+	- `button SQUARE is not currently pressed`
+- [CHECK_WARP_STATE](#check_warp_state)
+	- `warp state is "some kind of string"`
+	- `warp state is not "some kind of string"`
 
 ### Game management actions
 
@@ -1099,11 +1343,577 @@ set hex clipboard (to) $bool_value:boolean
 
 Example: `set hex clipboard to on`
 
-### Check entity properies actions
+### Camera control actions
+
+Manipulate the camera's position or perform tricks like shaking the camera or fading the screen in and out to an arbitrary color.
+
+#### SET_CAMERA_TO_FOLLOW_ENTITY
+
+Sets what the camera is following. (`%PLAYER%` is the default.)
+
+```
+make camera follow entity $entity:string
+```
+
+Example: `make camera follow entity "Entity Name"`
+
+#### TELEPORT_CAMERA_TO_GEOMETRY
+
+Moves the camera to the first vertex of the specified geometry object.
+
+```
+teleport camera to geometry $geometry:string
+```
+
+Example: `teleport camera to geometry "vector object name"`
+
+#### PAN_CAMERA_TO_ENTITY
+
+Pans the camera to an entity.
+
+NOTE: if the entity is moving while the camera is coming closer, the camera will speed up or slow down to reach the entity at the correct time.
+
+```
+pan camera to entity $entity:string over $duration:duration
+```
+
+Example: `pan camera to entity "Entity Name" over 1000ms`
+
+#### PAN_CAMERA_TO_GEOMETRY
+
+Pans the camera to the first vertex of a geometry object.
+
+```
+pan camera to geometry $geometry:string over $duration:duration
+```
+
+Example: `pan camera to geometry "vector object name" over 1000ms`
+
+#### PAN_CAMERA_ALONG_GEOMETRY
+
+(might not work yet — instead, make a null entity and lock the camera to it)
+
+```
+pan camera along geometry $geometry:string over $duration:duration
+```
+
+Example: `pan camera along geometry "vector object name" over 1000ms`
+
+#### LOOP_CAMERA_ALONG_GEOMETRY
+
+(might not work yet — instead, make a null entity and lock the camera to it)
+
+```
+loop camera along geometry $geometry:string over $duration:duration
+```
+
+Example: `loop camera along geometry "vector object name" over 1000ms`
+
+#### SET_SCREEN_SHAKE
+
+Shakes the camera a certain distance (`amplitude`) at a certain speed (`frequency`) and for a certain length of time (`duration`).
+
+```
+shake camera $frequency:duration $amplitude:distance for $duration:duration
+```
+
+Example: `shake camera 200ms 32px for 3s`
+
+#### SCREEN_FADE_OUT
+
+Fades the screen out to the given color.
+
+Fades are slow on the hardware, so use these sparingly.
+
+```
+fade out camera to $color:color over $duration:duration
+```
+
+Example: `fade out camera to #000 over 1000ms`
+
+#### SCREEN_FADE_IN
+
+Fades the screen in from the given color.
+
+Fades are slow on the hardware, so use these sparingly.
+
+```
+fade in camera from $color:color over $duration:duration
+```
+
+Example: `fade in camera from #000 over 1000ms`
+
+### Script control actions
+
+Set a specific `on_tick` or `on_interact` script, run another script, or recursively copy the actions inside another script.
+
+#### RUN_SCRIPT
+
+Abandons the current script and jumps to the named script. In other words, actions provided after a `RUN_SCRIPT` action will not execute. (The MGS Natlang keyword `goto` was chosen to emphasize this.)
+
+The new script runs in the same script slot that called this action.
+
+```
+goto (script) $script:string
+```
+
+Example: `goto scriptName`
+
+#### COPY_SCRIPT
+
+The MGE encoder literally copies all the actions from the copied `script` and inserts them where `COPY_SCRIPT` is being used. This happens recursively.
+
+```
+copy (script) $script:string
+```
+
+Example: `copy scriptName`
+
+#### SET_MAP_TICK_SCRIPT
+
+Sets the map's `on_tick` script.
+
+```
+set map tick_script (to) $script:string
+```
+
+Example: `set map tick_script to scriptName`
+
+#### SET_ENTITY_INTERACT_SCRIPT
+
+Sets an entity's `on_interact` script.
+
+If you use this action to change the script slot that is currently running the action, any actions given afterward may not execute depending on what they are.
+
+Because entity properties are reset when a map is loaded, and because entities retain the last script that was run in their `on_interact` slot, you should restore an entity's original interact script at the end of their interact script tree.
+
+```
+set entity $entity:string interact_script (to) $script:string
+```
+
+Example: `set entity "Entity Name" interact_script to scriptName`
+
+#### SET_ENTITY_TICK_SCRIPT
+
+Sets an entity's `on_tick` script.
+
+```
+set entity $entity:string tick_script (to) $script:string
+```
+
+Example: `set entity "Entity Name" tick_script to scriptName`
+
+### Entity choreography actions
+
+Move entities around the map using vector objects placed with Tiled.
+
+NOTE: These actions can behave erratically if any of the vertices in the geometry object are subject to coordinate underflow.
+
+#### SET_ENTITY_PATH
+
+This assigns a vector object to an entity. Afterward, the entity can use `%ENTITY_PATH%` to refer to that path. (This assignment can also be done within Tiled.)
+
+```
+set entity $entity:string path (to) $geometry:string
+```
+
+Example: `set entity "Entity Name" path to "vector object name"`
+
+#### TELEPORT_ENTITY_TO_GEOMETRY
+
+Moves the entity instantly to the first vertex of the specified geometry object (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`).
+
+```
+teleport entity $entity:string to geometry $geometry:string
+```
+
+Example: `teleport entity "Entity Name" to geometry "vector object name"`
+
+#### WALK_ENTITY_TO_GEOMETRY
+
+Moves the entity in a straight line from its current position to the first vertex of the geometry object named (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`) over a period of time.
+
+```
+walk entity $entity:string to geometry $geometry:string over $duration:duration
+```
+
+Example: `walk entity "Entity Name" to geometry "vector object name" over 1000ms`
+
+#### WALK_ENTITY_ALONG_GEOMETRY
+
+Moves the entity along the geometry object named (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`) over a period of time.
+
+NOTE: Unless you want the entity to teleport to the geometry's origin point, you should probably use [WALK_ENTITY_TO_GEOMETRY](#walk_entity_to_geometry) first.
+
+```
+walk entity $entity:string along geometry $geometry:string over $duration:duration
+```
+
+Example: `walk entity "Entity Name" along geometry "vector object name" over 1000ms`
+
+#### LOOP_ENTITY_ALONG_GEOMETRY
+
+Moves the entity along the geometry object named (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`) over a period of time.
+
+This action will loop forever, and cannot terminate on its own; no other action given below this one inside a script will execute after this action begins.
+
+NOTE: Unless you want the entity to teleport to the geometry's origin point, you should probably use [WALK_ENTITY_TO_GEOMETRY](#walk_entity_to_geometry) first.
+
+```
+loop entity $entity:string along geometry $geometry:string over $duration:duration
+```
+
+Example: `loop entity "Entity Name" along geometry "vector object name" over 1000ms`
+
+### Entity appearance actions
+
+Many of these actions (the ones that don't have an explicit duration) will happen instantly. Therefore if several are used back-to-back, they will all resolve on the same frame. If this is not intended behavior, you should pad them with [non-blocking delay](#non_blocking_delay).
+
+#### PLAY_ENTITY_ANIMATION
+
+The entity will play the given animation the given number of times, and then will return to its default animation.
+
+A script that runs this action will not execute any further actions until the play count has been satisfied.
+
+If an entity is compelled to move around on the map, it will abort this animation playback.
+
+See [entity animations](#entity-animations) for what ids correspond to which animations
+
+```
+play entity $entity:string animation $animation:number $play_count:quantity
+```
+
+Example: `play entity "Entity Name" animation 3 twice`
+
+#### SET_ENTITY_CURRENT_ANIMATION
+
+The entity will switch to the given animation, which will loop indefinitely.
+
+If an entity is compelled to move around on the map, it will abort this animation playback. When the entity stops moving again, it will revert to its default animation and not the one given by this action.
+
+See [entity animations](#entity-animations) for what ids correspond to which animations
+
+```
+set entity $entity:string animation (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" animation to 0`
+
+#### SET_ENTITY_CURRENT_FRAME
+
+Set the frame of the current animation.
+
+This is useful for staggering the animations of entities that have identical animation timings.
+
+```
+set entity $entity:string animation_frame (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" animation_frame to 0`
+
+#### SET_ENTITY_DIRECTION
+
+Turns an entity toward the `north`, `south`, `east`, or `west`.
+
+```
+turn entity $entity:string $direction:bareword
+```
+
+Example: `turn entity "Entity Name" north`
+
+#### SET_ENTITY_DIRECTION_RELATIVE
+
+Turns the entity in 90° increments. Positive numbers are clockwise turns, and negative numbers are counterclockwise turns. (E.g. turn them '2' to flip them around 180°)
+
+This action can be chained with another similar one for complex behaviors. For example, to turn an entity away from the player, you can first set the entity's direction [toward the player](#set_entity_direction_target_entity), then immediately rotate it 2 turns with this action.
+
+```
+rotate entity $entity:string $relative_direction:number
+```
+
+Example: `rotate entity "Entity Name" -1`
+
+#### SET_ENTITY_DIRECTION_TARGET_ENTITY
+
+Make an entity turn toward another.
+
+```
+turn entity $entity:string toward entity $target_entity:string
+```
+
+Example: `turn entity "Entity Name" toward entity "Target Entity"`
+
+#### SET_ENTITY_DIRECTION_TARGET_GEOMETRY
+
+Make an entity turn toward a vector geometry on the map.
+
+```
+turn entity $entity:string toward geometry $target_geometry:string
+```
+
+Example: `turn entity "Entity Name" toward geometry "vector object name"`
+
+#### SET_ENTITY_GLITCHED
+
+Set the glitched render flag on an entity.
+
+```
+make entity $entity:string glitched
+	// Built-in values:
+	// bool_value (true)
+```
+
+```
+make entity $entity:string unglitched
+	// Built-in values:
+	// bool_value (false)
+```
+
+Examples:
+
+- `make entity "Entity Name" glitched`
+- `make entity "Entity Name" unglitched`
+
+### Set entity properties actions
+
+Set a specific property on a specific entity.
+
+#### SET_ENTITY_NAME
+
+Sets an entity's `name`.
+
+```
+set entity $entity:string name (to) $string:string
+```
+
+Example: `set entity "Entity Name" name to "some kind of string"`
+
+#### SET_ENTITY_X
+
+Sets an entity's `x` coordinate.
+
+In practice, you will likely want to use geometry vectors and teleport actions instead.
+
+```
+set entity $entity:string x (to) $u2_value:number
+```
+
+Example: `set entity "Entity Name" x to 2`
+
+#### SET_ENTITY_Y
+
+Sets an entity's `y` coordinate.
+
+In practice, you will likely want to use geometry vectors and teleport actions instead.
+
+```
+set entity $entity:string y (to) $u2_value:number
+```
+
+Example: `set entity "Entity Name" y to 2`
+
+#### SET_ENTITY_TYPE
+
+Sets an entity's `entity_type`.
+
+```
+set entity $entity:string type (to) $entity_type:string
+```
+
+Example: `set entity "Entity Name" type to old_man`
+
+#### SET_ENTITY_PRIMARY_ID
+
+Sets an entity's `primary_id`.
+
+You will overwhelmingly want to set the `entity_type` by name instead with [SET_ENTITY_TYPE](#set_entity_type).
+
+```
+set entity $entity:string primary_id (to) $u2_value:number
+```
+
+Example: `set entity "Entity Name" primary_id to 2`
+
+#### SET_ENTITY_SECONDARY_ID
+
+Sets an entity's `secondary_id`.
+
+This action will not be useful unless the entity is a tile entity (`primary_id_type`: 1).
+
+```
+set entity $entity:string secondary_id (to) $u2_value:number
+```
+
+Example: `set entity "Entity Name" secondary_id to 2`
+
+#### SET_ENTITY_PRIMARY_ID_TYPE
+
+Sets an entity's `primary_id_type`: either (0) tile, (1) animation, or (2) character (sometimes called `entity_type`)
+
+```
+set entity $entity:string primary_id_type (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" primary_id_type to 0`
+
+#### SET_ENTITY_HACKABLE_STATE_A
+
+Sets the value of an entity's `hackable_state_a` byte. Max value: 255
+
+```
+set entity $entity:string hackable_state_a (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_a to 0`
+
+#### SET_ENTITY_HACKABLE_STATE_B
+
+Sets the value of an entity's `hackable_state_b` byte. Max value: 255
+
+```
+set entity $entity:string hackable_state_b (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_b to 0`
+
+#### SET_ENTITY_HACKABLE_STATE_C
+
+Sets the value of an entity's `hackable_state_c` byte. Max value: 255
+
+```
+set entity $entity:string hackable_state_c (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_c to 0`
+
+#### SET_ENTITY_HACKABLE_STATE_D
+
+Sets the value of an entity's `hackable_state_d` byte. Max value: 255
+
+```
+set entity $entity:string hackable_state_d (to) $byte_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_d to 0`
+
+#### SET_ENTITY_HACKABLE_STATE_A_U2
+
+Sets the values of an entity's `hackable_state_a` and `hackable_state_b` bytes, interpreted together as if a U2. Max value: 65535
+
+```
+set entity $entity:string hackable_state_au2 (to) $u2_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_au2 to 2`
+
+#### SET_ENTITY_HACKABLE_STATE_C_U2
+
+Sets the values of an entity's `hackable_state_c` and `hackable_state_d` bytes, interpreted together as if a U2. Max value: 65535
+
+```
+set entity $entity:string hackable_state_cu2 (to) $u2_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_cu2 to 2`
+
+#### SET_ENTITY_HACKABLE_STATE_A_U4
+
+Sets the values of an entity's `hackable_state_a` through `hackable_state_d` bytes, interpreted together as if a U4. Max value: …big
+
+```
+set entity $entity:string hackable_state_au4 (to) $u4_value:number
+```
+
+Example: `set entity "Entity Name" hackable_state_au4 to $u4_value:number`
+
+### Set variables actions
+
+Manipulate MGE variables or set them to an arbitrary value.
+
+#### SET_SAVE_FLAG
+
+Set a save flag to `true` or `false`.
+
+```
+set flag $save_flag:string (to) $bool_value:boolean
+```
+
+Example: `set flag saveFlagName to true`
+
+#### SET_WARP_STATE
+
+Set the warp state string to a specific value.
+
+```
+set warp state (to) $string:string
+```
+
+Example: `set warp state to "some kind of string"`
+
+#### MUTATE_VARIABLE
+
+Manipulate the value of a specific variable or set it to a new value.
+
+See [operations](#operations).
+
+```
+mutate $variable:string $operation:operator $value:number
+```
+
+Example: `mutate varName + 1`
+
+#### MUTATE_VARIABLES
+
+Manipulate the value of a specific variable by using the value of another variable.
+
+See [operations](#operations).
+
+```
+mutate $variable:string $operation:operator $source:string
+```
+
+Example: `mutate varName + otherVar`
+
+#### COPY_VARIABLE
+
+Copies the value of an entity property into a variable or vice versa.
+
+```
+copy entity $entity:string $field:bareword into variable $variable:string
+	// Built-in values:
+	// inbound (true)
+```
+
+```
+copy variable $variable:string from entity $entity:string $field:bareword
+	// Built-in values:
+	// inbound (true)
+```
+
+```
+copy variable $variable:string into entity $entity:string $field:bareword
+	// Built-in values:
+	// inbound (false)
+```
+
+```
+copy entity $entity:string $field:bareword from variable $variable:string
+	// Built-in values:
+	// inbound (false)
+```
+
+Examples:
+
+- `copy entity "Entity Name" x into variable varName`
+- `copy variable varName from entity "Entity Name" x`
+- `copy variable varName into entity "Entity Name" x`
+- `copy entity "Entity Name" x from variable varName`
+
+### Check entity properties actions
 
 These actions check whether one of an entity's properties matches a specific state. If the condition is met (or not met), then the script will abandon any remaining actions and "goto" to the named script.
 
-Tou can use `%SELF%` to target the entity running the script and `%PLAYER%` to target the player entity. Otherwise, you must use the entity's given name (its name in Tiled).
+You can use `%SELF%` to target the entity running the script and `%PLAYER%` to target the player entity. Otherwise, you must use the entity's given name (its name in Tiled).
 
 #### CHECK_ENTITY_NAME
 
@@ -1613,7 +2423,7 @@ Examples:
 
 ### Check variables actions
 
-Check whether one of the MGE variables matches a specific value. If the condition is met (or not met), then the script will abandon any remaining actions and "goto" to the named script.
+Check whether one of the MGE variables matches a specific value. If the condition is met (or not met), then the script will abandon any remaining actions and "goto" the named script.
 
 #### CHECK_VARIABLE
 
@@ -1778,572 +2588,6 @@ Examples:
 
 - `if warp state is "some kind of string" then goto successScript`
 - `if warp state is not "some kind of string" then goto successScript`
-
-### Set entity properies actions
-
-Set a specific property on a specific entity.
-
-#### SET_ENTITY_NAME
-
-Sets an entity's `name`.
-
-```
-set entity $entity:string name (to) $string:string
-```
-
-Example: `set entity "Entity Name" name to "some kind of string"`
-
-#### SET_ENTITY_X
-
-Sets an entity's `x` coordinate.
-
-In practice, you will likely want to use geometry vectors and teleport actions instead.
-
-```
-set entity $entity:string x (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" x to 2`
-
-#### SET_ENTITY_Y
-
-Sets an entity's `y` coordinate.
-
-In practice, you will likely want to use geometry vectors and teleport actions instead.
-
-```
-set entity $entity:string y (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" y to 2`
-
-#### SET_ENTITY_TYPE
-
-Sets an entity's `entity_type`.
-
-```
-set entity $entity:string type (to) $entity_type:string
-```
-
-Example: `set entity "Entity Name" type to old_man`
-
-#### SET_ENTITY_PRIMARY_ID
-
-Sets an entity's `primary_id`.
-
-You will overwhelmingly want to set the `entity_type` by name instead with [SET_ENTITY_TYPE](#set_entity_type).
-
-```
-set entity $entity:string primary_id (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" primary_id to 2`
-
-#### SET_ENTITY_SECONDARY_ID
-
-Sets an entity's `secondary_id`.
-
-This action will not be useful unless the entity is a tile entity (`primary_id_type`: 1).
-
-```
-set entity $entity:string secondary_id (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" secondary_id to 2`
-
-#### SET_ENTITY_PRIMARY_ID_TYPE
-
-Sets an entity's `primary_id_type`: either (0) tile, (1) animation, or (2) character (sometimes called `entity_type`)
-
-```
-set entity $entity:string primary_id_type (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" primary_id_type to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_A
-
-Sets the value of an entity's `hackable_state_a` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_a (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_a to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_B
-
-Sets the value of an entity's `hackable_state_b` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_b (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_b to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_C
-
-Sets the value of an entity's `hackable_state_c` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_c (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_c to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_D
-
-Sets the value of an entity's `hackable_state_d` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_d (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_d to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_A_U2
-
-Sets the values of an entity's `hackable_state_a` and `hackable_state_b` bytes, interpreted together as if a U2. Max value: 65535
-
-```
-set entity $entity:string hackable_state_au2 (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_au2 to 2`
-
-#### SET_ENTITY_HACKABLE_STATE_C_U2
-
-Sets the values of an entity's `hackable_state_c` and `hackable_state_d` bytes, interpreted together as if a U2. Max value: 65535
-
-```
-set entity $entity:string hackable_state_cu2 (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_cu2 to 2`
-
-#### SET_ENTITY_HACKABLE_STATE_A_U4
-
-Sets the values of an entity's `hackable_state_a` through `hackable_state_d` bytes, interpreted together as if a U4. Max value: …big
-
-```
-set entity $entity:string hackable_state_au4 (to) $u4_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_au4 to $u4_value:number`
-
-### Set variables actions
-
-Manipulate MGE variables or set them to an arbitrary value.
-
-#### SET_SAVE_FLAG
-
-Set a save flag to `true` or `false`.
-
-```
-set flag $save_flag:string (to) $bool_value:boolean
-```
-
-Example: `set flag saveFlagName to true`
-
-#### SET_WARP_STATE
-
-Set the warp state string to a specific value.
-
-```
-set warp state (to) $string:string
-```
-
-Example: `set warp state to "some kind of string"`
-
-#### MUTATE_VARIABLE
-
-Manipulate the value of a specific variable or set it to a new value.
-
-See [operations](#operations).
-
-```
-mutate $variable:string $operation:operator $value:number
-```
-
-Example: `mutate varName + 1`
-
-#### MUTATE_VARIABLES
-
-Manipulate the value of a specific variable by using the value of another variable.
-
-See [operations](#operations).
-
-```
-mutate $variable:string $operation:operator $source:string
-```
-
-Example: `mutate varName + otherVar`
-
-#### COPY_VARIABLE
-
-Copies the value of an entity property into a variable or vice versa.
-
-```
-copy entity $entity:string $field:bareword into variable $variable:string
-	// Built-in values:
-	// inbound (true)
-```
-
-```
-copy variable $variable:string from entity $entity:string $field:bareword
-	// Built-in values:
-	// inbound (true)
-```
-
-```
-copy variable $variable:string into entity $entity:string $field:bareword
-	// Built-in values:
-	// inbound (false)
-```
-
-```
-copy entity $entity:string $field:bareword from variable $variable:string
-	// Built-in values:
-	// inbound (false)
-```
-
-Examples:
-
-- `copy entity "Entity Name" x into variable varName`
-- `copy variable varName from entity "Entity Name" x`
-- `copy variable varName into entity "Entity Name" x`
-- `copy entity "Entity Name" x from variable varName`
-
-### Entity choreography actions
-
-Move entities around the map using vector objects placed with Tiled.
-
-NOTE: These actions can behave erratically if any of the vertices in the geometry object are subject to coordinate underflow.
-
-#### SET_ENTITY_PATH
-
-This assigns a vector object to an entity. Afterward, the entity can use `%ENTITY_PATH%` to refer to that path. (This assignment can also be done within Tiled.)
-
-```
-set entity $entity:string path (to) $geometry:string
-```
-
-Example: `set entity "Entity Name" path to "vector object name"`
-
-#### TELEPORT_ENTITY_TO_GEOMETRY
-
-Moves the entity instantly to the first vertex of the specified geometry object (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`).
-
-```
-teleport entity $entity:string to geometry $geometry:string
-```
-
-Example: `teleport entity "Entity Name" to geometry "vector object name"`
-
-#### WALK_ENTITY_TO_GEOMETRY
-
-Moves the entity in a straight line from its current position to the first vertex of the geometry object named (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`) over a period of time.
-
-```
-walk entity $entity:string to geometry $geometry:string over $duration:duration
-```
-
-Example: `walk entity "Entity Name" to geometry "vector object name" over 1000ms`
-
-#### WALK_ENTITY_ALONG_GEOMETRY
-
-Moves the entity along the geometry object named (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`) over a period of time.
-
-NOTE: Unless you want the entity to teleport to the geometry's origin point, you should probably use [WALK_ENTITY_TO_GEOMETRY](#walk_entity_to_geometry) first.
-
-```
-walk entity $entity:string along geometry $geometry:string over $duration:duration
-```
-
-Example: `walk entity "Entity Name" along geometry "vector object name" over 1000ms`
-
-#### LOOP_ENTITY_ALONG_GEOMETRY
-
-Moves the entity along the geometry object named (or the entity's assigned path if `geometry` is `%ENTITY_PATH%`) over a period of time.
-
-This action will loop forever, and cannot terminate on its own; no other action given below this one inside a script will execute after this action begins.
-
-NOTE: Unless you want the entity to teleport to the geometry's origin point, you should probably use [WALK_ENTITY_TO_GEOMETRY](#walk_entity_to_geometry) first.
-
-```
-loop entity $entity:string along geometry $geometry:string over $duration:duration
-```
-
-Example: `loop entity "Entity Name" along geometry "vector object name" over 1000ms`
-
-### Entity appearance actions
-
-Many of these actions (the ones that don't have an explicit duration) will happen instantly. Therefore if several are used back-to-back, they will all resolve on the same frame. If this is not intended behavior, you should pad them with [non-blocking delay](#non_blocking_delay).
-
-#### PLAY_ENTITY_ANIMATION
-
-The entity will play the given animation the given number of times, and then will return to its default animation.
-
-A script that runs this action will not execute any further actions until the play count has been satisfied.
-
-If an entity is compelled to move around on the map, it will abort this animation playback.
-
-See [entity animations](#entity-animations) for what ids correspond to which animations
-
-```
-play entity $entity:string animation $animation:number $play_count:quantity
-```
-
-Example: `play entity "Entity Name" animation 3 twice`
-
-#### SET_ENTITY_CURRENT_ANIMATION
-
-The entity will switch to the given animation, which will loop indefinitely.
-
-If an entity is compelled to move around on the map, it will abort this animation playback. When the entity stops moving again, it will revert to its default animation and not the one given by this action.
-
-See [entity animations](#entity-animations) for what ids correspond to which animations
-
-```
-set entity $entity:string animation (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" animation to 0`
-
-#### SET_ENTITY_CURRENT_FRAME
-
-Set the frame of the current animation.
-
-This is useful for staggering the animations of entities that have identical animation timings.
-
-```
-set entity $entity:string animation_frame (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" animation_frame to 0`
-
-#### SET_ENTITY_DIRECTION
-
-Turns an entity toward the `north`, `south`, `east`, or `west`.
-
-```
-turn entity $entity:string $direction:bareword
-```
-
-Example: `turn entity "Entity Name" north`
-
-#### SET_ENTITY_DIRECTION_RELATIVE
-
-Turns the entity in 90° increments. Positive numbers are clockwise turns, and negative numbers are counterclockwise turns. (E.g. turn them '2' to flip them around 180°)
-
-This action can be chained with another similar one for complex behaviors. For example, to turn an entity away from the player, you can first set the entity's direction [toward the player](#set_entity_direction_target_entity), then immediately rotate it 2 turns with this action.
-
-```
-rotate entity $entity:string $relative_direction:number
-```
-
-Example: `rotate entity "Entity Name" -1`
-
-#### SET_ENTITY_DIRECTION_TARGET_ENTITY
-
-Make an entity turn toward another.
-
-```
-turn entity $entity:string toward entity $target_entity:string
-```
-
-Example: `turn entity "Entity Name" toward entity "Target Entity"`
-
-#### SET_ENTITY_DIRECTION_TARGET_GEOMETRY
-
-Make an entity turn toward a vector geometry on the map.
-
-```
-turn entity $entity:string toward geometry $target_geometry:string
-```
-
-Example: `turn entity "Entity Name" toward geometry "vector object name"`
-
-#### SET_ENTITY_GLITCHED
-
-Set the glitched render flag on an entity.
-
-```
-make entity $entity:string glitched
-	// Built-in values:
-	// bool_value (true)
-```
-
-```
-make entity $entity:string unglitched
-	// Built-in values:
-	// bool_value (false)
-```
-
-Examples:
-
-- `make entity "Entity Name" glitched`
-- `make entity "Entity Name" unglitched`
-
-### Camera control actions
-
-Manipulate the camera's position or perform tricks like shaking the camera or fading the screen in and out to an arbitrary color.
-
-#### SET_CAMERA_TO_FOLLOW_ENTITY
-
-Sets what the camera is following. (`%PLAYER%` is the default.)
-
-```
-make camera follow entity $entity:string
-```
-
-Example: `make camera follow entity "Entity Name"`
-
-#### TELEPORT_CAMERA_TO_GEOMETRY
-
-Moves the camera to the first vertex of the specified geometry object.
-
-```
-teleport camera to geometry $geometry:string
-```
-
-Example: `teleport camera to geometry "vector object name"`
-
-#### PAN_CAMERA_TO_ENTITY
-
-Pans the camera to an entity.
-
-NOTE: if the entity is moving while the camera is coming closer, the camera will speed up or slow down to reach the entity at the correct time.
-
-```
-pan camera to entity $entity:string over $duration:duration
-```
-
-Example: `pan camera to entity "Entity Name" over 1000ms`
-
-#### PAN_CAMERA_TO_GEOMETRY
-
-Pans the camera to the first vertex of a geometry object.
-
-```
-pan camera to geometry $geometry:string over $duration:duration
-```
-
-Example: `pan camera to geometry "vector object name" over 1000ms`
-
-#### PAN_CAMERA_ALONG_GEOMETRY
-
-(might not work yet — instead, make a null entity and lock the camera to it)
-
-```
-pan camera along geometry $geometry:string over $duration:duration
-```
-
-Example: `pan camera along geometry "vector object name" over 1000ms`
-
-#### LOOP_CAMERA_ALONG_GEOMETRY
-
-(might not work yet — instead, make a null entity and lock the camera to it)
-
-```
-loop camera along geometry $geometry:string over $duration:duration
-```
-
-Example: `loop camera along geometry "vector object name" over 1000ms`
-
-#### SET_SCREEN_SHAKE
-
-Shakes the camera a certain distance (`amplitude`) at a certain speed (`frequency`) and for a certain length of time (`duration`).
-
-```
-shake camera $frequency:duration $amplitude:distance for $duration:duration
-```
-
-Example: `shake camera 200ms 32px for 3s`
-
-#### SCREEN_FADE_OUT
-
-Fades the screen out to the given color.
-
-Fades are slow on the hardware, so use these sparingly.
-
-```
-fade out camera to $color:color over $duration:duration
-```
-
-Example: `fade out camera to #000 over 1000ms`
-
-#### SCREEN_FADE_IN
-
-Fades the screen in from the given color.
-
-Fades are slow on the hardware, so use these sparingly.
-
-```
-fade in camera from $color:color over $duration:duration
-```
-
-Example: `fade in camera from #000 over 1000ms`
-
-### Script control actions
-
-Set a specific `on_tick` or `on_interact` script, run another script, or recursively copy the actions inside another script.
-
-#### RUN_SCRIPT
-
-Abandons the current script and jumps to the named script. In other words, actions provided after a `RUN_SCRIPT` action will not execute. (The MGS Natlang keyword `goto` was chosen to emphasize this.)
-
-The new script runs in the same script slot that called this action.
-
-```
-goto (script) $script:string
-```
-
-Example: `goto scriptName`
-
-#### COPY_SCRIPT
-
-The MGE encoder literally copies all the actions from the copied `script` and inserts them where `COPY_SCRIPT` is being used. This happens recursively.
-
-```
-copy (script) $script:string
-```
-
-Example: `copy scriptName`
-
-#### SET_MAP_TICK_SCRIPT
-
-Sets the map's `on_tick` script.
-
-```
-set map tick_script (to) $script:string
-```
-
-Example: `set map tick_script to scriptName`
-
-#### SET_ENTITY_INTERACT_SCRIPT
-
-Sets an entity's `on_interact` script.
-
-If you use this action to change the script slot that is currently running the action, any actions given afterward may not execute depending on what they are.
-
-Because entity properties are reset when a map is loaded, and because entities retain the last script that was run in their `on_interact` slot, you should restore an entity's original interact script at the end of their interact script tree.
-
-```
-set entity $entity:string interact_script (to) $script:string
-```
-
-Example: `set entity "Entity Name" interact_script to scriptName`
-
-#### SET_ENTITY_TICK_SCRIPT
-
-Sets an entity's `on_tick` script.
-
-```
-set entity $entity:string tick_script (to) $script:string
-```
-
-Example: `set entity "Entity Name" tick_script to scriptName`
 
 ## Further Information
 

@@ -90,7 +90,7 @@ You will have to update the `mgs.tmLanguage` manually by repeating the above pro
 
 #### Other IDEs
 
-Many other IDEs will accept TextMate grammars, but you will have to find and follow your IDE's specific instructions, however.
+Many other IDEs will accept TextMate grammars, but you will have to find and follow your IDE's specific instructions.
 
 ## MGS Natlang vs JSON
 
@@ -353,7 +353,7 @@ If the word `script` is absent, any [string](#string) (other than `dialog`, `set
 
 These blocks must occur on the root level.
 
-**Block contents**: any number of [actions](#actions) in the order they are to be executed in-game. Some of these may be [show dialog blocks](#show-dialog-block). (See the [action dictionary](#action-dictionary) far below for detailed information on all actions other actions.)
+**Block contents**: any number of [actions](#actions) in the order they are to be executed in-game. Some of these may be [show dialog blocks](#show-dialog-block). (See the [action dictionary](#action-dictionary) far below for detailed information on each action.)
 
 ### Show dialog block
 
@@ -361,7 +361,7 @@ These blocks must occur on the root level.
 show dialog ($string) {}
 ```
 
-This block combines a dialog definition (see [dialog block](#dialog-block)) with the `SHOW_DIALOG` action.
+This block combines a dialog definition with the [`SHOW_DIALOG`](#show_dialog) action (as opposed to a [dialog block](#dialog-block), which is a dialog definition alone.)
 
 The dialog name ([string](#string)) is optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
 
@@ -369,9 +369,15 @@ Must be used inside a [script block](#script-block).
 
 **Block contents**: Any number of [dialogs](#dialog) in the order they are to be seen in-game.
 
-#### Versus the `SHOW_DIALOG` action
+#### `SHOW_DIALOG`
 
-The plain [`SHOW_DIALOG`](#show_dialog) action (`show dialog $string`) can "call" a dialog without having to define it in place.
+A related construction:
+
+```
+show dialog $string
+```
+
+This plain `SHOW_DIALOG` action can "call" a dialog without having to define it in place.
 
 Dialogs being called this way may be defined elsewhere in the file (even further down) or in another file entirely. The MGE encoder, which sees all scripts and all dialogs at the same time, will warn you if you're calling a dialog that doesn't exist.
 
@@ -431,7 +437,7 @@ Syntax for each parameter:
 	- [String](#string): the name of a MGE portrait.
 	- Overrides portraits inherited via the `entity` parameter.
 - `alignment $string`
-	- This [string](#string) must be one of the following:
+	- [String](#string): one of the following:
 		- `TR` (or `TOP_RIGHT`)
 		- `BR` (or `BOTTOM_RIGHT`)
 		- `TL` (or `TOP_LEFT`)
@@ -454,9 +460,9 @@ Any [quoted string](#quoted-string).
 - Only ASCII characters will be printed.
 - Insert an entity's current name (aka "relative name") by wrapping their given name in `%`s.
 	- `%PLAYER%` and `%SELF%` are also allowed, which target the player entity or the entity that is running the script, respectively.
-	- Words wrapped in `%`s (entity names) will count as 12 chars when the dialog message is auto-wrapped.
+	- Words wrapped in `%`s will count as 12 chars when the dialog message is auto-wrapped.
 - Insert the current value of a MGE variable by wrapping its name in `$`s.
-	- Words wrapped in `$`s (variables) will count as 5 chars when the dialog message is auto-wrapped.
+	- Words wrapped in `$`s will count as 5 chars when the dialog message is auto-wrapped.
 - Some characters must be escaped in the message body, such as double quote: `\"`
 	- `\t` (tabs) are auto-converted to four spaces.
 	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about explicitly hard wrapping your messages unless you want to put line breaks in arbitrary places.
@@ -948,6 +954,10 @@ testScript {
 ```
 
 The above is what the MGS Natlang syntax parser will actually parse. Syntax errors (if any) will be caught at that point and not before; the macro literally doesn't care what the underlying syntax is.
+
+#### Limitations
+
+`const!` registers and replaces tokens; it does not find-and-replace arbitrary strings. For this reason, you will not be able to use consts inside a [quoted string](#quoted-string), since a quoted string *in its entirety* counts as a single token.
 
 ## Action dictionary
 

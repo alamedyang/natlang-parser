@@ -60,9 +60,9 @@ Introducing "MageGameScript Natlang" — a simplified approach to writing game c
 
 MGS Natlang is a "natural" language meant to be easy to read and write.
 
-It consists of phrases and patterns that correspond closely to the JSON required by the MGE encoder. Strictly speaking, it is not a full, properly recursive language, but it is much more flexible and compact than writing the equivalent script actions and dialogs in MGE JSON.
+It consists of phrases and patterns that correspond to the JSON required by the MGE encoder. Strictly speaking, it is not a recursive language, but it is much more flexible and compact than writing the equivalent script actions and dialogs in MGE JSON.
 
-All .mgs files are turned into MGE JSON automatically by the MGE encoder. And unlike script files and dialog files, you don't need to declare .mgs files in the game's `scenario.json`; all .mgs files inside `scenario_source_files` will be imported.
+All .mgs files are turned into MGE JSON by the MGE encoder. And unlike script files and dialog files, you don't need to declare .mgs files in the game's `scenario.json`; all .mgs files inside `scenario_source_files` will be imported.
 
 ### Syntax Features
 
@@ -128,7 +128,7 @@ While relatively human readable, the above is difficult to write in practice.
 - It's bulky enough that you can't have very much scripting logic on your screen at once.
 - It's easy to lose track of what you're doing as you must constantly reference named scripts and dialogs (and serial dialogs) in different files back and forth.
 - JSON cannot be commented, so it's inconvenient to leave yourself supplementary information, such as the contents of a dialog you're referencing when scripting a cutscene.
-- The parameters for MGE actions are not highly uniform, so it's easy to forget or confuse parameters if you're not copying and pasting actions from nearby.
+- The parameters for MGE actions are not uniform, so it's easy to forget or confuse parameters if you're not copying and pasting actions from nearby.
 
 ### MGS Natlang (script)
 
@@ -238,7 +238,7 @@ Now the dialog's content is no longer separated from its context. The dialog no 
 
 ## Block structure
 
-MGS Natlang currently has several types of blocks, each with their block contents enclosed in a pair of matching curly braces:
+The contents (body) of each block is enclosed in a pair of matching curly braces:
 
 ```
 <BLOCK DECLARATION> { <BLOCK BODY> }
@@ -252,7 +252,7 @@ MGS Natlang currently has several types of blocks, each with their block content
 // etc
 ```
 
-Some block types can (or must) be nested within others, but blocks cannot be nested arbitrarily.
+Some block types can (or must) be nested within others. Note that blocks cannot be nested arbitrarily.
 
 ### Block quick reference
 
@@ -323,7 +323,6 @@ Several choices for `TARGET`:
 
 - `(global) default(s)`
 	- Describes the default behavior for all dialogs in the same MGS Natlang file.
-	- Of all MGE dialog parameters, only `alignment` is 100% required, so this is a good parameter to include at the global level.
 - `entity $string`
 	- Describes the default dialog settings for a specific entity.
 - `label $bareword`
@@ -408,7 +407,7 @@ These blocks must occur on the root level.
 
 Inside a [script block](#script-block), some actions can be **combined** with their associated definition block. In other words, you can "call" a [dialog](#dialog) or [serial dialog](#serial-dialog) and define it in place.
 
-For combination blocks of all types, a dialog name ([string](#string)) is entirely optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
+For combination blocks of all types, a dialog name ([string](#string)) is optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be invisible. Omitting dialog names for one-offs is recommended to keep things clean.
 
 #### Show dialog block
 
@@ -473,7 +472,7 @@ Multiple dialog parameters can occur back-to-back.
 Syntax for each parameter:
 
 - `entity $string`
-	- [String](#string): the "given name" of the entity (i.e. the entity's name on the Tiled map). (Wrapping this name in `%`s is entirely unnecessary and will in fact confuse the MGE encoder.)
+	- [String](#string): the "given name" of the entity (i.e. the entity's name on the Tiled map). (Wrapping this name in `%`s is unnecessary and will in fact confuse the MGE encoder.)
 		- Can be `%PLAYER%` or `%SELF%`, however.
 	- A dialog can inherit a `name` and a `portrait` if given an `entity` parameter. (The entity must be a "character entity" for a portrait to be inherited.)
 	- The inherited `name` is a relative reference; the dialog display name will be whatever that entity's name is at that moment.
@@ -514,7 +513,7 @@ Any [quoted string](#quoted-string).
 	- Words wrapped in `$`s will count as 5 chars when the dialog message is auto-wrapped.
 - Some characters must be escaped in the message body, such as double quote: `\"`
 	- `\t` (tabs) are auto-converted to four spaces.
-	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about explicitly hard wrapping your messages unless you want to put line breaks in arbitrary places.
+	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about hard wrapping your messages unless you want to put line breaks in arbitrary places.
 	- `%` and `$` are printable characters unless used in pairs within a single line, in which case the only way to print them is to escape them (e.g. `\%`).
 - Word processor "smart" characters such as ellipses (…) or emdashes (—) are auto converted to ASCII equivalents (`...`) (`--`).
 
@@ -590,7 +589,7 @@ Any [quoted string](#quoted-string).
 - To maximize compatibility, best to limit these to ASCII characters.
 - Some characters must be escaped in the message body, such as double quote: `\"`
 	- `\t` (tabs) are auto-converted to four spaces.
-	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about explicitly hard wrapping your messages unless you want to put line breaks in arbitrary places.
+	- `\n` (new lines) are honored, but since text is wrapped automatically, don't worry about hard wrapping your messages unless you want to put line breaks in arbitrary places.
 - Word processor "smart" characters such as ellipses (…) or emdashes (—) are auto converted to ASCII equivalents (`...`) (`--`).
 - These messages may be [styled](#serial-styles).
 
@@ -968,7 +967,7 @@ load_map-castle-2 {
 }
 ```
 
-This gets tiresome quickly when a map's `on_load` script may need a dozen or more of these optional behaviors back-to-back, or when an entity's `on_interact` script branches three or more layers deep.
+This gets tiresome when a map's `on_load` script may need a dozen or more of these optional behaviors back-to-back, or when an entity's `on_interact` script branches three or more layers deep.
 
 Instead, we can use an abstracted `if` / `else` syntax, which this macro will expand into isolated scripts automatically.
 
@@ -992,14 +991,14 @@ The zigzag macro will take this much-shorter script and expand it to resemble th
 
 *Any* action with `if`...`then goto` syntax can use this zigzag syntax instead.
 
-Note that the actions `RUN_SCRIPT` (`goto script $string`) and `LOAD_MAP` (`load map $string`) will cause the current script slot to jump to an entirely different script. In such cases, any in-progress zigzags will be aborted.
+Note that the actions `RUN_SCRIPT` (`goto script $string`) and `LOAD_MAP` (`load map $string`) will cause the current script slot to jump to a different script. In such cases, any in-progress zigzags will be aborted.
 
 #### Consequences and drawbacks
 
-1. This macro does not understand MGS Natlang syntax at all, and simply moves tokens around into an expanded form somewhat naively. What's more is that this macro does not create procedural scripts intelligently; it will make entirely empty scripts in certain conditions, e.g. when there's no converging behavior after a zigzag.
+1. This macro does not understand MGS Natlang syntax at all, and moves tokens around into an expanded form somewhat naively. What's more is that this macro does not create procedural scripts intelligently; it will make empty scripts in certain conditions, e.g. when there's no converging behavior after a zigzag.
 	- **This is currently a big problem for `on_tick` scripts**, as the game will crash if an empty `on_tick` script is attempted. Several kinds of common `on_tick` behavior will therefore need to be done the old way.
 2. This abstracted syntax obscures the fact that script jumps are happening.
-	- If you `COPY_SCRIPT` a script containing any zigzag syntax, only actions from the first script chunk will actually be copied.
+	- If you `COPY_SCRIPT` a script containing any zigzag syntax, only actions from the first script chunk will be copied.
 	- For `on_interact` scripts that must always start from the top on each attempt and for `on_tick` scripts that must loop indefinitely, you will need to **reset** the script as the very last action if there is any zigzagging involved.
 3. Any piece of script behavior that needs to be referenced by an external script cannot be made into a zigzag, as the external script needs a script name to reference.
 
@@ -1090,7 +1089,7 @@ This macro emulates compile-time constants. Its main purpose is to help you avoi
 
 The macro literally replaces each const with the token collected during its original value assignment.
 
-These consts are *not* meant to be used as variables for in-game logic, as the game will never see the const as a variable at all, but will only see the token captured by the macro during the const's value assignment. To emphasize this point, you cannot change the value of a const once you've defined it. If you find yourself wanting to do this, you probably want to be using a MGE variable instead.
+These consts are *not* meant to be used as variables for in-game logic, as the game will never see the const as a variable at all, but will only see the token captured by the macro. To emphasize this point, you cannot change the value of a const once you've defined it. If you find yourself wanting to do this, you probably want to be using a MGE variable instead.
 
 For value assignment:
 
@@ -1136,6 +1135,8 @@ The above is what the MGS Natlang syntax parser will actually parse. Syntax erro
 #### Limitations
 
 `const!` registers and replaces tokens; it does not find-and-replace arbitrary strings. For this reason, you will not be able to use consts inside a [quoted string](#quoted-string), since a quoted string *in its entirety* counts as a single token.
+
+In addition, this macro only captures single tokens; you cannot use a const to represent multiple tokens, e.g. `const!($parade = 76 trombones)` will result in a syntax error.
 
 ## Action dictionary
 

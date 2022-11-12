@@ -95,6 +95,29 @@ var actionText = {
 			"This action clears all the save data in the given slot."
 		]
 	},
+	"SHOW_DIALOG": {
+		"category": "game management",
+		"info": [
+			"Plays the named [dialog](#dialog).",
+			"A script cannot execute any other actions until the dialog is entirely finished. To give a cutscene sophisticated choreography, you will need to either split the dialog into multiple pieces or prepare additional scripts to manage concurrent behavior.",
+			"While a dialog screen is showing, the player can only advance to the next dialog message or choose a multiple choice option within that dialog (if any); the player cannot hack, interact with another entity, move, etc.",
+			"This action is available as a [combination block](#combination-blocks)."
+		]
+	},
+	"SHOW_SERIAL_DIALOG": {
+		"category": "game management",
+		"info": [
+			"Outputs the named [serial dialog](#serial-dialog) to a connected serial console.",
+			"This action is available as a [combination block](#combination-blocks)."
+		]
+	},
+	"SET_CONNECT_SERIAL_DIALOG": {
+		"category": "game management",
+		"info": [
+			"Sets the serial connection message to the named [serial dialog](#serial-dialog). The connection message is sent whenever a serial console is newly connected to the badge hardware.",
+			"This action is available as a [combination block](#combination-blocks)."
+		]
+	},
 	// "SET_HEX_CURSOR_LOCATION": {
 	// 	"category": "hex editor",
 	// 	"info": [

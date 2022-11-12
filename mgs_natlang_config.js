@@ -469,7 +469,32 @@ var mgs = {
 						}
 					);
 					state.clearCaptures();
-				}]
+				}],
+			["set serial connect ?message ?to {",
+				function (state) {
+					// console.log("    Found 'set serial connect message to {'")
+					state.startBlock("serialDialog");
+					state.processCaptures("serialDialogName");
+					state.processCaptures(
+						"action",
+						{
+							action: "SET_CONNECT_SERIAL_DIALOG",
+							serial_dialog: state.inserts.serialDialogName
+						}
+					);
+					state.clearCaptures();
+				}],
+			["set serial connect ?message ?to $serial_dialog:string {",
+				function (state) {
+					// console.log("    Found 'set serial connect message to $serial_dialog:string {'")
+					state.startBlock("serialDialog");
+					state.processCaptures("serialDialogName");
+					state.processCaptures(
+						"action",
+						{ action: "SET_CONNECT_SERIAL_DIALOG" }
+					);
+					state.clearCaptures();
+				}],
 			// more are procedurally added
 		],
 	},

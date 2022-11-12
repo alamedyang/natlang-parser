@@ -24,18 +24,20 @@ Introducing "MageGameScript Natlang" — a simplified approach to writing game c
 	6. [Dialog block](#dialog-block)
 	7. [Serial dialog block](#serial-dialog-block)
 	8. [Script block](#script-block)
-	9. [Show dialog block](#show-dialog-block)
-	10. [Show serial dialog block](#show-serial-dialog-block)
-	11. [Dialog](#dialog)
+	9. [Combination blocks](#combination-blocks)
+		1. [Show dialog block](#show-dialog-block)
+		2. [Show serial dialog block](#show-serial-dialog-block)
+		3. [Set serial connect message block](#set-serial-connect-message-block)
+	10. [Dialog](#dialog)
 		1. [Dialog identifier](#dialog-identifier)
 		2. [Dialog parameters](#dialog-parameters)
 		3. [Dialog message](#dialog-message)
 		4. [Dialog option](#dialog-option)
-	12. [Serial dialog](#serial-dialog)
+	11. [Serial dialog](#serial-dialog)
 		1. [Serial dialog parameters](#serial-dialog-parameters)
 		2. [Serial dialog message](#serial-dialog-message)
 		3. [Serial dialog option](#serial-dialog-option)
-	13. [Comments](#comments)
+	12. [Comments](#comments)
 4. [MGS Natlang variables](#mgs-natlang-variables)
 	1. [Variable decay](#variable-decay)
 	2. [Variable types and examples](#variable-types-and-examples)
@@ -256,7 +258,7 @@ Some block types can (or must) be nested within others, but blocks cannot be nes
 
 ### Block quick reference
 
-Unless otherwise marked, assume all entries in the following list are allowed in any quantity (including zero). Numbered items must be given in exactly that order, but all other items can occur in any order within their parent block.
+Unless otherwise marked, assume all entries in the following lists are allowed in any quantity (including zero). Numbered items must be given in exactly that order, but all other items can occur in any order within their parent block.
 
 #### Global settings
 
@@ -274,7 +276,7 @@ Unless otherwise marked, assume all entries in the following list are allowed in
 		2. **[dialog parameter](#dialog-parameters)**
 		3. **[dialog message](#dialog-message)** (at least 1)
 		4. **[dialog option](#dialog-option)**
-- **[serial dialog block](#serial-show-dialog-block)**
+- **[serial dialog block](#serial-dialog-block)**
 	- **[serial dialog](#serial-dialog)** (exactly 1)
 		1. **[serial dialog parameter](#serial-dialog-parameters)**
 		2. **[serial dialog message](#serial-dialog-message)** (at least 1)
@@ -284,17 +286,7 @@ Unless otherwise marked, assume all entries in the following list are allowed in
 
 - **[script block](#script-block)**
 	- **[action](#actions)**
-	- **[show dialog block](#show-dialog-block)**
-		- **[dialog](#dialog)**
-			1. **[dialog identifier](#dialog-identifier)** (exactly 1)
-			2. **[dialog parameter](#dialog-parameters)**
-			3. **[dialog message](#dialog-message)** (at least 1)
-			4. **[dialog option](#dialog-option)**
-	- **[show serial dialog block](#serial-show-dialog-block)**
-		- **[serial dialog](#serial-dialog)** (exactly 1)
-			1. **[serial dialog parameter](#serial-dialog-parameters)**
-			2. **[serial dialog message](#serial-dialog-message)** (at least 1)
-			3. **[serial dialog option](#serial-dialog-option)**
+	- **[combination block](#serial-dialog-option)**
 
 ### Syntax definitions
 
@@ -386,8 +378,6 @@ As these dialog blocks don't have any baked-in script context, a dialog name is 
 
 These blocks must occur on the root level.
 
-[**Show** dialog blocks](#show-dialog-block) are similar, except that these are used inside a [script block](#script-block) and are not required to have a dialog name.
-
 **Block contents**: any number of [dialogs](#dialogs) in the order they are to be seen in-game.
 
 ### Serial dialog block
@@ -402,10 +392,7 @@ Again, these blocks don't have any baked-in script context, so a serial dialog n
 
 These blocks must occur on the root level.
 
-For the variation that occurs inside a [script block](#script-block), see 
-[**show** serial dialog block](#show-serial-dialog-block).
-
-**Block contents**: any number of [serial dialogs](#serial-dialogs) in the order they are to be seen in-game.
+**Block contents**: a single [serial dialog](#serial-dialog).
 
 ### Script block
 
@@ -417,45 +404,41 @@ If the word `script` is absent, any [string](#string) (other than `dialog`, `set
 
 These blocks must occur on the root level.
 
-**Block contents**: any number of [actions](#actions) in the order they are to be executed in-game. Some of these may be [show dialog blocks](#show-dialog-block) or [show serial dialog blocks](#show-serial-dialog-block). (See the [action dictionary](#action-dictionary) far below for detailed information on each action.)
+**Block contents**: any number of [actions](#actions) or [combination blocks](#combination-blocks) in the order they are to be executed in-game. (See the [action dictionary](#action-dictionary) far below for detailed information on each action.)
 
-### Show dialog block
+### Combination blocks
+
+Inside a [script block](#script-block), some actions can be **combined** with their associated definition block. In other words, you can "call" a [dialog](#dialog) or [serial dialog](#serial-dialog) and define it in place.
+
+For combination blocks of all types, a dialog name ([string](#string)) is entirely optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
+
+#### Show dialog block
 
 ```
 show dialog ($string) {}
 ```
 
-This block combines a dialog definition with the [`SHOW_DIALOG`](#show_dialog) action (as opposed to a [dialog block](#dialog-block), which is a dialog definition alone.)
+Combination of a [dialog block](#dialog-block) and the [`SHOW_DIALOG`](#show_dialog) action.
 
-The dialog name ([string](#string)) is optional. Internally, the JSON still requires a dialog name, but if absent, the MGS Natlang translator generates one based on the file name and line number. For authors writing content in MGS Natlang exclusively, this will be entirely invisible. Omitting dialog names for one-offs is recommended to keep things clean.
-
-Must be used inside a [script block](#script-block).
-
-**Block contents**: Any number of [dialogs](#dialog) in the order they are to be seen in-game.
-
-#### `SHOW_DIALOG`
-
-A related construction:
+#### Show serial dialog block
 
 ```
-show dialog $string
+show serial dialog ($string) {}
 ```
 
-This plain `SHOW_DIALOG` action can "call" a dialog without having to define it in place.
+Combination of a [serial dialog block](#serial-dialog-block) and the [`SHOW_SERIAL_DIALOG`](#show_serial_dialog) action.
 
-Dialogs being called this way may be defined elsewhere in the file (even further down) or in another file entirely. The MGE encoder, which sees all scripts and all dialogs at the same time, will warn you if you're calling a dialog that doesn't exist.
+#### Set serial connect message block
 
-### Show serial dialog block
+```
+set serial connect (message) (to) ($string) {}
+```
 
-Like [show dialog blocks](#show-dialog-block) in every way, except with `serial dialog` instead of `dialog`.
-
-Must be used inside a [script block](#script-block).
-
-**Block contents**: Any number of [serial dialogs](#serial-dialog) in the order they are to be seen in-game.
+Combination of a [serial dialog block](#serial-dialog-block) and the [`SET_CONNECT_SERIAL_DIALOG`](#set_connect_serial_dialog) action.
 
 ### Dialog
 
-Found within [dialog blocks](#dialog-block) or [show dialog blocks](#show-dialog-block).
+Found within [dialog blocks](#dialog-block).
 
 Any number of dialogs can be given back-to-back within their parent block.
 
@@ -466,7 +449,7 @@ Any number of dialogs can be given back-to-back within their parent block.
 3. [Dialog message](#dialog-message): 1+
 4. [Dialog option](#dialog-option): 0-4x
 
-#### Dialog identifier:
+#### Dialog identifier
 
 This identifies the "speaker" of the dialog messages that immediately follow. For most cases, this will be a specific entity (with option #1 or #2), though you could also build up a dialog from its component pieces instead (with option #3).
 
@@ -485,7 +468,7 @@ The three options:
 	- [string](#string): the dialog's display name.
 	- This usage also provides a `name` [parameter](#dialog-parameter) for the dialog.
 
-#### Dialog parameter:
+#### Dialog parameter
 
 Multiple dialog parameters can occur back-to-back.
 
@@ -520,7 +503,7 @@ Syntax for each parameter:
 	- [Number](#number): the number of chars to auto wrap the contents of dialog messages.
 	- 42 is default.
 
-#### Dialog message:
+#### Dialog message
 
 Any [quoted string](#quoted-string).
 
@@ -585,7 +568,7 @@ Note: white space doesn't matter, so the first option above could very well have
 
 Serial dialogs contain text meant to be shown via the serial console. They are called serial "dialogs" because they are similar to [dialogs](#dialog) in many respects, but they are made up of plaintext alone, and needn't be used for dialog specifically.
 
-Found within a [serial dialog block](#serial-dialog-block) or [show serial dialog block](#show-serial-dialog-block).
+Found within a [serial dialog block](#serial-dialog-block).
 
 #### Serial dialog contents
 
@@ -1175,8 +1158,6 @@ set entity "Entity Name" tick_script to scriptName
 set entity "Entity Name" tick_script scriptName
 ```
 
-Note that `SHOW_DIALOG` and `SHOW_SERIAL_DIALOG` are not included below, but are instead described in the sections [show dialog block](#show-dialog-block) and [show serial dialog block](#show-serial-dialog-block).
-
 ### Actions quick reference
 
 Sample syntax (with sample values) for each action, grouped by category. Click an action name to jump to the full dictionary entry.
@@ -1197,6 +1178,12 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 	- `load slot 2`
 - [SLOT_ERASE](#slot_erase)
 	- `erase slot 2`
+- [SHOW_DIALOG](#show_dialog)
+	- `show dialog dialogName`
+- [SHOW_SERIAL_DIALOG](#show_serial_dialog)
+	- `show serial dialog serialDialogName`
+- [SET_CONNECT_SERIAL_DIALOG](#set_connect_serial_dialog)
+	- `set serial connect message to serialDialogName`
 
 #### [Hex editor](#hex-editor-actions)
 
@@ -1513,6 +1500,46 @@ erase slot $slot:number
 ```
 
 Example: `erase slot 2`
+
+#### SHOW_DIALOG
+
+Plays the named [dialog](#dialog).
+
+A script cannot execute any other actions until the dialog is entirely finished. To give a cutscene sophisticated choreography, you will need to either split the dialog into multiple pieces or prepare additional scripts to manage concurrent behavior.
+
+While a dialog screen is showing, the player can only advance to the next dialog message or choose a multiple choice option within that dialog (if any); the player cannot hack, interact with another entity, move, etc.
+
+This action is available as a [combination block](#combination-blocks).
+
+```
+show dialog $dialog:string
+```
+
+Example: `show dialog dialogName`
+
+#### SHOW_SERIAL_DIALOG
+
+Outputs the named [serial dialog](#serial-dialog) to a connected serial console.
+
+This action is available as a [combination block](#combination-blocks).
+
+```
+show serial dialog $serial_dialog:string
+```
+
+Example: `show serial dialog serialDialogName`
+
+#### SET_CONNECT_SERIAL_DIALOG
+
+Sets the serial connection message to the named [serial dialog](#serial-dialog). The connection message is sent whenever a serial console is newly connected to the badge hardware.
+
+This action is available as a [combination block](#combination-blocks).
+
+```
+set serial connect (message) (to) $serial_dialog:string
+```
+
+Example: `set serial connect message to serialDialogName`
 
 ### Hex editor actions
 

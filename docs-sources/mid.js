@@ -634,6 +634,7 @@ var docExampleValues = { // some nice default values
 	"$expected_u2:number": "32",
 	"$expected_u4:number": "9001",
 	"$u2_value:number": "2",
+	"$u4_value:number": "4",
 	"$byte_value:number": "0",
 };
 

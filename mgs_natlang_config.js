@@ -452,7 +452,7 @@ var mgs = {
 					state.processCaptures("serialDialogName");
 					state.processCaptures(
 						"action",
-						{ action: "SHOW_SERIAL_DIALOG" }
+						{ action: "SHOW_SERIAL_DIALOG", disable_newline: false }
 					);
 					state.clearCaptures();
 				}],
@@ -465,6 +465,33 @@ var mgs = {
 						"action",
 						{
 							action: "SHOW_SERIAL_DIALOG",
+							disable_newline: false,
+							serial_dialog: state.inserts.serialDialogName
+						}
+					);
+					state.clearCaptures();
+				}],
+			["concat serial dialog $serial_dialog:string {",
+				function (state) {
+					// console.log("    Found 'show serial dialog $serial_dialog:string {'")
+					state.startBlock("serialDialog");
+					state.processCaptures("serialDialogName");
+					state.processCaptures(
+						"action",
+						{ action: "SHOW_SERIAL_DIALOG", disable_newline: true }
+					);
+					state.clearCaptures();
+				}],
+			["concat serial dialog {",
+				function (state) {
+					// console.log("    Found 'show serial dialog {'")
+					state.startBlock("serialDialog");
+					state.processCaptures("serialDialogName");
+					state.processCaptures(
+						"action",
+						{
+							action: "SHOW_SERIAL_DIALOG",
+							disable_newline: true,
 							serial_dialog: state.inserts.serialDialogName
 						}
 					);
@@ -721,6 +748,12 @@ mgs.actionDictionary = [
 	{
 		action: "SHOW_SERIAL_DIALOG",
 		pattern: "show serial dialog $serial_dialog:string",
+		values: { "disable_newline": false },
+	},
+	{
+		action: "SHOW_SERIAL_DIALOG",
+		pattern: "concat serial dialog $serial_dialog:string",
+		values: { "disable_newline": true },
 	},
 	{
 		action: "SET_CONNECT_SERIAL_DIALOG",
@@ -773,6 +806,48 @@ mgs.actionDictionary = [
 	{
 		action: "SET_PLAYER_CONTROL",
 		pattern: "set player control ?to $bool_value:boolean",
+	},
+	{
+		action: "SET_SERIAL_CONTROL",
+		pattern: "set serial control ?to $bool_value:boolean",
+	},
+	{
+		action: "REGISTER_SERIAL_DIALOG_COMMAND",
+		pattern: "register ?command $command:string -> ?script $script:string",
+		values: { "is_fail": false },
+	},
+	{
+		action: "REGISTER_SERIAL_DIALOG_COMMAND",
+		pattern: "register ?command $command:string fail -> ?script $script:string",
+		values: { "is_fail": true },
+	},
+	{
+		action: "REGISTER_SERIAL_DIALOG_COMMAND",
+		pattern: "register ?command $command:string failure -> ?script $script:string",
+		values: { "is_fail": true },
+	},
+	{
+		action: "REGISTER_SERIAL_DIALOG_COMMAND_ARGUMENT",
+		pattern: "register ?command $command:string + ?arg $argument:string -> ?script $script:string",
+	},
+	{
+		action: "UNREGISTER_SERIAL_DIALOG_COMMAND",
+		pattern: "unregister ?command $command:string",
+		values: { "is_fail": false },
+	},
+	{
+		action: "UNREGISTER_SERIAL_DIALOG_COMMAND",
+		pattern: "unregister ?command $command:string fail",
+		values: { "is_fail": true },
+	},
+	{
+		action: "UNREGISTER_SERIAL_DIALOG_COMMAND",
+		pattern: "unregister ?command $command:string failure",
+		values: { "is_fail": true },
+	},
+	{
+		action: "UNREGISTER_SERIAL_DIALOG_COMMAND_ARGUMENT",
+		pattern: "unregister ?command $command:string + ?arg $argument:string",
 	},
 	{
 		action: "SET_HEX_EDITOR_DIALOG_MODE",

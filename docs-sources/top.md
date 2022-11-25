@@ -284,7 +284,7 @@ Unless otherwise marked, assume all entries in the following lists are allowed i
 
 - **[script block](#script-block)**
 	- **[action](#actions)**
-	- **[combination block](#serial-dialog-option)**
+	- **[combination blocks](#combination-blocks)**
 
 ### Syntax definitions
 

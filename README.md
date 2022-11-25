@@ -286,7 +286,7 @@ Unless otherwise marked, assume all entries in the following lists are allowed i
 
 - **[script block](#script-block)**
 	- **[action](#actions)**
-	- **[combination block](#serial-dialog-option)**
+	- **[combination blocks](#combination-blocks)**
 
 ### Syntax definitions
 
@@ -1138,7 +1138,7 @@ The above is what the MGS Natlang syntax parser will actually parse. Syntax erro
 
 `const!` registers and replaces tokens; it does not find-and-replace arbitrary strings. For this reason, you will not be able to use consts inside a [quoted string](#quoted-string), since a quoted string *in its entirety* counts as a single token.
 
-In addition, this macro only captures single tokens; you cannot use a const to represent multiple tokens, e.g. `const!($parade = 76 trombones)`.
+In addition, this macro only captures single tokens; you cannot use a const to represent multiple tokens, e.g. `const!($parade = 76 trombones)` will result in a syntax error.
 
 ## Action dictionary
 
@@ -1181,10 +1181,6 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 	- `erase slot 2`
 - [SHOW_DIALOG](#show_dialog)
 	- `show dialog dialogName`
-- [SHOW_SERIAL_DIALOG](#show_serial_dialog)
-	- `show serial dialog serialDialogName`
-- [SET_CONNECT_SERIAL_DIALOG](#set_connect_serial_dialog)
-	- `set serial connect message to serialDialogName`
 
 #### [Hex editor](#hex-editor-actions)
 
@@ -1194,6 +1190,28 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 	- `set hex control to on`
 - [SET_HEX_EDITOR_CONTROL_CLIPBOARD](#set_hex_editor_control_clipboard)
 	- `set hex clipboard to on`
+
+#### [Serial console](#serial-console-actions)
+
+- [SET_SERIAL_CONTROL](#set_serial_control)
+	- `set serial control to on`
+- [SHOW_SERIAL_DIALOG](#show_serial_dialog)
+	- `show serial dialog serialDialogName`
+	- `concat serial dialog serialDialogName`
+- [SET_CONNECT_SERIAL_DIALOG](#set_connect_serial_dialog)
+	- `set serial connect message to serialDialogName`
+- [REGISTER_SERIAL_DIALOG_COMMAND](#register_serial_dialog_command)
+	- `register command "map" -> scriptName`
+	- `register command "map" fail -> scriptName`
+	- `register command "map" failure -> scriptName`
+- [UNREGISTER_SERIAL_DIALOG_COMMAND](#unregister_serial_dialog_command)
+	- `unregister command "map"`
+	- `unregister command "map" fail`
+	- `unregister command "map" failure`
+- [REGISTER_SERIAL_DIALOG_COMMAND_ARGUMENT](#register_serial_dialog_command_argument)
+	- `register command "map" + arg "castle" -> scriptName`
+- [UNREGISTER_SERIAL_DIALOG_COMMAND_ARGUMENT](#unregister_serial_dialog_command_argument)
+	- `unregister command "map" + arg "castle"`
 
 #### [Camera control](#camera-control-actions)
 
@@ -1510,37 +1528,13 @@ A script cannot execute any other actions until the dialog is entirely finished.
 
 While a dialog screen is showing, the player can only advance to the next dialog message or choose a multiple choice option within that dialog (if any); the player cannot hack, interact with another entity, move, etc.
 
-This action is available as a [combination block](#combination-blocks).
+This action is also available as a [combination block](#combination-blocks).
 
 ```
 show dialog $dialog:string
 ```
 
 Example: `show dialog dialogName`
-
-#### SHOW_SERIAL_DIALOG
-
-Outputs the named [serial dialog](#serial-dialog) to a connected serial console.
-
-This action is available as a [combination block](#combination-blocks).
-
-```
-show serial dialog $serial_dialog:string
-```
-
-Example: `show serial dialog serialDialogName`
-
-#### SET_CONNECT_SERIAL_DIALOG
-
-Sets the serial connection message to the named [serial dialog](#serial-dialog). The connection message is sent whenever a serial console is newly connected to the badge hardware.
-
-This action is available as a [combination block](#combination-blocks).
-
-```
-set serial connect (message) (to) $serial_dialog:string
-```
-
-Example: `set serial connect message to serialDialogName`
 
 ### Hex editor actions
 
@@ -1577,6 +1571,143 @@ set hex clipboard (to) $bool_value:boolean
 ```
 
 Example: `set hex clipboard to on`
+
+### Serial console actions
+
+Manage serial features and create serial output.
+
+#### SET_SERIAL_CONTROL
+
+When `off`, the serial terminal will ignore player input.
+
+This is set to `on` (`true`) by default.
+
+```
+set serial control (to) $bool_value:boolean
+```
+
+Example: `set serial control to on`
+
+#### SHOW_SERIAL_DIALOG
+
+Outputs the named [serial dialog](#serial-dialog) to a connected serial console.
+
+The `concat` variant omits the newline at the end of each message, which can enable complex serial output using only MGE scripting logic. (Turn off [serial control](#set_serial_control) first, then turn it back on again when finished.)
+
+This action is also available as a [combination block](#combination-blocks).
+
+```
+show serial dialog $serial_dialog:string
+	// Built-in values:
+	// disable_newline (false)
+```
+
+```
+concat serial dialog $serial_dialog:string
+	// Built-in values:
+	// disable_newline (true)
+```
+
+Examples:
+
+- `show serial dialog serialDialogName`
+- `concat serial dialog serialDialogName`
+
+#### SET_CONNECT_SERIAL_DIALOG
+
+Sets the serial connection message to the named [serial dialog](#serial-dialog). (The connection message is sent whenever a serial console is newly connected to the badge hardware.)
+
+This action is also available as a [combination block](#combination-blocks).
+
+```
+set serial connect (message) (to) $serial_dialog:string
+```
+
+Example: `set serial connect message to serialDialogName`
+
+#### REGISTER_SERIAL_DIALOG_COMMAND
+
+Once a command is registered, the player can enter the command into the serial console and the corresponding script will run in a unique serial script slot.
+
+- **Plain variant**: registers the command in general and identifies the script to run when the command is typed without any additional arguments. This variant must be used before *any* arguments can be registered (including `fail`/`failure`).
+- **Failure variant**: identifies a script for custom "unknown argument" behavior (in the event the player attempts to use an unregistered argument for this command).
+
+Commands must be a single word.
+
+```
+register (command) $command:string -> (script) $script:string
+	// Built-in values:
+	// is_fail (false)
+```
+
+```
+register (command) $command:string fail -> (script) $script:string
+	// Built-in values:
+	// is_fail (true)
+```
+
+```
+register (command) $command:string failure -> (script) $script:string
+	// Built-in values:
+	// is_fail (true)
+```
+
+Examples:
+
+- `register command "map" -> scriptName`
+- `register command "map" fail -> scriptName`
+- `register command "map" failure -> scriptName`
+
+#### UNREGISTER_SERIAL_DIALOG_COMMAND
+
+- **Plain variant**: unregisters the given command *and* all registered arguments for that command (if any).
+- **Failure variant**: only unregisters the `failure` script; other registered arguments (and the plain command itself) will remain intact.
+
+```
+unregister (command) $command:string
+	// Built-in values:
+	// is_fail (false)
+```
+
+```
+unregister (command) $command:string fail
+	// Built-in values:
+	// is_fail (true)
+```
+
+```
+unregister (command) $command:string failure
+	// Built-in values:
+	// is_fail (true)
+```
+
+Examples:
+
+- `unregister command "map"`
+- `unregister command "map" fail`
+- `unregister command "map" failure`
+
+#### REGISTER_SERIAL_DIALOG_COMMAND_ARGUMENT
+
+This action registers an argument (and a script) for an [already-registered serial command](#register_serial_dialog_command).
+
+Arguments must be a single word.
+
+```
+register (command) $command:string + (arg) $argument:string -> (script) $script:string
+```
+
+Example: `register command "map" + arg "castle" -> scriptName`
+
+#### UNREGISTER_SERIAL_DIALOG_COMMAND_ARGUMENT
+
+This action unregisters the specified argument from an [already-registered serial command](#register_serial_dialog_command).
+
+```
+unregister (command) $command:string + (arg) $argument:string
+```
+
+Example: `unregister command "map" + arg "castle"`
 
 ### Camera control actions
 

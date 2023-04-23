@@ -1246,6 +1246,8 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 	- `set entity "Entity Name" interact_script to scriptName`
 - [SET_ENTITY_TICK_SCRIPT](#set_entity_tick_script)
 	- `set entity "Entity Name" tick_script to scriptName`
+- [SET_ENTITY_LOOK_SCRIPT](#set_entity_look_script)
+	- `set entity "Entity Name" look_script to scriptName`
 
 #### [Entity choreography](#entity-choreography-actions)
 
@@ -1296,20 +1298,6 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 	- `set entity "Entity Name" secondary_id to 2`
 - [SET_ENTITY_PRIMARY_ID_TYPE](#set_entity_primary_id_type)
 	- `set entity "Entity Name" primary_id_type to 0`
-- [SET_ENTITY_HACKABLE_STATE_A](#set_entity_hackable_state_a)
-	- `set entity "Entity Name" hackable_state_a to 0`
-- [SET_ENTITY_HACKABLE_STATE_B](#set_entity_hackable_state_b)
-	- `set entity "Entity Name" hackable_state_b to 0`
-- [SET_ENTITY_HACKABLE_STATE_C](#set_entity_hackable_state_c)
-	- `set entity "Entity Name" hackable_state_c to 0`
-- [SET_ENTITY_HACKABLE_STATE_D](#set_entity_hackable_state_d)
-	- `set entity "Entity Name" hackable_state_d to 0`
-- [SET_ENTITY_HACKABLE_STATE_A_U2](#set_entity_hackable_state_a_u2)
-	- `set entity "Entity Name" hackable_state_au2 to 2`
-- [SET_ENTITY_HACKABLE_STATE_C_U2](#set_entity_hackable_state_c_u2)
-	- `set entity "Entity Name" hackable_state_cu2 to 2`
-- [SET_ENTITY_HACKABLE_STATE_A_U4](#set_entity_hackable_state_a_u4)
-	- `set entity "Entity Name" hackable_state_au4 to 4`
 
 #### [Set variables](#set-variables-actions)
 
@@ -1351,6 +1339,9 @@ Consists of actions from the [check entity properies](#check-entity-properies-ac
 - [CHECK_ENTITY_TICK_SCRIPT](#check_entity_tick_script)
 	- `entity "Entity Name" tick_script is scriptName`
 	- `entity "Entity Name" tick_script is not scriptName`
+- [CHECK_ENTITY_LOOK_SCRIPT](#check_entity_look_script)
+	- `entity "Entity Name" look_script is scriptName`
+	- `entity "Entity Name" look_script is not scriptName`
 - [CHECK_ENTITY_TYPE](#check_entity_type)
 	- `entity "Entity Name" type is old_man`
 	- `entity "Entity Name" type is not old_man`
@@ -1375,26 +1366,6 @@ Consists of actions from the [check entity properies](#check-entity-properies-ac
 - [CHECK_ENTITY_GLITCHED](#check_entity_glitched)
 	- `entity "Entity Name" is glitched`
 	- `entity "Entity Name" is not glitched`
-- [CHECK_ENTITY_HACKABLE_STATE_A](#check_entity_hackable_state_a)
-	- `entity "Entity Name" hackable_state_a is 2`
-	- `entity "Entity Name" hackable_state_a is not 2`
-- [CHECK_ENTITY_HACKABLE_STATE_B](#check_entity_hackable_state_b)
-	- `entity "Entity Name" hackable_state_b is 2`
-	- `entity "Entity Name" hackable_state_b is not 2`
-- [CHECK_ENTITY_HACKABLE_STATE_C](#check_entity_hackable_state_c)
-	- `entity "Entity Name" hackable_state_c is 2`
-	- `entity "Entity Name" hackable_state_c is not 2`
-- [CHECK_ENTITY_HACKABLE_STATE_D](#check_entity_hackable_state_d)
-	- `entity "Entity Name" hackable_state_d is 2`
-	- `entity "Entity Name" hackable_state_d is not 2`
-- [CHECK_ENTITY_HACKABLE_STATE_A_U2](#check_entity_hackable_state_a_u2)
-	- `entity "Entity Name" hackable_state_au2 is 32`
-	- `entity "Entity Name" hackable_state_au2 is not 32`
-- [CHECK_ENTITY_HACKABLE_STATE_C_U2](#check_entity_hackable_state_c_u2)
-	- `entity "Entity Name" hackable_state_cu2 is 32`
-	- `entity "Entity Name" hackable_state_cu2 is not 32`
-- [CHECK_ENTITY_HACKABLE_STATE_A_U4](#check_entity_hackable_state_a_u4)
-	- `entity "Entity Name" hackable_state_au4 is 9001`
 - [CHECK_ENTITY_PATH](#check_entity_path)
 	- `entity "Entity Name" path is "vector object name"`
 	- `entity "Entity Name" path is not "vector object name"`
@@ -1869,6 +1840,16 @@ set entity $entity:string tick_script (to) $script:string
 
 Example: `set entity "Entity Name" tick_script to scriptName`
 
+#### SET_ENTITY_LOOK_SCRIPT
+
+Sets an entity's `on_look` script.
+
+```
+set entity $entity:string look_script (to) $script:string
+```
+
+Example: `set entity "Entity Name" look_script to scriptName`
+
 ### Entity choreography actions
 
 Move entities around the map using vector objects placed with Tiled.
@@ -2122,76 +2103,6 @@ set entity $entity:string primary_id_type (to) $byte_value:number
 
 Example: `set entity "Entity Name" primary_id_type to 0`
 
-#### SET_ENTITY_HACKABLE_STATE_A
-
-Sets the value of an entity's `hackable_state_a` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_a (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_a to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_B
-
-Sets the value of an entity's `hackable_state_b` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_b (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_b to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_C
-
-Sets the value of an entity's `hackable_state_c` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_c (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_c to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_D
-
-Sets the value of an entity's `hackable_state_d` byte. Max value: 255
-
-```
-set entity $entity:string hackable_state_d (to) $byte_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_d to 0`
-
-#### SET_ENTITY_HACKABLE_STATE_A_U2
-
-Sets the values of an entity's `hackable_state_a` and `hackable_state_b` bytes, interpreted together as if a U2. Max value: 65535
-
-```
-set entity $entity:string hackable_state_au2 (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_au2 to 2`
-
-#### SET_ENTITY_HACKABLE_STATE_C_U2
-
-Sets the values of an entity's `hackable_state_c` and `hackable_state_d` bytes, interpreted together as if a U2. Max value: 65535
-
-```
-set entity $entity:string hackable_state_cu2 (to) $u2_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_cu2 to 2`
-
-#### SET_ENTITY_HACKABLE_STATE_A_U4
-
-Sets the values of an entity's `hackable_state_a` through `hackable_state_d` bytes, interpreted together as if a U4. Max value: …big
-
-```
-set entity $entity:string hackable_state_au4 (to) $u4_value:number
-```
-
-Example: `set entity "Entity Name" hackable_state_au4 to 4`
-
 ### Set variables actions
 
 Manipulate MGE variables or set them to an arbitrary value.
@@ -2396,6 +2307,29 @@ Examples:
 - `if entity "Entity Name" tick_script is scriptName then goto successScript`
 - `if entity "Entity Name" tick_script is not scriptName then goto successScript`
 
+#### CHECK_ENTITY_LOOK_SCRIPT
+
+Checks an entity's `on_look` script (by the script's name).
+
+```
+if entity $entity:string look_script is $expected_script:string
+	then goto (script) $success_script:string
+	// Built-in values:
+	// expected_bool (true)
+```
+
+```
+if entity $entity:string look_script is not $expected_script:string
+	then goto (script) $success_script:string
+	// Built-in values:
+	// expected_bool (false)
+```
+
+Examples:
+
+- `if entity "Entity Name" look_script is scriptName then goto successScript`
+- `if entity "Entity Name" look_script is not scriptName then goto successScript`
+
 #### CHECK_ENTITY_TYPE
 
 Checks whether an entity is currently the given `entity_type`.
@@ -2587,157 +2521,6 @@ Examples:
 
 - `if entity "Entity Name" is glitched then goto successScript`
 - `if entity "Entity Name" is not glitched then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_A
-
-Checks the value of an entity's `hackable_state_a` byte. Max value: 255
-
-```
-if entity $entity:string hackable_state_a is $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-```
-
-```
-if entity $entity:string hackable_state_a is not $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-Examples:
-
-- `if entity "Entity Name" hackable_state_a is 2 then goto successScript`
-- `if entity "Entity Name" hackable_state_a is not 2 then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_B
-
-Checks the value of an entity's `hackable_state_b` byte. Max value: 255
-
-```
-if entity $entity:string hackable_state_b is $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-```
-
-```
-if entity $entity:string hackable_state_b is not $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-Examples:
-
-- `if entity "Entity Name" hackable_state_b is 2 then goto successScript`
-- `if entity "Entity Name" hackable_state_b is not 2 then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_C
-
-Checks the value of an entity's `hackable_state_c` byte. Max value: 255
-
-```
-if entity $entity:string hackable_state_c is $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-```
-
-```
-if entity $entity:string hackable_state_c is not $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-Examples:
-
-- `if entity "Entity Name" hackable_state_c is 2 then goto successScript`
-- `if entity "Entity Name" hackable_state_c is not 2 then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_D
-
-Checks the value of an entity's `hackable_state_d` byte. Max value: 255
-
-```
-if entity $entity:string hackable_state_d is $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-```
-
-```
-if entity $entity:string hackable_state_d is not $expected_byte:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-Examples:
-
-- `if entity "Entity Name" hackable_state_d is 2 then goto successScript`
-- `if entity "Entity Name" hackable_state_d is not 2 then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_A_U2
-
-Checks the values of an entity's `hackable_state_a` and `hackable_state_b` bytes, interpreted together as if a U2. Max value: 65535
-
-```
-if entity $entity:string hackable_state_au2 is $expected_u2:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-```
-
-```
-if entity $entity:string hackable_state_au2 is not $expected_u2:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-Examples:
-
-- `if entity "Entity Name" hackable_state_au2 is 32 then goto successScript`
-- `if entity "Entity Name" hackable_state_au2 is not 32 then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_C_U2
-
-Checks the values of an entity's `hackable_state_c` and `hackable_state_d` bytes, interpreted together as if a U2. Max value: 65535
-
-```
-if entity $entity:string hackable_state_cu2 is $expected_u2:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-```
-
-```
-if entity $entity:string hackable_state_cu2 is not $expected_u2:number
-	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-```
-
-Examples:
-
-- `if entity "Entity Name" hackable_state_cu2 is 32 then goto successScript`
-- `if entity "Entity Name" hackable_state_cu2 is not 32 then goto successScript`
-
-#### CHECK_ENTITY_HACKABLE_STATE_A_U4
-
-Checks the values of an entity's `hackable_state_a` through `hackable_state_d` bytes, interpreted together as if a U4. Max value: …big
-
-NOTE: This is the only "check" action that can only check for equality, not inequality. (There aren't enough bytes to spare for the `expected_bool`!)
-
-```
-if entity $entity:string hackable_state_au4 is $expected_u4:number
-	then goto (script) $success_script:string
-```
-
-Example: `if entity "Entity Name" hackable_state_au4 is 9001 then goto successScript`
 
 #### CHECK_ENTITY_PATH
 

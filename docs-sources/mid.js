@@ -287,6 +287,12 @@ var actionText = {
 			"Checks an entity's `on_tick` script (by the script's name).",
 		]
 	},
+	"CHECK_ENTITY_LOOK_SCRIPT": {
+		"category": "check entity properties",
+		"info": [
+			"Checks an entity's `on_look` script (by the script's name).",
+		]
+	},
 	"CHECK_ENTITY_TYPE": {
 		"category": "check entity properties",
 		"info": [
@@ -337,49 +343,6 @@ var actionText = {
 		"category": "check entity properties",
 		"info": [
 			"Checks whether an entity currently has it's \"glitched\" render flag set."
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_A": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the value of an entity's `hackable_state_a` byte. Max value: 255"
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_B": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the value of an entity's `hackable_state_b` byte. Max value: 255"
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_C": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the value of an entity's `hackable_state_c` byte. Max value: 255"
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_D": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the value of an entity's `hackable_state_d` byte. Max value: 255"
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_A_U2": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the values of an entity's `hackable_state_a` and `hackable_state_b` bytes, interpreted together as if a U2. Max value: 65535"
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_C_U2": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the values of an entity's `hackable_state_c` and `hackable_state_d` bytes, interpreted together as if a U2. Max value: 65535"
-		]
-	},
-	"CHECK_ENTITY_HACKABLE_STATE_A_U4": {
-		"category": "check entity properties",
-		"info": [
-			"Checks the values of an entity's `hackable_state_a` through `hackable_state_d` bytes, interpreted together as if a U4. Max value: …big",
-			"NOTE: This is the only \"check\" action that can only check for equality, not inequality. (There aren't enough bytes to spare for the `expected_bool`!)"
 		]
 	},
 	"CHECK_ENTITY_PATH": {
@@ -439,48 +402,6 @@ var actionText = {
 		"category": "set entity properties",
 		"info": [
 			"Sets an entity's `primary_id_type`: either (0) tile, (1) animation, or (2) character (sometimes called `entity_type`)"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_A": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the value of an entity's `hackable_state_a` byte. Max value: 255"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_B": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the value of an entity's `hackable_state_b` byte. Max value: 255"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_C": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the value of an entity's `hackable_state_c` byte. Max value: 255"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_D": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the value of an entity's `hackable_state_d` byte. Max value: 255"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_A_U2": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the values of an entity's `hackable_state_a` and `hackable_state_b` bytes, interpreted together as if a U2. Max value: 65535"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_C_U2": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the values of an entity's `hackable_state_c` and `hackable_state_d` bytes, interpreted together as if a U2. Max value: 65535"
-		]
-	},
-	"SET_ENTITY_HACKABLE_STATE_A_U4": {
-		"category": "set entity properties",
-		"info": [
-			"Sets the values of an entity's `hackable_state_a` through `hackable_state_d` bytes, interpreted together as if a U4. Max value: …big"
 		]
 	},
 	"SET_ENTITY_PATH": {
@@ -659,6 +580,12 @@ var actionText = {
 		"category": "script control",
 		"info": [
 			"Sets an entity's `on_tick` script."
+		]
+	},
+	"SET_ENTITY_LOOK_SCRIPT": {
+		"category": "script control",
+		"info": [
+			"Sets an entity's `on_look` script."
 		]
 	}
 };

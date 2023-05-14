@@ -486,6 +486,13 @@ var actionText = {
 			"Make an entity turn toward a vector geometry on the map."
 		]
 	},
+	"SET_ENTITY_MOVEMENT_RELATIVE": {
+		"category": "entity appearance",
+		"info": [
+			"This adds a rotation to an entity's animations. This is different from turning an entity toward something or someone (see [SET_ENTITY_DIRECTION](#set_entity_direction) and related actions); this action applies a rotation to *all* an entity's animations, including while the entity is in motion. In short, use this action to make an entity walk backwards or strafe (walk sideways).",
+			"This number cannot be negative."
+		]
+	},
 	"SET_ENTITY_GLITCHED": {
 		"category": "entity appearance",
 		"info": [
@@ -609,7 +616,7 @@ var docExampleValues = { // some nice default values
 	"$play_count:quantity": "twice",
 	"$target_geometry:string": "\"vector object name\"",
 	"$direction:bareword": "north",
-	"$relative_direction:number": -1,
+	"$relative_direction:number": 3,
 	"$slot:number": 2,
 	"$value:number": 1,
 	"$duration:duration": "1000ms",
@@ -666,9 +673,8 @@ var makePrintableDictionaryEntry = function (entry) {
 	})
 	string = result.join(' ');
 	if (entry.values) {
-		string += '\n\t// Built-in values:';
 		Object.keys(entry.values).forEach(function (valueName) {
-			string += `\n\t// ${valueName} (${entry.values[valueName]})`;
+			string += `\n\t// ${valueName}: ${entry.values[valueName]}`;
 		})
 	}
 	return string.replace(" then goto",`\n	then goto`);

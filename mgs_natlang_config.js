@@ -869,6 +869,17 @@ mgs.actionDictionary = [
 		action: "CHECK_SAVE_FLAG",
 		pattern: "if flag $save_flag:string is $expected_bool:boolean then goto ?script $success_script:string",
 	},
+	// TODO: figure out how to make it match despite the parser forcing string "true" to bool "true"
+	// {
+	// 	action: "CHECK_SAVE_FLAG",
+	// 	pattern: "if flag $save_flag:string is not false then goto ?script $success_script:string",
+	// 	values: { "expected_bool": true },
+	// },
+	// {
+	// 	action: "CHECK_SAVE_FLAG",
+	// 	pattern: "if flag $save_flag:string is not true then goto ?script $success_script:string",
+	// 	values: { "expected_bool": false },
+	// },
 	{
 		action: "CHECK_FOR_BUTTON_PRESS",
 		pattern: "if button $button_id:bareword then goto ?script $success_script:string",
@@ -975,138 +986,161 @@ mgs.actionDictionary = [
 mgs.entityPropertyMap = { // used for the procedural dictionary entries 
 	CHECK_ENTITY_NAME: {
 		actionProperty: "string",
-		natLangProperty: "name",
+		natLangProperties: "name",
 		dictionaryRef: ":string",
 	},
 	CHECK_ENTITY_X: {
 		actionProperty: "expected_u2",
-		natLangProperty: "x",
+		natLangProperties: "x",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_Y: {
 		actionProperty: "expected_u2",
-		natLangProperty: "y",
+		natLangProperties: "y",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_INTERACT_SCRIPT: {
 		actionProperty: "expected_script",
-		natLangProperty: "interact_script",
+		natLangProperties: [
+			"interact_script",
+			"on_interact"
+		],
 		dictionaryRef: ":string",
 	},
 	CHECK_ENTITY_TICK_SCRIPT: {
 		actionProperty: "expected_script",
-		natLangProperty: "tick_script",
+		natLangProperties: [
+			"tick_script",
+			"on_tick"
+		],
 		dictionaryRef: ":string",
 	},
 	CHECK_ENTITY_LOOK_SCRIPT: {
 		actionProperty: "expected_script",
-		natLangProperty: "look_script",
+		natLangProperties: [
+			"look_script",
+			"on_look"
+		],
 		dictionaryRef: ":string",
 	},
 	CHECK_ENTITY_TYPE: {
 		actionProperty: "entity_type",
-		natLangProperty: "type",
+		natLangProperties: "type",
 		dictionaryRef: ":string",
 	},
 	CHECK_ENTITY_PRIMARY_ID: {
 		actionProperty: "expected_u2",
-		natLangProperty: "primary_id",
+		natLangProperties: "primary_id",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_SECONDARY_ID: {
 		actionProperty: "expected_u2",
-		natLangProperty: "secondary_id",
+		natLangProperties: "secondary_id",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_PRIMARY_ID_TYPE: {
 		actionProperty: "expected_byte",
-		natLangProperty: "primary_id_type",
+		natLangProperties: "primary_id_type",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_CURRENT_ANIMATION: {
 		actionProperty: "expected_byte",
-		natLangProperty: "animation",
+		natLangProperties: "animation",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_CURRENT_FRAME: {
 		actionProperty: "expected_byte",
-		natLangProperty: "animation_frame",
+		natLangProperties: "animation_frame",
 		dictionaryRef: ":number",
 	},
 	CHECK_ENTITY_DIRECTION: {
 		actionProperty: "direction",
-		natLangProperty: "direction",
+		natLangProperties: "direction",
 		dictionaryRef: ":bareword",
 	},
 	CHECK_ENTITY_PATH: {
 		actionProperty: "geometry",
-		natLangProperty: "path",
+		natLangProperties: "path",
 		dictionaryRef: ":string",
 	},
 	SET_ENTITY_NAME: {
 		actionProperty: "string",
-		natLangProperty: "name",
+		natLangProperties: "name",
 		dictionaryRef: ":string",
 	},
 	SET_ENTITY_X: {
 		actionProperty: "u2_value",
-		natLangProperty: "x",
+		natLangProperties: "x",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_Y: {
 		actionProperty: "u2_value",
-		natLangProperty: "y",
+		natLangProperties: "y",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_INTERACT_SCRIPT: {
 		actionProperty: "script",
-		natLangProperty: "interact_script",
+		natLangProperties: [
+			"on_interact",
+			"interact_script"
+		],
 		dictionaryRef: ":string",
 	},
 	SET_ENTITY_TICK_SCRIPT: {
 		actionProperty: "script",
-		natLangProperty: "tick_script",
+		natLangProperties: [
+			"on_tick",
+			"tick_script"
+		],
 		dictionaryRef: ":string",
 	},
 	SET_ENTITY_LOOK_SCRIPT: {
 		actionProperty: "script",
-		natLangProperty: "look_script",
+		natLangProperties: [
+			"on_look",
+			"look_script"
+		],
 		dictionaryRef: ":string",
 	},
 	SET_ENTITY_TYPE: {
 		actionProperty: "entity_type",
-		natLangProperty: "type",
+		natLangProperties: "type",
 		dictionaryRef: ":string",
 	},
 	SET_ENTITY_PRIMARY_ID: {
 		actionProperty: "u2_value",
-		natLangProperty: "primary_id",
+		natLangProperties: "primary_id",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_SECONDARY_ID: {
 		actionProperty: "u2_value",
-		natLangProperty: "secondary_id",
+		natLangProperties: "secondary_id",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_PRIMARY_ID_TYPE: {
 		actionProperty: "byte_value",
-		natLangProperty: "primary_id_type",
+		natLangProperties: "primary_id_type",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_CURRENT_ANIMATION: {
 		actionProperty: "byte_value",
-		natLangProperty: "animation",
+		natLangProperties: "animation",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_CURRENT_FRAME: {
 		actionProperty: "byte_value",
-		natLangProperty: "animation_frame",
+		natLangProperties: "animation_frame",
 		dictionaryRef: ":number",
 	},
 	SET_ENTITY_PATH: {
 		actionProperty: "geometry",
-		natLangProperty: "path",
+		natLangProperties: "path",
 		dictionaryRef: ":string",
+	},
+	SET_ENTITY_MOVEMENT_RELATIVE: {
+		actionProperty: "relative_direction",
+		natLangProperties: "relative_direction",
+		dictionaryRef: ":number",
 	}
 }
 
@@ -1117,16 +1151,16 @@ Object.keys(mgs.entityPropertyMap)
 		return actionName.includes('SET_');
 	})
 	.forEach(function (actionName) {
-		var lookup = mgs.entityPropertyMap[actionName];
-		var pattern =
-			"set entity $entity:string "
-			+ lookup.natLangProperty + " ?to "
-			+ "$" + lookup.actionProperty + lookup.dictionaryRef;
-		var insert = {
-			action: actionName,
-			pattern: pattern,
-		}
-		mgs.actionDictionary.push(insert);
+		var entry = mgs.entityPropertyMap[actionName];
+		var natLangProperties = Array.isArray(entry.natLangProperties)
+			? entry.natLangProperties
+			: [ entry.natLangProperties ];
+		natLangProperties.forEach(function(natLangProperty) {
+			mgs.actionDictionary.push({
+				action: actionName,
+				pattern: `set entity $entity:string ${natLangProperty} ?to $${entry.actionProperty}${entry.dictionaryRef}`,
+			});
+		})
 	});
 
 Object.keys(mgs.entityPropertyMap)
@@ -1134,29 +1168,22 @@ Object.keys(mgs.entityPropertyMap)
 		return actionName.includes('CHECK_');
 	})
 	.forEach(function (actionName) {
-		var lookup = mgs.entityPropertyMap[actionName];
-		var pattern =
-			"if entity $entity:string "
-			+ lookup.natLangProperty
-			+ " is $" + lookup.actionProperty + lookup.dictionaryRef
-			+ " then goto ?script $success_script:string"
-		var insert = {
-			action: actionName,
-			pattern: pattern,
-			values: { "expected_bool" : true }
-		}
-		var patternNeg =
-			"if entity $entity:string "
-			+ lookup.natLangProperty
-			+ " is not $" + lookup.actionProperty + lookup.dictionaryRef
-			+ " then goto ?script $success_script:string"
-		var insertNeg = {
-			action: actionName,
-			pattern: patternNeg,
-			values: { "expected_bool" : false }
-		}
-		mgs.actionDictionary.push(insert);
-		mgs.actionDictionary.push(insertNeg);
+		var entry = mgs.entityPropertyMap[actionName];
+		var natLangProperties = Array.isArray(entry.natLangProperties)
+			? entry.natLangProperties
+			: [ entry.natLangProperties ];
+		natLangProperties.forEach(function(natLangProperty) {
+			mgs.actionDictionary.push({
+				action: actionName,
+				pattern: `if entity $entity:string ${natLangProperty} is $${entry.actionProperty}${entry.dictionaryRef} then goto ?script $success_script:string`,
+				values: { "expected_bool" : true }
+			});
+			mgs.actionDictionary.push({
+				action: actionName,
+				pattern: `if entity $entity:string ${natLangProperty} is not $${entry.actionProperty}${entry.dictionaryRef} then goto ?script $success_script:string`,
+				values: { "expected_bool" : false }
+			});
+		})
 	})
 	//TODO!! [lol what is this todo?]
 

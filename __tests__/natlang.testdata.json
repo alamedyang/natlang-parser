@@ -1042,12 +1042,25 @@
 		{
 			"json": {
 				"action": "SHOW_SERIAL_DIALOG",
-				"serial_dialog": "serial-dialog"
+				"serial_dialog": "serial-dialog",
+				"disable_newline": false
 			},
 			"natlang": [
 				"show serial dialog serial-dialog",
 				"show serial dialog 'serial-dialog'",
 				"show serial dialog \"serial-dialog\""
+			]
+		},
+		{
+			"json": {
+				"action": "SHOW_SERIAL_DIALOG",
+				"serial_dialog": "serial-dialog",
+				"disable_newline": true
+			},
+			"natlang": [
+				"concat serial dialog serial-dialog",
+				"concat serial dialog 'serial-dialog'",
+				"concat serial dialog \"serial-dialog\""
 			]
 		},
 		{
@@ -1691,12 +1704,12 @@
 				"script": "script-entity-interact"
 			},
 			"natlang": [
-				"set entity \"Entity Name\" interact_script to script-entity-interact",
-				"set entity \"Entity Name\" interact_script to 'script-entity-interact'",
-				"set entity \"Entity Name\" interact_script to \"script-entity-interact\"",
-				"set entity \"Entity Name\" interact_script script-entity-interact",
-				"set entity \"Entity Name\" interact_script 'script-entity-interact'",
-				"set entity \"Entity Name\" interact_script \"script-entity-interact\""
+				"set entity \"Entity Name\" on_interact to script-entity-interact",
+				"set entity \"Entity Name\" on_interact to 'script-entity-interact'",
+				"set entity \"Entity Name\" on_interact to \"script-entity-interact\"",
+				"set entity \"Entity Name\" on_interact script-entity-interact",
+				"set entity \"Entity Name\" on_interact 'script-entity-interact'",
+				"set entity \"Entity Name\" on_interact \"script-entity-interact\""
 			]
 		},
 		{
@@ -1706,12 +1719,12 @@
 				"script": "script-entity-tick"
 			},
 			"natlang": [
-				"set entity \"Entity Name\" tick_script to script-entity-tick",
-				"set entity \"Entity Name\" tick_script to 'script-entity-tick'",
-				"set entity \"Entity Name\" tick_script to \"script-entity-tick\"",
-				"set entity \"Entity Name\" tick_script script-entity-tick",
-				"set entity \"Entity Name\" tick_script 'script-entity-tick'",
-				"set entity \"Entity Name\" tick_script \"script-entity-tick\""
+				"set entity \"Entity Name\" on_tick to script-entity-tick",
+				"set entity \"Entity Name\" on_tick to 'script-entity-tick'",
+				"set entity \"Entity Name\" on_tick to \"script-entity-tick\"",
+				"set entity \"Entity Name\" on_tick script-entity-tick",
+				"set entity \"Entity Name\" on_tick 'script-entity-tick'",
+				"set entity \"Entity Name\" on_tick \"script-entity-tick\""
 			]
 		},
 		{

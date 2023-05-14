@@ -1284,10 +1284,13 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 - [SET_MAP_TICK_SCRIPT](#set_map_tick_script)
 	- `set map tick_script to scriptName`
 - [SET_ENTITY_INTERACT_SCRIPT](#set_entity_interact_script)
+	- `set entity "Entity Name" on_interact to scriptName`
 	- `set entity "Entity Name" interact_script to scriptName`
 - [SET_ENTITY_TICK_SCRIPT](#set_entity_tick_script)
+	- `set entity "Entity Name" on_tick to scriptName`
 	- `set entity "Entity Name" tick_script to scriptName`
 - [SET_ENTITY_LOOK_SCRIPT](#set_entity_look_script)
+	- `set entity "Entity Name" on_look to scriptName`
 	- `set entity "Entity Name" look_script to scriptName`
 
 #### [Entity choreography](#entity-choreography-actions)
@@ -1314,11 +1317,13 @@ Sample syntax (with sample values) for each action, grouped by category. Click a
 - [SET_ENTITY_DIRECTION](#set_entity_direction)
 	- `turn entity "Entity Name" north`
 - [SET_ENTITY_DIRECTION_RELATIVE](#set_entity_direction_relative)
-	- `rotate entity "Entity Name" -1`
+	- `rotate entity "Entity Name" 3`
 - [SET_ENTITY_DIRECTION_TARGET_ENTITY](#set_entity_direction_target_entity)
 	- `turn entity "Entity Name" toward entity "Target Entity"`
 - [SET_ENTITY_DIRECTION_TARGET_GEOMETRY](#set_entity_direction_target_geometry)
 	- `turn entity "Entity Name" toward geometry "vector object name"`
+- [SET_ENTITY_MOVEMENT_RELATIVE](#set_entity_movement_relative)
+	- `set entity "Entity Name" relative_direction to 3`
 - [SET_ENTITY_GLITCHED](#set_entity_glitched)
 	- `make entity "Entity Name" glitched`
 	- `make entity "Entity Name" unglitched`
@@ -1377,12 +1382,18 @@ Consists of actions from the [check entity properies](#check-entity-properies-ac
 - [CHECK_ENTITY_INTERACT_SCRIPT](#check_entity_interact_script)
 	- `entity "Entity Name" interact_script is scriptName`
 	- `entity "Entity Name" interact_script is not scriptName`
+	- `entity "Entity Name" on_interact is scriptName`
+	- `entity "Entity Name" on_interact is not scriptName`
 - [CHECK_ENTITY_TICK_SCRIPT](#check_entity_tick_script)
 	- `entity "Entity Name" tick_script is scriptName`
 	- `entity "Entity Name" tick_script is not scriptName`
+	- `entity "Entity Name" on_tick is scriptName`
+	- `entity "Entity Name" on_tick is not scriptName`
 - [CHECK_ENTITY_LOOK_SCRIPT](#check_entity_look_script)
 	- `entity "Entity Name" look_script is scriptName`
 	- `entity "Entity Name" look_script is not scriptName`
+	- `entity "Entity Name" on_look is scriptName`
+	- `entity "Entity Name" on_look is not scriptName`
 - [CHECK_ENTITY_TYPE](#check_entity_type)
 	- `entity "Entity Name" type is old_man`
 	- `entity "Entity Name" type is not old_man`
@@ -1610,14 +1621,12 @@ This action is also available as a [combination block](#combination-blocks).
 
 ```
 show serial dialog $serial_dialog:string
-	// Built-in values:
-	// disable_newline (false)
+	// disable_newline: false
 ```
 
 ```
 concat serial dialog $serial_dialog:string
-	// Built-in values:
-	// disable_newline (true)
+	// disable_newline: true
 ```
 
 Examples:
@@ -1648,20 +1657,17 @@ Commands must be a single word.
 
 ```
 register (command) $command:string -> (script) $script:string
-	// Built-in values:
-	// is_fail (false)
+	// is_fail: false
 ```
 
 ```
 register (command) $command:string fail -> (script) $script:string
-	// Built-in values:
-	// is_fail (true)
+	// is_fail: true
 ```
 
 ```
 register (command) $command:string failure -> (script) $script:string
-	// Built-in values:
-	// is_fail (true)
+	// is_fail: true
 ```
 
 Examples:
@@ -1677,20 +1683,17 @@ Examples:
 
 ```
 unregister (command) $command:string
-	// Built-in values:
-	// is_fail (false)
+	// is_fail: false
 ```
 
 ```
 unregister (command) $command:string fail
-	// Built-in values:
-	// is_fail (true)
+	// is_fail: true
 ```
 
 ```
 unregister (command) $command:string failure
-	// Built-in values:
-	// is_fail (true)
+	// is_fail: true
 ```
 
 Examples:
@@ -1866,30 +1869,51 @@ If you use this action to change the script slot that is currently running the a
 Because entity properties are reset when a map is loaded, and because entities retain the last script that was run in their `on_interact` slot, you should restore an entity's original interact script at the end of their interact script tree.
 
 ```
+set entity $entity:string on_interact (to) $script:string
+```
+
+```
 set entity $entity:string interact_script (to) $script:string
 ```
 
-Example: `set entity "Entity Name" interact_script to scriptName`
+Examples:
+
+- `set entity "Entity Name" on_interact to scriptName`
+- `set entity "Entity Name" interact_script to scriptName`
 
 #### SET_ENTITY_TICK_SCRIPT
 
 Sets an entity's `on_tick` script.
 
 ```
+set entity $entity:string on_tick (to) $script:string
+```
+
+```
 set entity $entity:string tick_script (to) $script:string
 ```
 
-Example: `set entity "Entity Name" tick_script to scriptName`
+Examples:
+
+- `set entity "Entity Name" on_tick to scriptName`
+- `set entity "Entity Name" tick_script to scriptName`
 
 #### SET_ENTITY_LOOK_SCRIPT
 
 Sets an entity's `on_look` script.
 
 ```
+set entity $entity:string on_look (to) $script:string
+```
+
+```
 set entity $entity:string look_script (to) $script:string
 ```
 
-Example: `set entity "Entity Name" look_script to scriptName`
+Examples:
+
+- `set entity "Entity Name" on_look to scriptName`
+- `set entity "Entity Name" look_script to scriptName`
 
 ### Entity choreography actions
 
@@ -2019,7 +2043,7 @@ This action can be chained with another similar one for complex behaviors. For e
 rotate entity $entity:string $relative_direction:number
 ```
 
-Example: `rotate entity "Entity Name" -1`
+Example: `rotate entity "Entity Name" 3`
 
 #### SET_ENTITY_DIRECTION_TARGET_ENTITY
 
@@ -2041,20 +2065,30 @@ turn entity $entity:string toward geometry $target_geometry:string
 
 Example: `turn entity "Entity Name" toward geometry "vector object name"`
 
+#### SET_ENTITY_MOVEMENT_RELATIVE
+
+This adds a rotation to an entity's animations. This is different from turning an entity toward something or someone (see [SET_ENTITY_DIRECTION](#set_entity_direction) and related actions); this action applies a rotation to *all* an entity's animations, including while the entity is in motion. In short, use this action to make an entity walk backwards or strafe (walk sideways).
+
+This number cannot be negative.
+
+```
+set entity $entity:string relative_direction (to) $relative_direction:number
+```
+
+Example: `set entity "Entity Name" relative_direction to 3`
+
 #### SET_ENTITY_GLITCHED
 
 Set the glitched render flag on an entity.
 
 ```
 make entity $entity:string glitched
-	// Built-in values:
-	// bool_value (true)
+	// bool_value: true
 ```
 
 ```
 make entity $entity:string unglitched
-	// Built-in values:
-	// bool_value (false)
+	// bool_value: false
 ```
 
 Examples:
@@ -2198,26 +2232,22 @@ Copies the value of an entity property into a variable or vice versa.
 
 ```
 copy entity $entity:string $field:bareword into variable $variable:string
-	// Built-in values:
-	// inbound (true)
+	// inbound: true
 ```
 
 ```
 copy variable $variable:string from entity $entity:string $field:bareword
-	// Built-in values:
-	// inbound (true)
+	// inbound: true
 ```
 
 ```
 copy variable $variable:string into entity $entity:string $field:bareword
-	// Built-in values:
-	// inbound (false)
+	// inbound: false
 ```
 
 ```
 copy entity $entity:string $field:bareword from variable $variable:string
-	// Built-in values:
-	// inbound (false)
+	// inbound: false
 ```
 
 Examples:
@@ -2240,15 +2270,13 @@ Checks an entity's current `name`.
 ```
 if entity $entity:string name is $string:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string name is not $string:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2263,15 +2291,13 @@ Checks an entity's `x` coordinate.
 ```
 if entity $entity:string x is $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string x is not $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2286,15 +2312,13 @@ Checks an entity's `y` coordinate.
 ```
 if entity $entity:string y is $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string y is not $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2309,21 +2333,33 @@ Checks an entity's `on_interact` script (by the script's name).
 ```
 if entity $entity:string interact_script is $expected_script:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string interact_script is not $expected_script:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
+```
+
+```
+if entity $entity:string on_interact is $expected_script:string
+	then goto (script) $success_script:string
+	// expected_bool: true
+```
+
+```
+if entity $entity:string on_interact is not $expected_script:string
+	then goto (script) $success_script:string
+	// expected_bool: false
 ```
 
 Examples:
 
 - `if entity "Entity Name" interact_script is scriptName then goto successScript`
 - `if entity "Entity Name" interact_script is not scriptName then goto successScript`
+- `if entity "Entity Name" on_interact is scriptName then goto successScript`
+- `if entity "Entity Name" on_interact is not scriptName then goto successScript`
 
 #### CHECK_ENTITY_TICK_SCRIPT
 
@@ -2332,21 +2368,33 @@ Checks an entity's `on_tick` script (by the script's name).
 ```
 if entity $entity:string tick_script is $expected_script:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string tick_script is not $expected_script:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
+```
+
+```
+if entity $entity:string on_tick is $expected_script:string
+	then goto (script) $success_script:string
+	// expected_bool: true
+```
+
+```
+if entity $entity:string on_tick is not $expected_script:string
+	then goto (script) $success_script:string
+	// expected_bool: false
 ```
 
 Examples:
 
 - `if entity "Entity Name" tick_script is scriptName then goto successScript`
 - `if entity "Entity Name" tick_script is not scriptName then goto successScript`
+- `if entity "Entity Name" on_tick is scriptName then goto successScript`
+- `if entity "Entity Name" on_tick is not scriptName then goto successScript`
 
 #### CHECK_ENTITY_LOOK_SCRIPT
 
@@ -2355,21 +2403,33 @@ Checks an entity's `on_look` script (by the script's name).
 ```
 if entity $entity:string look_script is $expected_script:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string look_script is not $expected_script:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
+```
+
+```
+if entity $entity:string on_look is $expected_script:string
+	then goto (script) $success_script:string
+	// expected_bool: true
+```
+
+```
+if entity $entity:string on_look is not $expected_script:string
+	then goto (script) $success_script:string
+	// expected_bool: false
 ```
 
 Examples:
 
 - `if entity "Entity Name" look_script is scriptName then goto successScript`
 - `if entity "Entity Name" look_script is not scriptName then goto successScript`
+- `if entity "Entity Name" on_look is scriptName then goto successScript`
+- `if entity "Entity Name" on_look is not scriptName then goto successScript`
 
 #### CHECK_ENTITY_TYPE
 
@@ -2380,15 +2440,13 @@ This action is useful because you can check entity types by name, which is easy 
 ```
 if entity $entity:string type is $entity_type:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string type is not $entity_type:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2405,15 +2463,13 @@ Checks whether an entity has the given `primary_id`.
 ```
 if entity $entity:string primary_id is $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string primary_id is not $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2432,15 +2488,13 @@ Tiles are referenced by their index, starting at the top and going toward the ri
 ```
 if entity $entity:string secondary_id is $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string secondary_id is not $expected_u2:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2455,15 +2509,13 @@ Checks an entity's `primary_id_type`: either (0) tile, (1) animation, or (2) cha
 ```
 if entity $entity:string primary_id_type is $expected_byte:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string primary_id_type is not $expected_byte:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2478,15 +2530,13 @@ Checks the id of the entity's current `animation`. (See [entity animations](#ent
 ```
 if entity $entity:string animation is $expected_byte:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string animation is not $expected_byte:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2501,15 +2551,13 @@ Checks the frame (number) of the entity's current animation.
 ```
 if entity $entity:string animation_frame is $expected_byte:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string animation_frame is not $expected_byte:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2524,15 +2572,13 @@ Checks whether an entity is facing one of the four cardinal directions: `north`,
 ```
 if entity $entity:string direction is $direction:bareword
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string direction is not $direction:bareword
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2547,15 +2593,13 @@ Checks whether an entity currently has it's "glitched" render flag set.
 ```
 if entity $entity:string is glitched
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string is not glitched
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2570,15 +2614,13 @@ Checks the `path` name (geometry) of an entity.
 ```
 if entity $entity:string path is $geometry:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string path is not $geometry:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2595,15 +2637,13 @@ This action can behave erratically if any of the vertices in the geometry object
 ```
 if entity $entity:string is inside geometry $geometry:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if entity $entity:string is not inside geometry $geometry:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2624,31 +2664,27 @@ Compares the value of a variable against the given value.
 ```
 if variable $variable:string is $value:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-	// comparison (==)
+	// expected_bool: true
+	// comparison: ==
 ```
 
 ```
 if variable $variable:string is $comparison:operator $value:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if variable $variable:string is not $value:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-	// comparison (==)
+	// expected_bool: false
+	// comparison: ==
 ```
 
 ```
 if variable $variable:string is not $comparison:operator $value:number
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2667,31 +2703,27 @@ Compares the value of a variable against another.
 ```
 if variable $variable:string is $source:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
-	// comparison (==)
+	// expected_bool: true
+	// comparison: ==
 ```
 
 ```
 if variable $variable:string is $comparison:operator $source:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if variable $variable:string is not $source:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
-	// comparison (==)
+	// expected_bool: false
+	// comparison: ==
 ```
 
 ```
 if variable $variable:string is not $comparison:operator $source:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2740,15 +2772,13 @@ If checking for whether a button is newly pressed, see [CHECK_FOR_BUTTON_PRESS](
 ```
 if button $button_id:bareword is currently pressed
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if button $button_id:bareword is not currently pressed
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
@@ -2763,15 +2793,13 @@ Checks whether the warp state string is a specific value.
 ```
 if warp state is $string:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (true)
+	// expected_bool: true
 ```
 
 ```
 if warp state is not $string:string
 	then goto (script) $success_script:string
-	// Built-in values:
-	// expected_bool (false)
+	// expected_bool: false
 ```
 
 Examples:
